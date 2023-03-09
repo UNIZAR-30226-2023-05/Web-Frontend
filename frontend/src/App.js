@@ -1,22 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
+import { Route } from "wouter" //indica las rutas de la aplicacion
+
+import Inicio from './pages/inicio/inicio'; // /carpeta/fichero
+
+//path por defecto /
+
+//hay que hacer un "if" para cuando el usuario está loggeado y cuando no
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Route 
+          component={Inicio}
+          path="/" 
+        /> 
       </header>
     </div>
   );
