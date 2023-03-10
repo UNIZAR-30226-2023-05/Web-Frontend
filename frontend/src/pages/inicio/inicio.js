@@ -8,7 +8,7 @@ function Inicio() {
         OCA LOCA
       </header>
       <div className="body">
-        Carrera hacia la meta.
+        Carrera hacia la meta
       </div>
     </div>
   );
