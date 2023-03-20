@@ -5,6 +5,7 @@ import { Link } from 'wouter';
 
 function Inicio() {
   return (
+    <>
     <div className="Inicio">
       <header className="Inicio-header">
         OCA LOCA
@@ -12,16 +13,17 @@ function Inicio() {
       <div className="body">
         Carrera hacia la meta
       </div>
-      <div className="img">
-        <img src={oca}/>
-      </div>
+      
       <Link to="/log">
         <button className="button">
           JUEGA AHORA
         </button>
       </Link>
     </div>
-    
+    <div className="img">
+      <img src={oca}/>
+    </div>
+    </>
 
     
   );

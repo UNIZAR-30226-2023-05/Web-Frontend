@@ -2,36 +2,47 @@ html{
     background-color: #1C6474;
 }
 
-.Inicio {
-    text-align:right;
-    margin-right: calc(50px + 2vmin);;
-    margin-top: calc(50px + 2vmin);;
-  }
-  
-  .Inicio-header {
+  .Inicio {
+    z-index: 2; 
     display: flex;
     flex-direction: column;
-    align-items: right;
+    align-items: end;
     justify-content: center;
+    text-align: right;
+    margin-right: calc(50px + 2vmin);
+    margin-top: calc(50px + 2vmin);
+  }
+  
+  
+  .Inicio-header {
     font-size: calc(100px + 2vmin);
     color: white;
-    font-family: "Homer Simpson UI";
+    font-family: 'Trocchi', serif;
     
   }
   
   .body {
-    display: flex;
-    flex-direction: column;
-    align-items: right;
-    justify-content: center;
     font-size: calc(50px + 2vmin);
     color: white;
     font-family: cursive;
     margin-right: calc(50px + 2vmin);
   }
 
+
+  .button{
+    
+    color: #083641;
+    font-family: cursive;
+    margin-right: calc(50px + 2vmin);
+    background-color: #81BFCD;
+    width: fit-content;
+  }
+
   .img {
+    z-index: 1;
     display: flex;
+    position: absolute;
+    top: calc(50px + 2vmin);
     float: left;
     height: 500px;
     width: 300px;
