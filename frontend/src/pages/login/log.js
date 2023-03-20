@@ -1,13 +1,11 @@
 import React from 'react';
-import './inicio.css';
 import oca from '../../assets/img/oca.PNG'
-import { Link } from 'wouter';
 
-function Inicio() {
+function Login() {
   return (
     <div className="Inicio">
       <header className="Inicio-header">
-        OCA LOCA
+        Login
       </header>
       <div className="body">
         Carrera hacia la meta
@@ -15,11 +13,9 @@ function Inicio() {
       <div className="img">
         <img src={oca}/>
       </div>
-      <Link to="/log">
-        <button className="button">
-          JUEGA AHORA
-        </button>
-      </Link>
+      <button href="./log.js" className="button">
+        JUEGA AHORA
+      </button>
     </div>
     
 
@@ -27,4 +23,4 @@ function Inicio() {
   );
 }
 
-export default Inicio;
+export default Login;
