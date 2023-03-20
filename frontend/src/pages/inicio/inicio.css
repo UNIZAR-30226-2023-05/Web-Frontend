@@ -29,4 +29,12 @@ html{
     font-family: cursive;
     margin-right: calc(50px + 2vmin);
   }
+
+  .img {
+    display: flex;
+    float: left;
+    height: 500px;
+    width: 300px;
+    margin-left: calc(50px + 2vmin);
+  }
   
