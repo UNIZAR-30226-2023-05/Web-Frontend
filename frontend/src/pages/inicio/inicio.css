@@ -24,18 +24,35 @@ html{
   .body {
     font-size: calc(50px + 2vmin);
     color: white;
-    font-family: cursive;
+    font-family: 'Caveat', cursive;
     margin-right: calc(50px + 2vmin);
   }
 
 
-  .button{
+  .button {
     
     color: #083641;
-    font-family: cursive;
-    margin-right: calc(50px + 2vmin);
+    font-family: 'Caveat', cursive;
+    margin-right: calc(150px + 2vmin);
+    margin-top: calc(50px + 2vmin);
     background-color: #81BFCD;
     width: fit-content;
+    border-radius: 35px;
+    font-weight: 600;
+    font-size: 30px;
+    padding-top:15px;
+    padding-bottom:15px;
+    padding-left:40px;
+    padding-right:40px;
+    border-width: 3px;
+    border-style: solid;
+  }
+
+  .button:hover {
+    background-color: #1d9bb8;
+    color: #81BFCD;
+    border-color: #81BFCD;
+    cursor: pointer;
   }
 
   .img {
