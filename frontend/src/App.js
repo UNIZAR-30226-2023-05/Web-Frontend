@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { Route } from "wouter" //indica las rutas de la aplicacion
 
