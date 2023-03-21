@@ -1,20 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './inicio.css';
 import oca from '../../assets/img/oca.PNG'
 import { Link } from 'wouter';
-import Modal from '../Modal';
+import Modal from 'react-modal';
 
-
+Modal.setAppElement('#root'); // para asegurarnos de que react-modal funcione correctamente
 
 function Inicio() {
-
-  // El modal esta cerrado por defecto
-  const [active, setActive] = useState(true);
-
-  const toggle = () => {
-    setActive(!active);
-  }
-  
+  const [modalIsOpen, setModalIsOpen] = useState(false); // estado para controlar si el popup está abierto o cerrado
 
   return (
     <>
@@ -26,23 +19,24 @@ function Inicio() {
         Carrera hacia la meta
       </div>
       
-      <Link to="/log">
-        <button className="button">
-          JUEGA AHORA
-        </button>
-      </Link>
+      <button className="button" onClick={() => setModalIsOpen(true)}>
+        JUEGA AHORA
+      </button>
+      
+      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+        <div className="modal-content">
+          <h2>¡Bienvenido a Oca Loca!</h2>
+          <p>Para comenzar a jugar, ingresa tu nombre:</p>
+          <input type="text" placeholder="Nombre"/>
+          <button onClick={() => setModalIsOpen(false)}>Comenzar</button>
+        </div>
+      </Modal>
+      
     </div>
     <div className="img">
       <img src={oca}/>
     </div>
-    
-    <Modal active={active} toggle={toggle}> {/* funcion toggle para cerrar el modal */}
-        <h1>Modal works!</h1>
-      </Modal>
-
     </>
-
-    
   );
 }
 
