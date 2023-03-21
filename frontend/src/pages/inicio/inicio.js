@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './inicio.css';
+import '../../components/Popup.css'
 import oca from '../../assets/img/oca.PNG'
 import { Link } from 'wouter';
 import Modal from 'react-modal';
