@@ -7,6 +7,11 @@ function Inicio() {
   return (
     <>
     <div className="Inicio">
+    <Link to="/sign">
+        <button className="buttonCrear">
+          Crear cuenta
+        </button>
+      </Link>
       <header className="Inicio-header">
         OCA LOCA
       </header>
