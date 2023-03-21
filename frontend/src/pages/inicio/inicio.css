@@ -1,68 +1,135 @@
 html{
-    background-color: #1C6474;
+    background-image: url('../../assets/img/fondo.jpg');
+    background-size: cover;
+    background-color: #1C6473;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(24,83,96,0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-  .Inicio {
-    z-index: 2; 
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    justify-content: center;
-    text-align: right;
-    margin-right: calc(50px + 2vmin);
-    margin-top: calc(50px + 2vmin);
-  }
-  
-  
-  .Inicio-header {
-    font-size: calc(100px + 2vmin);
-    color: white;
-    font-family: 'Trocchi', serif;
-    
-  }
-  
-  .body {
-    font-size: calc(50px + 2vmin);
-    color: white;
-    font-family: 'Caveat', cursive;
-    margin-right: calc(50px + 2vmin);
-  }
+.popup-content{
+  position: absolute;
+  top: calc(40% - 200px);
+  left: calc(40% - 200px);
+  padding: 32px;
+  width: 100%;
+  max-width: 640px;
+  height: 500px;
+  background-color: #C3FAFE;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.popup-content .titulo {
+  margin-top: 2px;
+  font-family: 'Trocchi', serif;
+  font-size: 60px;
+  color: #1C6473;
+}
+
+.popup-content .texto {
+  font-size: 25px;
+}
+
+.popup-content .barraEscribir {
+  font-size: 18px;
+  width: 80%;
+  border-radius: 5px;
+  border: 2.5px solid black;
+}
+
+.popup-content .closeButton{
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  cursor: pointer;
+  border-radius: 10px;
+  transform: scale(2);
+  background-color: #81BFCD;
+  font-weight: bold;
+  color: white;
+  border: 2px solid white;
+  text-align: center;
+}
+
+.closeButton:hover {
+  background-color: #1d9bb8;
+  color: #81BFCD;
+  border-color: #81BFCD;
+  cursor: pointer;
+}
+
+.Inicio {
+  z-index: 2; 
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: center;
+  text-align: right;
+  margin-right: calc(50px + 2vmin);
+  margin-top: calc(50px + 2vmin);
+}
 
 
-  .button {
-    
-    color: #083641;
-    font-family: 'Caveat', cursive;
-    margin-right: calc(150px + 2vmin);
-    margin-top: calc(50px + 2vmin);
-    background-color: #81BFCD;
-    width: fit-content;
-    border-radius: 35px;
-    font-weight: 600;
-    font-size: 30px;
-    padding-top:15px;
-    padding-bottom:15px;
-    padding-left:40px;
-    padding-right:40px;
-    border-width: 3px;
-    border-style: solid;
-  }
-
-  .button:hover {
-    background-color: #1d9bb8;
-    color: #81BFCD;
-    border-color: #81BFCD;
-    cursor: pointer;
-  }
-
-  .img {
-    z-index: 1;
-    display: flex;
-    position: absolute;
-    top: calc(50px + 2vmin);
-    float: left;
-    height: 500px;
-    width: 300px;
-    margin-left: calc(50px + 2vmin);
-  }
+.Inicio-header {
+  font-size: calc(100px + 2vmin);
+  color: white;
+  font-family: 'Trocchi', serif;
   
+}
+
+.body {
+  font-size: calc(50px + 2vmin);
+  color: white;
+  font-family: 'Caveat', cursive;
+  margin-right: calc(50px + 2vmin);
+}
+
+
+.button {
+  
+  color: #083641;
+  font-family: 'Caveat', cursive;
+  margin-right: calc(150px + 2vmin);
+  margin-top: calc(50px + 2vmin);
+  background-color: #81BFCD;
+  width: fit-content;
+  border-radius: 35px;
+  font-weight: 600;
+  font-size: 30px;
+  padding-top:15px;
+  padding-bottom:15px;
+  padding-left:40px;
+  padding-right:40px;
+  border-width: 3px;
+  border-style: solid;
+}
+
+.button:hover {
+  background-color: #1d9bb8;
+  color: #81BFCD;
+  border-color: #81BFCD;
+  cursor: pointer;
+}
+
+.img {
+  z-index: 1;
+  display: flex;
+  position: absolute;
+  top: calc(50px + 2vmin);
+  float: left;
+  height: 500px;
+  width: 300px;
+  margin-left: calc(50px + 2vmin);
+}

@@ -23,12 +23,14 @@ function Inicio() {
         JUEGA AHORA
       </button>
       
-      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
-        <div className="modal-content">
-          <h2>¡Bienvenido a Oca Loca!</h2>
-          <p>Para comenzar a jugar, ingresa tu nombre:</p>
-          <input type="text" placeholder="Nombre"/>
-          <button onClick={() => setModalIsOpen(false)}>Comenzar</button>
+      <Modal className="popup" isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+        <div className="popup-content">
+          <h2 className='titulo'>INICIAR SESIÓN</h2>
+          <p className='texto'>E-mail</p>
+          <input className='barraEscribir' type="text" placeholder="E-mail"/>
+          <p className='texto'>Constraseña</p>
+          <input className='barraEscribir' type="text" placeholder="Constraseña"/>
+          <button className='closeButton' onClick={() => setModalIsOpen(false)}>X</button>
         </div>
       </Modal>
       
