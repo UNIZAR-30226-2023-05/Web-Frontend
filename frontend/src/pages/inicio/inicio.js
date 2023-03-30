@@ -25,9 +25,6 @@ function Inicio() {
         </button>
       </Link>
     </div>
-    <div className="img">
-      <img src={oca}/>
-    </div>
     </>
 
     
