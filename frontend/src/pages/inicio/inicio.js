@@ -36,9 +36,7 @@ function Inicio() {
       </Modal>
       
     </div>
-    <div className="img">
-      <img src={oca}/>
-    </div>
+    
     </>
   );
 }
