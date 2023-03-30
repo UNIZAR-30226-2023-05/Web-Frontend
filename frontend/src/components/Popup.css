@@ -36,6 +36,12 @@
     font-size: 25px;
 }
 
+.popup-content .textoEspecifico {
+    font-size: 25px;
+    text-decoration: underline;
+    color: #337A8A; 
+}
+
 .popup-content .barraEscribir {
     font-size: 18px;
     width: 80%;
@@ -63,4 +69,30 @@
     border-color: #81BFCD;
     cursor: pointer;
 }
+
+.popup-content .startButton {
+
+    color: #24AECD;
+    font-family: 'Caveat', cursive;
+    margin-right: calc(150px + 2vmin);
+    margin-top: calc(50px + 2vmin);
+    background-color: #81BFCD;
+    width: fit-content;
+    border-radius: 35px;
+    font-weight: 600;
+    font-size: 30px;
+    padding-top:15px;
+    padding-bottom:15px;
+    padding-left:40px;
+    padding-right:40px;
+    border-width: 3px;
+    border-style: solid;
+  }
+  
+  .startButton:hover {
+    background-color: #1d9bb8;
+    color: #81BFCD;
+    border-color: #81BFCD;
+    cursor: pointer;
+  }
   
