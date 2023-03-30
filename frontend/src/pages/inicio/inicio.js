@@ -18,18 +18,20 @@ function Inicio() {
       </button>
       <Modal className="popup" isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         <div className="popup-content">
-          <button className="closeButton" onClick={() => setModalIsOpen(false)}>X</button>
-          <h2>REGÍSTRATE</h2>
-          <p>Añade una foto:</p>
-          <p>Nombre de usuario *</p>
-          <input type="text" placeholder="Nombre de usuario"/>
-          <p>E-mail *</p>
-          <input type="text" placeholder="E-mail"/>
-          <p>Contraseña *</p>
-          <input type="text" placeholder="Contraseña"/>
-          <p>Repetir contraseña *</p>
-          <input type="text" placeholder="Repetir contraseña"/>
-          <p>* Campo obligatorio</p>
+          <button className="closeButton" onClick={() => setModalIsOpen(false)}>x</button>
+          <div className="titulo">REGÍSTRATE</div>
+          <div className="texto">
+            <p>Añade una foto:</p>
+            <p>Nombre de usuario *</p>
+            <input className="barraEscribir" type="text" placeholder="Nombre de usuario"/>
+            <p>E-mail *</p>
+            <input className="barraEscribir" type="text" placeholder="E-mail"/>
+            <p>Contraseña *</p>
+            <input className="barraEscribir" type="text" placeholder="Contraseña"/>
+            <p>Repetir contraseña *</p>
+            <input className="barraEscribir" type="text" placeholder="Repetir contraseña"/>
+            <div className="oblig">* Campo obligatorio</div>
+          </div>
           <button className='iniButton' onClick={() => setModalIsOpen(false)}>Iniciar sesión</button>
         </div>
       </Modal>
@@ -45,9 +47,6 @@ function Inicio() {
           JUEGA AHORA
         </button>
       </Link>
-    </div>
-    <div className="img">
-      <img src={oca}/>
     </div>
     </>
 
