@@ -1,5 +1,6 @@
 html{
-    background-image: url('../../assets/img/foto\ fondo.PNG');
+    background-image: url('../../assets/img/fotoFondo.PNG');
+    background-size: 100% 100%;
     background-size: cover;
     background-color: #1C6473;
     background-repeat: no-repeat;
@@ -33,7 +34,7 @@ html{
 }
 
 
-.button {
+.Botones {
   
   color: #083641;
   font-family: 'Caveat', cursive;
@@ -52,7 +53,7 @@ html{
   border-style: solid;
 }
 
-.button:hover {
+.Botones:hover {
   background-color: #1d9bb8;
   color: #81BFCD;
   border-color: #81BFCD;

@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background-color: rgba(24,83,96,0.2);
     display: flex;
     justify-content: center;
@@ -12,13 +12,14 @@
 }
   
 .popup-content{
+    align-items: center;
     position: absolute;
-    top: calc(40% - 200px);
-    left: calc(40% - 200px);
-    padding: 32px;
-    width: 100%;
-    max-width: 640px;
-    height: 500px;
+    top: 5%;
+    left: 25%;
+    padding: 3%;
+    width: 70%;
+    max-width: 50%;
+    height: 80%;
     background-color: #C3FAFE;
     border-radius: 5px;
     text-align: center;
@@ -26,24 +27,24 @@
 }
 
 .popup-content .titulo {
-    margin-top: 2px;
+    margin-top: 1%;
     font-family: 'Trocchi', serif;
-    font-size: 60px;
+    font-size: 300%;
     color: #1C6473;
 }
 
 .popup-content .texto {
-    font-size: 25px;
+    font-size: 150%;
 }
 
 .popup-content .textoEspecifico {
-    font-size: 25px;
+    font-size: 150%;
     text-decoration: underline;
     color: #337A8A; 
 }
 
 .popup-content .barraEscribir {
-    font-size: 18px;
+    font-size: 120%;
     width: 80%;
     border-radius: 5px;
     border: 2.5px solid black;
@@ -51,8 +52,8 @@
 
 .popup-content .closeButton{
     position: absolute;
-    top: 30px;
-    right: 30px;
+    top: 3%;
+    right: 3%;
     cursor: pointer;
     border-radius: 10px;
     transform: scale(2);
@@ -71,28 +72,38 @@
 }
 
 .popup-content .startButton {
-
-    color: #24AECD;
+    border: 0px solid white;
+    color: white;
     font-family: 'Caveat', cursive;
-    margin-right: calc(150px + 2vmin);
-    margin-top: calc(50px + 2vmin);
-    background-color: #81BFCD;
+    margin: auto;
+    position: absolute; 
+    top: 70%;
+    left: 0%;
+    right: 0%;
+    background-color: #24AECD;
     width: fit-content;
     border-radius: 35px;
     font-weight: 600;
-    font-size: 30px;
-    padding-top:15px;
-    padding-bottom:15px;
-    padding-left:40px;
-    padding-right:40px;
+    font-size: 120%;
+    padding-top:2%;
+    padding-bottom:2%;
+    padding-left:20%;
+    padding-right:20%;
     border-width: 3px;
     border-style: solid;
-  }
+}
   
-  .startButton:hover {
+.startButton:hover {
     background-color: #1d9bb8;
     color: #81BFCD;
     border-color: #81BFCD;
     cursor: pointer;
-  }
+}
   
+.popup-content .error-message {
+    color: red;
+    font-size: 100%;
+    font-weight: bold;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}

@@ -7,7 +7,33 @@ import Modal from 'react-modal';
 Modal.setAppElement('#root'); // para asegurarnos de que react-modal funcione correctamente
 
 function Inicio() {
-  const [logInmodalIsOpen, setlogInModalIsOpen] = useState(false); // estado para controlar si el popup está abierto o cerrado
+  // Variables destinadas al popup de logIn
+  // Estado para controlar si el popup está abierto o cerrado
+  const [logInmodalIsOpen, setlogInModalIsOpen] = useState(false); 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+
+
+  // Validar datos de logIn
+  const handleLogIn = () => {
+    // Validar que el usuario haya ingresado un e-mail y una contraseña
+    if (email === '' || password === '') {
+      setError('Por favor ingresa el e-mail y la contraseña'); 
+    }
+
+    // Validar que el e-mail coincida con la contraseña
+    else if (email !== password) {
+      setError('El e-mail y la contraseña no coinciden');
+    }
+  };
+
+  // Funcion para cerrar el modal y poner el error a ""
+  const closeModal = () => {
+    setlogInModalIsOpen(false);
+    setError('');
+  };
+
 
   return (
     <>
@@ -19,7 +45,7 @@ function Inicio() {
         Carrera hacia la meta
       </div>
       
-      <button className="button" onClick={() => setlogInModalIsOpen(true)}>
+      <button className="Botones" onClick={() => setlogInModalIsOpen(true)}>
         JUEGA AHORA
       </button>
       
@@ -27,13 +53,14 @@ function Inicio() {
         <div className="popup-content">
           <h2 className='titulo'>INICIAR SESIÓN</h2>
           <p className='texto'>E-mail</p>
-          <input className='barraEscribir' type="text" placeholder="E-mail"/>
+          <input className='barraEscribir' type="text" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)}/>
           <p className='texto'>Constraseña</p>
-          <input className='barraEscribir' type="text" placeholder="Constraseña"/>
-          <button className='closeButton' onClick={() => setlogInModalIsOpen(false)}>X</button>
-          <button className='startButton'>INICIAR SESIÓN</button>
+          <input className='barraEscribir' type="text" placeholder="Constraseña"  value={password} onChange={(e) => setPassword(e.target.value)}/>
+          <button className='closeButton' onClick={() => closeModal()}>X</button>
+          <button className='startButton' onClick={handleLogIn}>INICIAR SESIÓN</button>
+          {error && <p className="error-message">{error}</p>}
           <p className='texto'>¿No tienes cuenta?</p>
-          <p className='textoEspecifico'onClick={() => setlogInModalIsOpen(false)} >Regístrate</p>
+          <p className='textoEspecifico'onClick={() => closeModal()} >Regístrate</p>
           
         </div>
       </Modal>
