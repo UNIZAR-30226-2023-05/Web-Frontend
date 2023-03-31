@@ -19,7 +19,7 @@
     padding: 3%;
     width: 70%;
     max-width: 50%;
-    height: 80%;
+    height: 70%;
     background-color: #C3FAFE;
     border-radius: 5px;
     text-align: center;
@@ -27,9 +27,9 @@
 }
 
 .popup-content .titulo {
-    margin-top: 1%;
+    margin-top: 0%;
     font-family: 'Trocchi', serif;
-    font-size: 300%;
+    font-size: 250%;
     color: #1C6473;
 }
 
@@ -41,6 +41,10 @@
     font-size: 150%;
     text-decoration: underline;
     color: #337A8A; 
+}
+
+.popup-content .textoEspecifico:hover {
+    color: #24AECD; 
 }
 
 .popup-content .barraEscribir {
@@ -106,4 +110,8 @@
     font-weight: bold;
     margin-top: 1%;
     margin-bottom: 1%;
+}
+
+.popup-content .startButton .errorButton {
+    margin-top: 50px;
 }

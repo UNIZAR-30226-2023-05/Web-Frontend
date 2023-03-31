@@ -51,13 +51,13 @@ function Inicio() {
       
       <Modal className="popup" isOpen={logInmodalIsOpen} onRequestClose={() => setlogInModalIsOpen(false)}>
         <div className="popup-content">
-          <h2 className='titulo'>INICIAR SESIÓN</h2>
+          <p className='titulo'>INICIAR SESIÓN</p>
           <p className='texto'>E-mail</p>
           <input className='barraEscribir' type="text" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)}/>
           <p className='texto'>Constraseña</p>
           <input className='barraEscribir' type="text" placeholder="Constraseña"  value={password} onChange={(e) => setPassword(e.target.value)}/>
           <button className='closeButton' onClick={() => closeModal()}>X</button>
-          <button className='startButton' onClick={handleLogIn}>INICIAR SESIÓN</button>
+          <button className={'startButton'} onClick={handleLogIn}>INICIAR SESIÓN</button>
           {error && <p className="error-message">{error}</p>}
           <p className='texto'>¿No tienes cuenta?</p>
           <p className='textoEspecifico'onClick={() => closeModal()} >Regístrate</p>
