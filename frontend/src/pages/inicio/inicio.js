@@ -18,7 +18,7 @@ function Inicio() {
       </button>
       <Modal className="popup" isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         <div className="popup-content">
-          <button className="closeButton" onClick={() => setModalIsOpen(false)}>x</button>
+          <button className="closeButton" onClick={() => setModalIsOpen(false)}>X</button>
           <div className="titulo">REGÍSTRATE</div>
           <div className="texto">
             <p>Añade una foto:</p>
