@@ -2,7 +2,7 @@ import './App.css';
 import { Route } from "wouter" //indica las rutas de la aplicacion
 
 import Inicio from './pages/inicio/inicio'; // /carpeta/fichero
-import Login from './pages/login/log';
+import Principal from './pages/principal/principal';
 
 //path por defecto /
 
@@ -17,8 +17,8 @@ function App() {
           path="/" 
         /> 
         <Route 
-          component={Login}
-          path="/log" 
+          component={Principal}
+          path="/principal" 
         /> 
       </header>
     </div>
