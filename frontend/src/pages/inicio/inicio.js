@@ -69,7 +69,10 @@ function Inicio() {
           {error && <p className="error-message">{error}</p>}
           <p className='texto'>¿No tienes cuenta?</p>
           <p className='textoEspecifico'onClick={() => closeModal()} >Regístrate</p>
-          <button className='startButton' onClick={handleLogIn}>INICIAR SESIÓN</button>
+          <div className='abc'>
+            <button className='startButton' onClick={handleLogIn}>INICIAR SESIÓN</button>
+          </div>
+          
           
         </div>
       </Modal>
