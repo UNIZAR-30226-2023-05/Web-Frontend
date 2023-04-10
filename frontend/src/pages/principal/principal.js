@@ -1,17 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './principal.css';
+import '../../components/DisegnoGeneral.css'
+import oca from '../../assets/img/oca.PNG'
+import { Link, useLocation } from 'wouter';
+import Modal from 'react-modal';
+
+function ImagenesLink(){
+  return (
+    <div className="imagenes">
+      <a href="/">
+        <img src={oca} alt="Chat" />
+      </a>
+      <a href="/">
+        <img src={oca} alt="Amigos" />
+      </a>
+      <a href="/">
+        <img src={oca} alt="Tienda" />
+      </a>
+      <a href="/">
+        <img src={oca} alt="Ajustes" />
+      </a>
+    </div>
+  );
+}
 
 function Principal() {
   return (
-    <div className="Inicio">
-      <header className="Inicio-header">
+    <div className="Principal">
+      <header className="header">
         PRINCIPAL
       </header>
-      <div className="body">
-        Carrera hacia la meta
+      <div className='barraTitulo'></div>
+      <div className='imagenes-link'>
+        <ImagenesLink />
       </div>
-      <button href="./log.js" className="button">
-        JUEGA AHORA
-      </button>
+
     </div>
     
 

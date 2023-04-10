@@ -1,0 +1,9 @@
+
+.imagenes{
+    display:flex;
+    float: right;
+}
+
+.imagenes a{
+    margin-right: 1%;
+}
