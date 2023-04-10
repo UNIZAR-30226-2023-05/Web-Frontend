@@ -39,6 +39,8 @@ function Inicio() {
   const closeModal = () => {
     setlogInModalIsOpen(false);
     setError('');
+    setEmail('');
+    setPassword('');
   };
 
 
@@ -62,13 +64,12 @@ function Inicio() {
           <p className='texto'>E-mail</p>
           <input className='barraEscribir' type="text" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)}/>
           <p className='texto'>Constraseña</p>
-          <input className='barraEscribir' type="text" placeholder="Constraseña"  value={password} onChange={(e) => setPassword(e.target.value)}/>
+          <input className='barraEscribir' type="password" placeholder="Constraseña"  value={password} onChange={(e) => setPassword(e.target.value)}/>
           <button className='closeButton' onClick={() => closeModal()}>X</button>
           {error && <p className="error-message">{error}</p>}
           <p className='texto'>¿No tienes cuenta?</p>
           <p className='textoEspecifico'onClick={() => closeModal()} >Regístrate</p>
-          <button className={'startButton'} onClick={handleLogIn}>INICIAR SESIÓN</button>
-          
+          <button className='startButton' onClick={handleLogIn}>INICIAR SESIÓN</button>
           
         </div>
       </Modal>
