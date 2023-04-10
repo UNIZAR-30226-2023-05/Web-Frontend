@@ -26,7 +26,7 @@ function Inicio() {
     else{
       let data = await Login(email,password);
       console.log(data.ok);
-      if(data.ok == true){
+      if(data.ok === true){
         navigation("/principal");
       }
       else{
