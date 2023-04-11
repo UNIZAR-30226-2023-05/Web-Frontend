@@ -61,7 +61,7 @@ function Inicio() {
     setModalIsOpen(false);
     setError('');
     setName('');
-    setEmail('');
+    setMail('');
     setCont('');
     setContRep('');
   }
