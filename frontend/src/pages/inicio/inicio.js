@@ -92,11 +92,10 @@ function Inicio() {
       <div className="body">
         Carrera hacia la meta
       </div>
-      <Link to="/log">
-        <button className="button">
-          JUEGA AHORA
-        </button>
-      </Link>
+      <button className="button">
+        JUEGA AHORA
+      </button>
+      
     </div>
     </>
   );

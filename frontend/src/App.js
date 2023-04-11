@@ -17,6 +17,7 @@ function App() {
           path="/" 
         /> 
         <Route 
+          HEAD
           component={Principal}
           path="/principal" 
         /> 
