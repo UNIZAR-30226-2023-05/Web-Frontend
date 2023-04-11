@@ -1,11 +1,11 @@
 html{
-    background-image: url('../../assets/img/fotoFondo.PNG');
-    background-size: 100% 100%;
-    background-size: cover;
-    background-color: #1C6473;
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
+  background-image: url('../../assets/img/fotoFondo.PNG');
+  background-size: 100% 100%;
+  background-size: cover;
+  background-color: #1C6473;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
 
 .Inicio {
   z-index: 2; 
@@ -20,53 +20,53 @@ html{
 
 
 .Inicio-header {
-  font-size: calc(100px + 2vmin);
-  color: white;
-  font-family: 'Trocchi', serif;
-  
+font-size: calc(100px + 2vmin);
+color: white;
+font-family: 'Trocchi', serif;
+
 }
 
 .body {
-  font-size: calc(50px + 2vmin);
-  color: white;
-  font-family: 'Caveat', cursive;
-  margin-right: calc(50px + 2vmin);
+font-size: calc(50px + 2vmin);
+color: white;
+font-family: 'Caveat', cursive;
+margin-right: calc(50px + 2vmin);
 }
 
 
 .Botones {
-  
-  color: #083641;
-  font-family: 'Caveat', cursive;
-  margin-right: calc(150px + 2vmin);
-  margin-top: calc(50px + 2vmin);
-  background-color: #81BFCD;
-  width: fit-content;
-  border-radius: 35px;
-  font-weight: 600;
-  font-size: 30px;
-  padding-top:15px;
-  padding-bottom:15px;
-  padding-left:40px;
-  padding-right:40px;
-  border-width: 3px;
-  border-style: solid;
+
+color: #083641;
+font-family: 'Caveat', cursive;
+margin-right: calc(150px + 2vmin);
+margin-top: calc(50px + 2vmin);
+background-color: #81BFCD;
+width: fit-content;
+border-radius: 35px;
+font-weight: 600;
+font-size: 30px;
+padding-top:15px;
+padding-bottom:15px;
+padding-left:40px;
+padding-right:40px;
+border-width: 3px;
+border-style: solid;
 }
 
 .Botones:hover {
-  background-color: #1d9bb8;
-  color: #81BFCD;
-  border-color: #81BFCD;
-  cursor: pointer;
+background-color: #1d9bb8;
+color: #81BFCD;
+border-color: #81BFCD;
+cursor: pointer;
 }
 
 .img {
-  z-index: 1;
-  display: flex;
-  position: absolute;
-  top: calc(50px + 2vmin);
-  float: left;
-  height: 500px;
-  width: 300px;
-  margin-left: calc(50px + 2vmin);
+z-index: 1;
+display: flex;
+position: absolute;
+top: calc(50px + 2vmin);
+float: left;
+height: 500px;
+width: 300px;
+margin-left: calc(50px + 2vmin);
 }

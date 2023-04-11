@@ -12,14 +12,12 @@
 }
   
 .popup-content{
-    align-items: center;
     position: absolute;
     top: 5%;
     left: 25%;
     padding: 3%;
     width: 70%;
     max-width: 50%;
-    height: 70%;
     background-color: #C3FAFE;
     border-radius: 5px;
     text-align: center;
@@ -28,19 +26,21 @@
 
 .popup-content .titulo {
     margin-top: 0%;
+    margin-bottom: 0%;
     font-family: 'Trocchi', serif;
-    font-size: 250%;
+    font-size: 240%;
     color: #1C6473;
 }
 
 .popup-content .texto {
-    font-size: 150%;
+    font-size: 130%;
 }
 
 .popup-content .textoEspecifico {
-    font-size: 150%;
+    font-size: 130%;
     text-decoration: underline;
     color: #337A8A; 
+    margin-bottom: 0%;
 }
 
 .popup-content .textoEspecifico:hover {
@@ -81,7 +81,7 @@
     font-family: 'Caveat', cursive;
     margin: auto;
     position: absolute; 
-    top: 70%;
+    margin-top: 3%;
     left: 0%;
     right: 0%;
     background-color: #24AECD;
@@ -93,11 +93,11 @@
     padding-bottom:2%;
     padding-left:20%;
     padding-right:20%;
-    border-width: 3px;
+    border-width: 5px;
     border-style: solid;
 }
   
-.startButton:hover {
+.popup-content .startButton:hover {
     background-color: #1d9bb8;
     color: #81BFCD;
     border-color: #81BFCD;
@@ -112,6 +112,6 @@
     margin-bottom: 1%;
 }
 
-.popup-content .startButton .errorButton {
-    margin-top: 50px;
+.popup-content .abc{
+    margin-top: 0%;
 }

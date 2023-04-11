@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './inicio.css';
-import '../../components/Popup.css'
+import '../../components/PopupLogIn.css'
 import { Link, useLocation } from 'wouter';
 import Modal from 'react-modal';
 import Login from '../../services/login_log';
@@ -26,11 +26,11 @@ function Inicio() {
     else{
       let data = await Login(email,password);
       console.log(data.ok);
-      if(data.ok === true){
+      if(data.ok){
         navigation("/principal");
       }
       else{
-        setError('Error en el e-mail o la contraseña');
+        setError(data.msg);
       }
     }
   };
@@ -39,6 +39,8 @@ function Inicio() {
   const closeModal = () => {
     setlogInModalIsOpen(false);
     setError('');
+    setEmail('');
+    setPassword('');
   };
 
 
@@ -62,12 +64,14 @@ function Inicio() {
           <p className='texto'>E-mail</p>
           <input className='barraEscribir' type="text" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)}/>
           <p className='texto'>Constraseña</p>
-          <input className='barraEscribir' type="text" placeholder="Constraseña"  value={password} onChange={(e) => setPassword(e.target.value)}/>
+          <input className='barraEscribir' type="password" placeholder="Constraseña"  value={password} onChange={(e) => setPassword(e.target.value)}/>
           <button className='closeButton' onClick={() => closeModal()}>X</button>
           {error && <p className="error-message">{error}</p>}
           <p className='texto'>¿No tienes cuenta?</p>
           <p className='textoEspecifico'onClick={() => closeModal()} >Regístrate</p>
-          <button className='startButton' onClick={handleLogIn}>INICIAR SESIÓN</button>
+          <div className='abc'>
+            <button className='startButton' onClick={handleLogIn}>INICIAR SESIÓN</button>
+          </div>
           
           
         </div>

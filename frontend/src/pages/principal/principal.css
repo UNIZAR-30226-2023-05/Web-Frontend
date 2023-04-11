@@ -1,9 +1,17 @@
-
-.imagenes{
-    display:flex;
-    float: right;
+.Principal {
+    background-image: url('../../assets/img/fondo.jpg');
+    background-size: 100% 100%;
+    background-size: cover;
+    background-color: #1C6473;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
-.imagenes a{
+.imagenes{
+    float: right;
+
+}
+
+img .a{
     margin-right: 1%;
 }
