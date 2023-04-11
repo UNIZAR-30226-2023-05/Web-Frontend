@@ -33,7 +33,7 @@ html{
   }
 
 
-  .button {
+  .Botones {
     
     color: #083641;
     font-family: 'Caveat', cursive;
@@ -52,7 +52,7 @@ html{
     border-style: solid;
   }
 
-  .button:hover {
+  .Botones:hover {
     background-color: #1d9bb8;
     color: #81BFCD;
     border-color: #81BFCD;
@@ -83,5 +83,3 @@ html{
     border-color: #81BFCD;
     cursor: pointer;
   }
-
-  

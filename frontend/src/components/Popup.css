@@ -8,9 +8,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+
+}
   
-  .popupS-content{
+.popup-content{
     position: absolute;
     top: 5%;
     left: 25%;
@@ -21,28 +22,39 @@
     border-radius: 5px;
     text-align: center;
     border: 10px solid white;
-  }
-  
-  .popupS-content .titulo {
+}
+
+.popup-content .titulo {
     margin-top: 0%;
     margin-bottom: 0%;
     font-family: 'Trocchi', serif;
     font-size: 240%;
     color: #1C6473;
-  }
-  
-  .popupS-content .texto {
-    font-size: 100%;
-  }
-  
-  .popupS-content .barraEscribirSign {
-    font-size: 100%;
+}
+
+.popup-content .texto {
+    font-size: 130%;
+}
+
+.popup-content .textoEspecifico {
+    font-size: 130%;
+    text-decoration: underline;
+    color: #337A8A; 
+    margin-bottom: 0%;
+}
+
+.popup-content .textoEspecifico:hover {
+    color: #24AECD; 
+}
+
+.popup-content .barraEscribir {
+    font-size: 120%;
     width: 80%;
     border-radius: 5px;
     border: 2.5px solid black;
-  }
-  
-  .popupS-content .closeButton{
+}
+
+.popup-content .closeButton{
     position: absolute;
     top: 3%;
     right: 3%;
@@ -54,23 +66,16 @@
     color: white;
     border: 2px solid white;
     text-align: center;
-  }
-  
-  .closeButton:hover {
+}
+
+.closeButton:hover {
     background-color: #1d9bb8;
     color: #81BFCD;
     border-color: #81BFCD;
     cursor: pointer;
-  }
+}
 
-  .popupS-content .oblig {
-    margin-top: 2%;
-    margin-bottom: 2%;
-    font-size: 90%;
-    color: red;
-  }
-
-  .popupS-content .iniButton {
+.popup-content .startButton {
     border: 0px solid white;
     color: white;
     font-family: 'Caveat', cursive;
@@ -90,16 +95,16 @@
     padding-right:20%;
     border-width: 5px;
     border-style: solid;
-  }
-
-  .iniButton:hover {
+}
+  
+.popup-content .startButton:hover {
     background-color: #1d9bb8;
     color: #81BFCD;
     border-color: #81BFCD;
     cursor: pointer;
-  }
-
-  .popupS-content .error-message {
+}
+  
+.popup-content .error-message {
     color: red;
     font-size: 100%;
     font-weight: bold;
@@ -107,6 +112,6 @@
     margin-bottom: 1%;
 }
 
-.popupS-content .abc{
+.popup-content .abc{
     margin-top: 0%;
 }

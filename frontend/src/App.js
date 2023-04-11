@@ -4,7 +4,6 @@ import { Route } from "wouter" //indica las rutas de la aplicacion
 import Inicio from './pages/inicio/inicio'; // /carpeta/fichero
 import Principal from './pages/principal/principal';
 
-//path por defecto /
 
 //hay que hacer un "if" para cuando el usuario está loggeado y cuando no
 
@@ -16,11 +15,11 @@ function App() {
           component={Inicio}
           path="/" 
         /> 
-        <Route 
-          HEAD
+
+        <Route
           component={Principal}
-          path="/principal" 
-        /> 
+          path="/principal"
+        />
       </header>
     </div>
   );
