@@ -37,7 +37,7 @@ function Inicio() {
       setError('El e-mail no sigue el formato <nombre>@<dominio>.<extensión>');
     }
     else if(!regla.test(cont)){
-      setError('La contraseña mínimo 8 caracteres. Debe contener mínimo una mayuscula, un número y un simbolos')
+      setError('La contraseña mínimo 8 caracteres. Debe contener mínimo una mayuscula, un número y un símbolo')
     }
     else if(cont != contRep){
       setError('Las contraseñas no coinciden');
@@ -47,7 +47,7 @@ function Inicio() {
       console.log(data.ok);
       if(data.ok === true){
         setModalIsOpen(false);
-        //setlogInModalIsOpen(true);
+        setlogInModalIsOpen(true);
       }
       else{
         setError(data.message);
@@ -91,6 +91,15 @@ function Inicio() {
     setEmail('');
     setPassword('');
   };
+
+  const closeOpenModales = () => {
+    setlogInModalIsOpen(false);
+    setModalIsOpen(true);
+    setError('');
+    setEmail('');
+    setPassword('');
+  };
+
 
 
   return (
