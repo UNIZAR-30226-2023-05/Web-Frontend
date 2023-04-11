@@ -150,7 +150,7 @@ function Inicio() {
           <button className='closeButton' onClick={() => closeModal()}>X</button>
           {error && <p className="error-message">{error}</p>}
           <p className='texto'>¿No tienes cuenta?</p>
-          <p className='textoEspecifico'onClick={() => closeModal()} >Regístrate</p>
+          <p className='textoEspecifico'onClick={() => closeOpenModales()} >Regístrate</p>
           <div className='abc'>
             <button className='startButton' onClick={handleLogIn}>INICIAR SESIÓN</button>
           </div>
