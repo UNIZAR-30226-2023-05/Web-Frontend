@@ -33,8 +33,25 @@ html{
   }
 
 
-  .Botones {
-    
+
+.Botones {
+    color: #083641;
+    font-family: 'Caveat', cursive;
+    margin-right: 12%;
+    margin-top: 3%;
+    background-color: #81BFCD;
+    width: fit-content;
+    border-radius: 35px;
+    font-weight: 600;
+    font-size: 30px;
+    padding-top:15px;
+    padding-bottom:15px;
+    padding-left:40px;
+    padding-right:40px;
+    border-width: 3px;
+    border-style: solid;
+}
+  .button {    
     color: #083641;
     font-family: 'Caveat', cursive;
     margin-right: 12%;
@@ -53,6 +70,13 @@ html{
   }
 
   .Botones:hover {
+    background-color: #1d9bb8;
+    color: #81BFCD;
+    border-color: #81BFCD;
+    cursor: pointer;
+  }
+
+  .button:hover {
     background-color: #1d9bb8;
     color: #81BFCD;
     border-color: #81BFCD;
