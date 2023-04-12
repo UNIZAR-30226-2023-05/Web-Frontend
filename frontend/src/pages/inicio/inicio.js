@@ -16,7 +16,7 @@ function Inicio() {
   const [error, setError] = useState(null);
   const [path,navigation] = useLocation();
 
-
+  
   // Validar datos de logIn
   const handleLogIn = async () => {
     // Validar que el usuario haya ingresado un e-mail y una contraseña
