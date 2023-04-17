@@ -1,0 +1,113 @@
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(24,83,96,0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popupS-content{
+  position: absolute;
+  top: 5%;
+  left: 25%;
+  /*margin-top:-2%*/
+  padding: 3%; /* 1% */
+  width: 70%;
+  max-width: 50%;
+  background-color: #C3FAFE;
+  border-radius: 5px;
+  text-align: center;
+  border: 10px solid white;
+}
+
+.popupS-content .titulo {
+  margin-top: 0%;
+  margin-bottom: 0%;
+  font-family: 'Trocchi', serif;
+  font-size: 240%;
+  color: #1C6473;
+}
+
+.popupS-content .texto {
+  font-size: 100%;
+}
+
+.popupS-content .barraEscribirSign {
+  font-size: 100%;
+  width: 80%;
+  border-radius: 5px;
+  border: 2.5px solid black;
+}
+
+.popupS-content .closeButton{
+  position: absolute;
+  top: 3%;
+  right: 3%;
+  cursor: pointer;
+  border-radius: 10px;
+  transform: scale(2);
+  background-color: #81BFCD;
+  font-weight: bold;
+  color: white;
+  border: 2px solid white;
+  text-align: center;
+}
+
+.closeButton:hover {
+  background-color: #1d9bb8;
+  color: #81BFCD;
+  border-color: #81BFCD;
+  cursor: pointer;
+}
+
+.popupS-content .oblig {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  font-size: 90%;
+  color: red;
+}
+
+.popupS-content .iniButton {
+  border: 0px solid white;
+  color: white;
+  font-family: 'Caveat', cursive;
+  margin: auto;
+  position: absolute; 
+  margin-top: 3%; /* quitar */
+  left: 0%;
+  right: 0%;
+  background-color: #24AECD;
+  width: fit-content;
+  border-radius: 35px;
+  font-weight: 600;
+  font-size: 120%;
+  padding-top:2%;
+  padding-bottom:2%;
+  padding-left:20%;
+  padding-right:20%;
+  border-width: 5px;
+  border-style: solid;
+}
+
+.iniButton:hover {
+  background-color: #1d9bb8;
+  color: #81BFCD;
+  border-color: #81BFCD;
+  cursor: pointer;
+}
+
+.popupS-content .error-message {
+  color: red;
+  font-size: 100%;
+  font-weight: bold;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.popupS-content .abc{
+  margin-top: 0%;
+}

@@ -96,15 +96,6 @@
     border-width: 5px;
     border-style: solid;
 }
-
-.popup-content .elButton{
-    color: white;
-    font-family: 'Chivo', sans-serif;
-    border-radius: 35px;
-    font-weight: 600;
-    font-size: 120%;
-    background-color: #24AECD;
-}
   
 .popup-content .startButton:hover {
     background-color: #1d9bb8;
