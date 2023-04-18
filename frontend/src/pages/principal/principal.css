@@ -57,7 +57,7 @@ img .a{
 .recuadro .buttonSala {
     border: 0px solid white;
     color: white;
-    font-family: 'Caveat', cursive;
+    font-family: 'Chivo', 'Trocchi';
     margin: auto;
     position: absolute; 
     margin-top: 3%;
@@ -66,7 +66,6 @@ img .a{
     background-color: #24AECD;
     width: fit-content;
     border-radius: 35px;
-    font-weight: 600;
     font-size: 120%;
     padding-top:2%;
     padding-bottom:2%;

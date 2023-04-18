@@ -72,6 +72,8 @@ function Principal() {
     }
     else{
       // Aqui se llama a la funcion que crea la sala
+      // FALTA
+      navigation("/sala");
     }
   };
 
@@ -82,62 +84,10 @@ function Principal() {
     }
     else{
       // Aqui se llama a la funcion que unirse a la sala
+      // FALTA
+      navigation("/sala");
     }
   };
-
-  /***************************************************************************
-   * FUNCION MODAL CREAR SALA Y UNIRSE A SALA
-   ***************************************************************************/
-  function ModalCrearSala(){
-    return (
-      <Modal className="popup" isOpen={crearModalIsOpen} onRequestOpen={() => setCrearModalIsOpen(true)}>
-        <div className="popup-content">
-          <p className='titulo'>CREAR SALA</p>
-          <p className='texto'>¿Desea crear una sala?</p>
-          <p className='texto'>Nombre de la sala*</p>
-          <input className='barraEscribir' type="text" placeholder="Nombre de la sala" value={nombreSala} onChange={(e) => setNombreSala(e.target.value)}/>
-          
-          <p className='texto'>Número de jugadores*</p>
-          <select className='barraDespegable' value={numJugadores} onChange={(e) => setNumJugadores(e.target.value)}>
-            <option value="">Número de jugadores</option>
-            {[1, 2, 3, 4, 5, 6].map(num => (
-              <option key={num} value={num}>{num}</option>
-            ))}
-          </select>
-          
-          <button className='closeButton' onClick={() => closeModalCrearSala()}>X</button>
-          {error && <p className="error-message">{error}</p>}
-          <p className='texto'>* Campo obligatorio</p>
-          
-          <button className='elButton' onClick={crearSala}>Crear</button>
-          
-        </div>
-      </Modal>
-    );
-  }
-
-
-  function ModalUnirseSala(){
-    return (
-      <Modal className="popup" isOpen={unirseModalIsOpen} onRequestClose={() => setUnirseModalIsOpen(true)}>
-        <div className="popup-content">
-          <p className='titulo'>UNIRSE A UNA SALA</p>
-          <p className='texto'>¿Desea unirse a una sala existente?</p>
-          <p className='texto'>Código de la sala*</p>
-          <input className='barraEscribir' type="text" placeholder="Código de la sala" value={codigoSala} onChange={(e) => setCodigoSala(e.target.value)}/>
-        
-          <button className='closeButton' onClick={() => closeModalUnirseSala()}>X</button>
-          {error && <p className="error-message">{error}</p>}
-          <p className='texto'>* Campo obligatorio</p>
-          
-          <button className='elButton' onClick={unirseSala}>Unirse</button>
-          
-        </div>
-      </Modal>
-    );
-  }
-
-
 
 
   return (
@@ -163,12 +113,45 @@ function Principal() {
         </div>
       </div>
 
-      <div className='modal'>
-        <ModalCrearSala />
-      </div>
-      <div className='modal'>
-        <ModalUnirseSala />
-      </div>
+      <Modal className="popup" isOpen={crearModalIsOpen} onRequestOpen={() => setCrearModalIsOpen(false)}>
+        <div className="popup-sala">
+          <p className='titulo'>CREAR SALA</p>
+          <p className='texto'>¿Desea crear una sala?</p>
+          <p className='texto'>Nombre de la sala*</p>
+          <input className='barraEscribirSala' type="text" placeholder="Nombre de la sala" value={nombreSala} onChange={(e) => setNombreSala(e.target.value)}/>
+          
+          <p className='texto'>Número de jugadores*</p>
+          <select className='barraDespegable' value={numJugadores} onChange={(e) => setNumJugadores(e.target.value)}>
+            <option value="">Número de jugadores</option>
+            {[1, 2, 3, 4, 5, 6].map(num => (
+              <option key={num} value={num}>{num}</option>
+            ))}
+          </select>
+          
+          <button className='closeButton' onClick={() => closeModalCrearSala()}>X</button>
+          {error && <p className="error-message">{error}</p>}
+          <p className='texto'>* Campo obligatorio</p>
+          
+          <button className='elButton' onClick={crearSala}>Crear</button>
+          
+        </div>
+      </Modal>
+
+      <Modal className="popup" isOpen={unirseModalIsOpen} onRequestClose={() => setUnirseModalIsOpen(false)}>
+        <div className="popup-sala">
+          <p className='titulo'>UNIRSE A UNA SALA</p>
+          <p className='texto'>¿Desea unirse a una sala existente?</p>
+          <p className='texto'>Código de la sala*</p>
+          <input className='barraEscribirSala' type="text" placeholder="Código de la sala" value={codigoSala} onChange={(e) => setCodigoSala(e.target.value)}/>
+        
+          <button className='closeButton' onClick={() => closeModalUnirseSala()}>X</button>
+          {error && <p className="error-message">{error}</p>}
+          <p className='texto'>* Campo obligatorio</p>
+          
+          <button className='elButton' onClick={unirseSala}>Unirse</button>
+          
+        </div>
+      </Modal>
 
     </div>
     
