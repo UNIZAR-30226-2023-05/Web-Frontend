@@ -1,0 +1,89 @@
+html {
+    background-image: url('../../assets/img/fondo.jpg');
+    background-size: cover;
+    background-color: #1C6473;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.imagenes{
+    float: right;
+
+}
+
+img .a{
+    margin-right: 1%;
+}
+
+.mismaLinea {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 200px;
+    margin-top: 5%;
+  }
+  
+.mismaLinea .recuadro {
+    position: relative;
+    padding: 2%;
+    height: 60%;
+    background-color: #C3FAFE;
+    border-radius: 5px;
+    text-align: center;
+    border: 5px solid white;
+    width: 25%;
+    margin-right: 2%;
+}
+
+.recuadro .titulo {
+    margin-top: 0%;
+    margin-bottom: 5%;
+    font-family: 'Caveat', serif;
+    font-size: 150%;
+    color: white;
+    background-color: #57B1C6;
+}
+
+.recuadro .subTitulo {
+    margin-top: 0%;
+    margin-bottom: 3%;
+    font-family: 'Trocchi', 'Caveat', serif;
+    font-size: 150%;
+    color: #1C6473;
+    margin-bottom: 2%;
+}
+
+.contenedor {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+
+.tablero {
+    background-image: url('../../assets/img/tablero.PNG');
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    width: 60%;
+}
+
+.chat {
+    border-color: antiquewhite;
+    border-width: 5px;
+    border-style: solid;
+    width: 40%;
+}
+
+.ficha {
+    position: relative;
+    top: 90%;
+    left: 30%;
+    transition: all 2s;
+}
+
+.fichaTam {
+    width: 3%;
+    height: auto;
+}

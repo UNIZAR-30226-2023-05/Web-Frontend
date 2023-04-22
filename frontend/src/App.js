@@ -3,6 +3,7 @@ import { Route } from "wouter" //indica las rutas de la aplicacion
 
 import Inicio from './pages/inicio/inicio'; // /carpeta/fichero
 import Principal from './pages/principal/principal';
+import Juego from './pages/juego/juego'
 
 
 //hay que hacer un "if" para cuando el usuario está loggeado y cuando no
@@ -19,6 +20,11 @@ function App() {
         <Route
           component={Principal}
           path="/principal"
+        />
+
+        <Route
+          component={Juego}
+          path="/juego"
         />
       </header>
     </div>
