@@ -17,6 +17,7 @@ function Principal() {
   const [crearModalIsOpen, setCrearModalIsOpen] = useState(false); 
   const [nombreSala, setNombreSala] = useState('');
   const [numJugadores, setNumJugadores] = useState('');
+  const [estiloJuego, setEstiloJuego] = useState('');
   
 
   // Modal unirse a sala
@@ -125,6 +126,13 @@ function Principal() {
             <option value="">Número de jugadores</option>
             {[1, 2, 3, 4, 5, 6].map(num => (
               <option key={num} value={num}>{num}</option>
+            ))}
+          </select>
+          <p className='texto'>Estilo de juego*</p>
+          <select className='barraDespegable' value={estiloJuego} onChange={(e) => setEstiloJuego(e.target.value)}>
+            <option value="">Estilo de juego</option>
+            {["clásico"].map(option => (
+              <option key={option} value={option}>{option}</option>
             ))}
           </select>
           
