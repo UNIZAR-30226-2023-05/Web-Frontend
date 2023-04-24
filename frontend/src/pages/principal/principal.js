@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import io from 'socket.io-client';
 import './principal.css';
 import '../../components/RestoPantallas.css'
 import '../../components/PopupCrearSala.css'
@@ -18,6 +19,8 @@ function Principal() {
   const [nombreSala, setNombreSala] = useState('');
   const [numJugadores, setNumJugadores] = useState('');
   const [estiloJuego, setEstiloJuego] = useState('');
+
+  const [nickname, setNickname] = useState('');
   
 
   // Modal unirse a sala
@@ -26,6 +29,26 @@ function Principal() {
 
   const [error, setError] = useState(null);
   const [path,navigation] = useLocation();
+
+  /***************************************************************************
+   * FUNCIONES SOCKET
+   ***************************************************************************/
+  // Funcion para crear la sala socket
+  const socket = io('localhost:3000');
+  socket.on("joinRoom", (roomID) => {});
+
+  const crearSalaSockets = () => {
+    socket.emit("createRoom", nickname, nombreSala, numJugadores, estiloJuego, (data) => {
+      if (data.status !== 'ok') {
+        setError(data.error);
+      } else {
+        localStorage.setItem('idRoom', data.idRoom);
+        navigation("/sala");
+      }
+    });
+  }
+
+
 
   function ImagenesLink(){
     return (
@@ -84,6 +107,9 @@ function Principal() {
       setError('Rellene el campo obligatorio')
     }
     else{
+      // Se coge el valor de nickname del localstorage
+      nickname = localStorage.getItem('nickname')
+      setNickname(nickname);
       // Aqui se llama a la funcion que unirse a la sala
       // FALTA
       navigation("/sala");

@@ -9,7 +9,7 @@ async function GetID(nickname) {
         "nickname": nickname
     });
 
-    let response = await fetch("localhost:3000/users/register", { 
+    let response = await fetch("lhttp://ocalhost:3000/users/register", { 
         method: "GET",
         body: bodyContent,
         headers: headersList

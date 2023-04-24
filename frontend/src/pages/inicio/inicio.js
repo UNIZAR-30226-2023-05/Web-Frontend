@@ -41,13 +41,14 @@ function Inicio() {
     else if(!regla.test(cont)){
       setError('La contraseña mínimo 8 caracteres. Debe contener mínimo una mayuscula, un número y un símbolo')
     }
-    else if(cont != contRep){
+    else if(cont !== contRep){
       setError('Las contraseñas no coinciden');
     }
     else{
       let data =  await SignUp(name, mail, cont);
       console.log(data.ok);
       if(data.ok === true){
+        localStorage.setItem('nickname', name);
         setModalIsOpen(false);
         setlogInModalIsOpen(true);
       }
@@ -75,9 +76,9 @@ function Inicio() {
       setError('Por favor ingresa el e-mail y la contraseña'); 
     }
     else{
-      let data = await Login(email,password);
+      let data = await Login(email, password);
       console.log(data.ok);
-      if(data.ok){
+      if(data.ok === true){
         // Guarda el token en el localStorage. Con get te lo devuelve
         localStorage.setItem('token', data.token);
         navigation("/principal");
