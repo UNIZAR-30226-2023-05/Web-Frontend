@@ -1,7 +1,5 @@
 async function GetID(nickname) {
     let headersList = {
-        "Accept": "*/*",
-        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
         "Content-Type": "application/json"
     }
     
@@ -9,14 +7,16 @@ async function GetID(nickname) {
         "nickname": nickname
     });
 
-    let response = await fetch("lhttp://ocalhost:3000/users/register", { 
+    let response = await fetch("lhttp://localhost:3000/users/register", { 
         method: "GET",
         body: bodyContent,
         headers: headersList
     });
 
     let data = await response.text();
-    console.log(data);
+        console.log(data);
+
+    return data; //devuelve el .json con los datos del registro
 }
 
 export default GetID;

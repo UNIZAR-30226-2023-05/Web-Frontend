@@ -49,27 +49,25 @@ function Principal() {
   });
   
   const unirSalaSocket = () => {
-    socket.on("joinRoom", codigoSala, (data) => {
+    socket.emit("joinRoom", codigoSala, nickname, (data) => {
       if (data.status !== 'ok') {
         setError(data.error);
       } else {
-        localStorage.setItem('idRoom', data.idRoom);
+        localStorage.setItem('idRoom', data.id);
         navigation("/sala");
       }
     });
   }
 
   // const crearSalaSockets = () => {
-  const crearSalaSockets = (/*nickname, nombreSala, numJugadores, estiloJuego*/) => {
-    socket.emit("createRoom", nickname, nombreSala, numJugadores, estiloJuego, (data) => {
-      console.log(data);
-      console.log(data.status);
-      console.log(nickname);
+  const crearSalaSockets = () => {
+    socket.emit("createRoom", {'nickname': nickname}, nombreSala, numJugadores, estiloJuego, (data) => {
       if (data.status !== 'ok') {
-        setError(data.error);
+        setError(data.message);
+        console.log(data.message);
       } else {
-        localStorage.setItem('idRoom', data.idRoom);
-        console.log(data.idRoom);
+        localStorage.setItem('idRoom', data.id);
+        console.log(data.id);
         navigation("/sala");
       }
     });
@@ -124,7 +122,7 @@ function Principal() {
     else{
       // Aqui se llama a la funcion que crea la sala
       // crearSalaSockets()
-      crearSalaSockets(nickname, nombreSala, numJugadores, estiloJuego);
+      crearSalaSockets();
 
     }
   };

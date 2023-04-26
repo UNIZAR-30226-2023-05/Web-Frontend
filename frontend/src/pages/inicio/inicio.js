@@ -51,6 +51,7 @@ function Inicio() {
         localStorage.setItem('nickname', name);
         setModalIsOpen(false);
         setlogInModalIsOpen(true);
+        setError('');
       }
       else{
         setError(data.message);
