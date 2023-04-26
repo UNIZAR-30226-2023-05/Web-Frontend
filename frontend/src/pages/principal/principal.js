@@ -20,8 +20,9 @@ function Principal() {
   const [numJugadores, setNumJugadores] = useState('');
   const [estiloJuego, setEstiloJuego] = useState('');
 
-  const [nickname, setNickname] = useState('');
   
+  const token = localStorage.getItem('token');
+  const nickname = localStorage.getItem('nickname');
 
   // Modal unirse a sala
   const [unirseModalIsOpen, setUnirseModalIsOpen] = useState(false);
@@ -33,16 +34,42 @@ function Principal() {
   /***************************************************************************
    * FUNCIONES SOCKET
    ***************************************************************************/
-  // Funcion para crear la sala socket
-  const socket = io('localhost:3000');
-  socket.on("joinRoom", (roomID) => {});
+  //Puerto
+  const port = process.env.PORT || 3000;
+  const url = 'http://localhost:' + port;
 
-  const crearSalaSockets = () => {
-    socket.emit("createRoom", nickname, nombreSala, numJugadores, estiloJuego, (data) => {
+  const socket = io.connect(url, {auth:{token}});
+
+  socket.on('connect', () => {
+    console.log('Conectado al servidor de websockets');
+  });
+  
+  socket.on('disconnect', (reason) => {
+    console.log(`Se ha perdido la conexión con el servidor de websockets: ${reason}`);
+  });
+  
+  const unirSalaSocket = () => {
+    socket.on("joinRoom", codigoSala, (data) => {
       if (data.status !== 'ok') {
         setError(data.error);
       } else {
         localStorage.setItem('idRoom', data.idRoom);
+        navigation("/sala");
+      }
+    });
+  }
+
+  // const crearSalaSockets = () => {
+  const crearSalaSockets = (/*nickname, nombreSala, numJugadores, estiloJuego*/) => {
+    socket.emit("createRoom", nickname, nombreSala, numJugadores, estiloJuego, (data) => {
+      console.log(data);
+      console.log(data.status);
+      console.log(nickname);
+      if (data.status !== 'ok') {
+        setError(data.error);
+      } else {
+        localStorage.setItem('idRoom', data.idRoom);
+        console.log(data.idRoom);
         navigation("/sala");
       }
     });
@@ -91,13 +118,14 @@ function Principal() {
 
   // Funcion para crear la sala
   const crearSala = () => {
-    if (nombreSala === '' || numJugadores === ''){
+    if (nombreSala === '' || numJugadores === '' || estiloJuego === ''){
       setError('Rellene todos los campos obligatorios')
     }
     else{
       // Aqui se llama a la funcion que crea la sala
-      // FALTA
-      navigation("/sala");
+      // crearSalaSockets()
+      crearSalaSockets(nickname, nombreSala, numJugadores, estiloJuego);
+
     }
   };
 
@@ -107,12 +135,10 @@ function Principal() {
       setError('Rellene el campo obligatorio')
     }
     else{
-      // Se coge el valor de nickname del localstorage
-      nickname = localStorage.getItem('nickname')
-      setNickname(nickname);
+      unirSalaSocket();
       // Aqui se llama a la funcion que unirse a la sala
       // FALTA
-      navigation("/sala");
+      
     }
   };
 
