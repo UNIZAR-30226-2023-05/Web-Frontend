@@ -51,7 +51,7 @@ function Principal() {
   const unirSalaSocket = () => {
     socket.emit("joinRoom", codigoSala, nickname, (data) => {
       if (data.status !== 'ok') {
-        setError(data.error);
+        setError(data.message);
       } else {
         localStorage.setItem('idRoom', data.id);
         navigation("/sala");
@@ -64,10 +64,8 @@ function Principal() {
     socket.emit("createRoom", {'nickname': nickname}, nombreSala, numJugadores, estiloJuego, (data) => {
       if (data.status !== 'ok') {
         setError(data.message);
-        console.log(data.message);
       } else {
         localStorage.setItem('idRoom', data.id);
-        console.log(data.id);
         navigation("/sala");
       }
     });
