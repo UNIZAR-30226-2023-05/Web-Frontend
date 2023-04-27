@@ -6,3 +6,78 @@
     background-repeat: no-repeat;
     background-position: center center;
 }
+
+.imagenes {
+    float: right;
+    margin-right: 2%;
+
+}
+
+img .a {
+    margin-right: 4%;
+}
+
+.botonSalir{
+    margin-left: 2%;
+    color: white;
+    font-family: 'Chivo', sans-serif;
+    border-radius: 35px;
+    font-size: 130%;
+    background-color: #24AECD;
+    border-style: solid;
+    height: 50px;
+    width: 15%;
+    border: 4px solid white;
+}
+
+.botonSalir:hover {
+    background-color: #1d9bb8;
+    color: #81BFCD;
+    border-color: #81BFCD;
+    cursor: pointer;
+}
+
+.nombre_codigo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 130%;
+    font-family: 'Chivo', sans-serif;
+    color: white;
+
+}
+
+.barraCodigo {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    text-align: center;
+    border: 2px solid black;
+    margin-bottom: 1%;
+    color: black;
+    font-size: 130%;
+    font-family: 'Chivo', sans-serif;
+    width: 15%;
+    height: 4%;
+}
+
+.idRoom {
+    flex-grow: 1;
+    text-align: center;
+    
+}
+
+.botonCopiar {
+    background: none;
+    border: none;
+    font-size: 10%;
+    cursor: pointer;
+}
+  
+.copiadoIcono{
+    margin-left: 20%;
+}

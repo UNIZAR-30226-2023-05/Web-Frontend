@@ -54,6 +54,7 @@ function Principal() {
         setError(data.message);
       } else {
         localStorage.setItem('idRoom', data.id);
+        console.log(data.id);
         navigation("/sala");
       }
     });
@@ -65,6 +66,7 @@ function Principal() {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {
+        localStorage.setItem('nombreSala', nombreSala);
         localStorage.setItem('idRoom', data.id);
         navigation("/sala");
       }

@@ -1,0 +1,25 @@
+.header {
+    font-size: calc(350% + 2vmin);
+    color: white;
+    font-family: 'Trocchi', serif;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+.barraTitulo{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: auto;
+    height: 40px;
+    background-color: #C3FAFE;
+    text-align: center;
+    border: 2px solid white;
+    margin-bottom: 1%;
+    color: #083641;
+    font-style: italic;
+    font-size: 210%;
+    text-transform: uppercase;
+    font-family: 'Caveat', serif;
+}
