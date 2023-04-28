@@ -49,7 +49,7 @@ function Principal() {
   });
   
   const unirSalaSocket = () => {
-    socket.emit("joinRoom", codigoSala, nickname, (data) => {
+    socket.emit("joinRoom", codigoSala, {'nickname': nickname}, (data) => {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {
