@@ -49,18 +49,19 @@ function Principal() {
   });
   
   const unirSalaSocket = () => {
+    console.log(codigoSala);
+    console.log(nickname);
     socket.emit("joinRoom", codigoSala, {'nickname': nickname}, (data) => {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {
-        localStorage.setItem('idRoom', data.id);
-        console.log(data.id);
+        localStorage.setItem('idRoom', codigoSala);
+        console.log(codigoSala);
         navigation("/sala");
       }
     });
   }
 
-  // const crearSalaSockets = () => {
   const crearSalaSockets = () => {
     socket.emit("createRoom", {'nickname': nickname}, nombreSala, numJugadores, estiloJuego, (data) => {
       if (data.status !== 'ok') {
@@ -133,10 +134,7 @@ function Principal() {
       setError('Rellene el campo obligatorio')
     }
     else{
-      unirSalaSocket();
-      // Aqui se llama a la funcion que unirse a la sala
-      // FALTA
-      
+      unirSalaSocket();  
     }
   };
 
@@ -174,7 +172,7 @@ function Principal() {
           <p className='texto'>Número de jugadores*</p>
           <select className='barraDespegable' value={numJugadores} onChange={(e) => setNumJugadores(e.target.value)}>
             <option value="">Número de jugadores</option>
-            {[1, 2, 3, 4, 5, 6].map(num => (
+            {[2, 3, 4, 5, 6].map(num => (
               <option key={num} value={num}>{num}</option>
             ))}
           </select>

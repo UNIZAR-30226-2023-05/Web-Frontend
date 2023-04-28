@@ -54,7 +54,7 @@ function Inicio() {
         setError('');
       }
       else{
-        setError(data.message);
+        setError(data.msg);
       }
     }
 
