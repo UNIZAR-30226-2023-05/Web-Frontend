@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import io from 'socket.io-client';
 import './inicio.css';
 import '../../components/PopupSignUp.css'
 import '../../components/PopupLogIn.css'
@@ -10,7 +11,7 @@ import SignUp  from '../../services/signup_log.js';
 Modal.setAppElement('#root'); // para asegurarnos de que react-modal funcione correctamente
 
 function Inicio() {
-  const regla = /^[A-Za-z0-9]{8,16}$/
+  const regla = /^[A-Za-z0-9!?]{8,16}$/;
 
   const [modalIsOpen, setModalIsOpen] = useState(false); // estado para controlar si el popup está abierto o cerrado
   const [name, setName] = useState('');
@@ -19,6 +20,8 @@ function Inicio() {
   const [contRep, setContRep] = useState('');
   const [error, setError] = useState(null);
 
+  const token = localStorage.getItem('token');
+  const nickname = localStorage.getItem('nickname');
   
 
   // Variables destinadas al popup de logIn
@@ -28,7 +31,39 @@ function Inicio() {
   const [password, setPassword] = useState('');
   const [path,navigation] = useLocation();
 
-  //funcion lambda lo mismo que una funcion pero expresado así.
+  /***************************************************************************
+   * FUNCIONES SOCKET
+   ***************************************************************************/
+  //Puerto
+  const port = process.env.PORT || 3000;
+  const url = 'http://localhost:' + port;
+
+  const socket = io.connect(url, {auth:{token}});
+
+  socket.on('connect', () => {
+    console.log('Conectado al servidor de websockets');
+  });
+  
+  socket.on('disconnect', (reason) => {
+    console.log(`Se ha perdido la conexión con el servidor de websockets: ${reason}`);
+  });
+
+  /***************************************************************************
+   * FUNCION COSALANTROLAR LOG IN
+   ***************************************************************************/
+  const comprobarLogIn = () => {
+    socket.emit("openSession", {'nickname': nickname}, (data) => {
+      if (data.ok === false) {
+        setError(data.message);
+      } else {
+        navigation("/principal");
+      }
+    });
+  }
+
+  /***************************************************************************
+   * FUNCION CREAR USUARIO
+   ****************************************************************************/
   const crearUsuario = async() => {  
     
     // Validar que el e-mail sigue el formato <nombre>@<dominio>.<extensión>
@@ -49,7 +84,7 @@ function Inicio() {
       console.log(data.ok);
       if(data.ok === true){
         localStorage.setItem('nickname', name);
-        setModalIsOpen(false);
+        closeModalSign();
         setlogInModalIsOpen(true);
         setError('');
       }
@@ -70,7 +105,9 @@ function Inicio() {
     setContRep('');
   }
 
-  // Validar datos de logIn
+  /***************************************************************************
+   * FUNCION LOG IN
+   ****************************************************************************/
   const handleLogIn = async () => {
     // Validar que el usuario haya ingresado un e-mail y una contraseña
     if (email === '' || password === '') {
@@ -82,7 +119,7 @@ function Inicio() {
       if(data.ok === true){
         // Guarda el token en el localStorage. Con get te lo devuelve
         localStorage.setItem('token', data.token);
-        navigation("/principal");
+        comprobarLogIn();
       }
       else{
         setError(data.msg);
@@ -96,6 +133,7 @@ function Inicio() {
     setError('');
     setEmail('');
     setPassword('');
+
   };
 
   const closeOpenModales = () => {

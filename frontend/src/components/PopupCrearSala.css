@@ -101,3 +101,8 @@
     border-color: #81BFCD;
     cursor: pointer;
 }
+
+.popup-sala .barraDespegable {
+    font-size: 100%;
+    color: #1C6473;
+}

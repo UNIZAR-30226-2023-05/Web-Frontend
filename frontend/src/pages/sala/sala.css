@@ -17,7 +17,7 @@ img .a {
     margin-right: 4%;
 }
 
-.botonSalir{
+.botonSalir {
     margin-left: 2%;
     color: white;
     font-family: 'Chivo', sans-serif;
@@ -68,7 +68,6 @@ img .a {
 .idRoom {
     flex-grow: 1;
     text-align: center;
-    
 }
 
 .botonCopiar {
@@ -76,8 +75,118 @@ img .a {
     border: none;
     font-size: 10%;
     cursor: pointer;
+    position: absolute;
+    right: 0;
+    margin-right: -2%;
 }
-  
-.copiadoIcono{
-    margin-left: 20%;
+
+.copiadoIcono {
+    right: 0;
+}
+
+.comenzarPartida {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 10%;
+    color: white;
+    font-family: 'Caveat', sans-serif;
+    border-radius: 35px;
+    font-size: 230%;
+    background-color: #81BFCD;
+    border-style: solid;
+    height: 17%;
+    width: 15%;
+    border: 4px solid white;
+}
+
+
+.comenzarPartida:hover {
+    background-color: #1d9bb8;
+    color: #81BFCD;
+    border-color: #81BFCD;
+    cursor: pointer;
+}
+
+.eliminarSala {
+    position: absolute;
+    right: 0;
+    top: 70%;
+    transform: translateY(-50%);
+    margin-right: 10%;
+    color: white;
+    font-family: 'Chivo', sans-serif;
+    border-radius: 35px;
+    font-size: 130%;
+    background-color: #F64C4C;
+    border-style: solid;
+    height: 10%;
+    width: 15%;
+    border: 4px solid white;
+}
+
+
+.eliminarPartida:hover {
+    background-color: #FA7171;
+    color: red;
+    border-color: #FFAAAA;
+    cursor: pointer;
+}
+
+.players-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    margin-left: 5%;
+    width: 20%;
+
+}
+
+.player {
+    background-color: #C3FAFE;
+    padding: 10px;
+    border: 1px solid black;
+    font-family: 'Chivo', sans-serif;
+}
+
+.texto-participante {
+    font-size: 200%;
+    font-family: 'Caveat', sans-serif;
+    color: white;
+}
+
+.mensaje-error-salas {
+    color: #F64C4C;
+    font-size: 100%;
+    font-weight: bold;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.abandonarSala {
+    position: absolute;
+    right: 0;
+    top: 60%;
+    transform: translateY(-50%);
+    margin-right: 10%;
+    color: white;
+    font-family: 'Chivo', sans-serif;
+    border-radius: 35px;
+    font-size: 130%;
+    background-color: #F64C4C;
+    border-style: solid;
+    height: 10%;
+    width: 15%;
+    border: 4px solid white;
+}
+
+
+.abandonarSala:hover {
+    background-color: #FA7171;
+    color: red;
+    border-color: #FFAAAA;
+    cursor: pointer;
 }

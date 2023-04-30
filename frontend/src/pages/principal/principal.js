@@ -48,20 +48,26 @@ function Principal() {
     console.log(`Se ha perdido la conexión con el servidor de websockets: ${reason}`);
   });
   
+   /***************************************************************************
+   * FUNCION UNIR SALA
+   ***************************************************************************/
   const unirSalaSocket = () => {
-    console.log(codigoSala);
-    console.log(nickname);
     socket.emit("joinRoom", codigoSala, {'nickname': nickname}, (data) => {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {
+        localStorage.setItem('jugadores', JSON.stringify(data.players));
         localStorage.setItem('idRoom', codigoSala);
-        console.log(codigoSala);
+        // Variable para controlar quien es el lider
+        localStorage.setItem('lider', false);
         navigation("/sala");
       }
     });
   }
 
+   /***************************************************************************
+   * FUNCION CREAR SALA
+   ***************************************************************************/
   const crearSalaSockets = () => {
     socket.emit("createRoom", {'nickname': nickname}, nombreSala, numJugadores, estiloJuego, (data) => {
       if (data.status !== 'ok') {
@@ -69,13 +75,17 @@ function Principal() {
       } else {
         localStorage.setItem('nombreSala', nombreSala);
         localStorage.setItem('idRoom', data.id);
+        // Variable para controlar quien es el lider
+        localStorage.setItem('lider', true);
         navigation("/sala");
       }
     });
   }
 
 
-
+  /***************************************************************************
+    * FUNCION IMAGENES LINK
+    ***************************************************************************/
   function ImagenesLink(){
     return (
       <div className="imagenes">
@@ -114,17 +124,13 @@ function Principal() {
   /***************************************************************************
    * FUNCION HANDLE
    ***************************************************************************/
-
   // Funcion para crear la sala
   const crearSala = () => {
     if (nombreSala === '' || numJugadores === '' || estiloJuego === ''){
       setError('Rellene todos los campos obligatorios')
     }
     else{
-      // Aqui se llama a la funcion que crea la sala
-      // crearSalaSockets()
       crearSalaSockets();
-
     }
   };
 
