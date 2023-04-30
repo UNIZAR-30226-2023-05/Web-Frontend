@@ -62,7 +62,7 @@ function Sala() {
     socket.on("updatePlayers", (nicknames) => {
       console.log('Estoy dentro de updatePlayers');
       console.log(nicknames);
-      // localStorage.setItem('jugadores', JSON.stringify(playerNames));
+      // localStorage.setItem('jugadores', JSON.stringify(nicknames));
       setJugadores(nicknames);
     });
     console.log('He salido de updatePlayers');
@@ -81,7 +81,7 @@ function Sala() {
     socket.on("updatePlayers", (data) => {
       console.log('Estoy dentro de updatePlayers');
       console.log(data.nicknames);
-      // localStorage.setItem('jugadores', JSON.stringify(playerNames));
+      // localStorage.setItem('jugadores', JSON.stringify(data.nicknames));
       setJugadores(data.nicknames);
     });
     console.log('He salido de updatePlayers');
