@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import './sala.css';
 import '../../components/SalaJuego.css'
@@ -19,8 +19,9 @@ function Sala() {
   // Controlar si el usuario es el lider o no
   const lider = localStorage.getItem('lider');
   const token = localStorage.getItem('token');
-  const players = JSON.parse(localStorage.getItem('jugadores'));
-  const numPlayers = players ? players.length : 0; // Numero de jugadores en la sala
+  const [jugadores, setJugadores] = useState([]);
+  //const players = JSON.parse(localStorage.getItem('jugadores'));
+  const numPlayers = jugadores ? jugadores.length : 0; // Numero de jugadores en la sala
 
   // Declaracion de variables
   const [isCopying, setIsCopying] = useState(false);
@@ -45,6 +46,52 @@ function Sala() {
   socket.on('disconnect', (reason) => {
     console.log(`Se ha perdido la conexión con el servidor de websockets: ${reason}`);
   });
+
+  /***************************************************************************
+   * FUNCION ACTUALIZAR JUGADORES
+   ***************************************************************************/
+  function playerNames() {
+    setJugadores(playerNames);
+  }
+  
+  // Cada vez que se lance el evento
+  useEffect(() => {
+    console.log('Escuchando actualizaciones de jugadores en sala');
+    // Escuchar las actualizaciones de updatePlayers
+    
+    socket.on("updatePlayers", (nicknames) => {
+      console.log('Estoy dentro de updatePlayers');
+      console.log(nicknames);
+      // localStorage.setItem('jugadores', JSON.stringify(playerNames));
+      setJugadores(nicknames);
+    });
+    console.log('He salido de updatePlayers');
+
+    // Limpiar evento de escucha
+    return () => {
+      socket.off("updatePlayers");
+    }
+  }, [socket]);
+
+  /*
+  useEffect(() => {
+    console.log('Escuchando actualizaciones de jugadores en sala');
+    // Escuchar las actualizaciones de updatePlayers
+    
+    socket.on("updatePlayers", (data) => {
+      console.log('Estoy dentro de updatePlayers');
+      console.log(data.nicknames);
+      // localStorage.setItem('jugadores', JSON.stringify(playerNames));
+      setJugadores(data.nicknames);
+    });
+    console.log('He salido de updatePlayers');
+
+    // Limpiar evento de escucha
+    return () => {
+      socket.off("updatePlayers");
+    }
+  }, [socket]);
+  */
 
   /***************************************************************************
    * FUNCION ELIMINAR SALA
@@ -155,7 +202,7 @@ function Sala() {
       {lider === 'true' && <button className='eliminarSala' onClick={EliminarSala}>Eliminar sala</button>}
       <div className="players-container">
         <div className="texto-participante">Participantes: {numPlayers}</div>
-        {lider !== 'true' && players.map((player, index) => (
+        {lider !== 'true' && jugadores.map((player, index) => (
           <div key={index} className="player">{player}</div>
         ))}
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import './principal.css';
 import '../../components/RestoPantallas.css'
@@ -47,8 +47,8 @@ function Principal() {
   socket.on('disconnect', (reason) => {
     console.log(`Se ha perdido la conexión con el servidor de websockets: ${reason}`);
   });
-  
-   /***************************************************************************
+    
+  /***************************************************************************
    * FUNCION UNIR SALA
    ***************************************************************************/
   const unirSalaSocket = () => {
@@ -56,7 +56,11 @@ function Principal() {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {
-        localStorage.setItem('jugadores', JSON.stringify(data.players));
+        console.log('Estas en la funcion unirSalaSocket');
+        //localStorage.setItem('jugadores', JSON.stringify(data.players));
+        //console.log(JSON.stringify(data.players));
+        //console.log(data.players);
+        console.log(data);
         localStorage.setItem('idRoom', codigoSala);
         // Variable para controlar quien es el lider
         localStorage.setItem('lider', false);
