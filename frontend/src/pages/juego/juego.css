@@ -33,6 +33,7 @@ html {
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
+    position: relative;
 
     width: 60%;
 }
@@ -44,33 +45,45 @@ html {
     width: 40%;
 }
 
-.ficha1 {
+.tablero .ficha1 {
     position: relative;
+    top: "90%";
+    bottom: "30%";
     transition: all 2s;
 }
 
-.ficha2 {
+.tablero .ficha2 {
     position: relative;
+    top: "90%";
+    bottom: "30%";
     transition: all 2s;
 }
 
-.ficha3 {
+.tablero .ficha3 {
     position: relative;
+    top: "90%";
+    bottom: "30%";
     transition: all 2s;
 }
 
-.ficha4 {
+.tablero .ficha4 {
     position: relative;
+    top: "90%";
+    bottom: "30%";
     transition: all 2s;
 }
 
 .ficha5 {
     position: relative;
+    top: "90%";
+    bottom: "30%";
     transition: all 2s;
 }
 
-.ficha6 {
+.tablero .ficha6 {
     position: relative;
+    top: "90%";
+    bottom: "30%";
     transition: all 2s;
 }
 

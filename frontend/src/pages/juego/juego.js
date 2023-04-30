@@ -13,7 +13,7 @@ Modal.setAppElement('#root'); // para asegurarnos de que react-modal funcione co
 
 function Juego() {
 
-  const posIni = 27;
+  const posIni = 62;
   const [contador, setContador] = useState(posIni);
 
   //Posicion inicial del jugador 1
