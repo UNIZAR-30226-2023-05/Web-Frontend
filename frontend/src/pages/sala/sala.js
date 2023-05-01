@@ -55,8 +55,8 @@ function Sala() {
   }
   
   // Cada vez que se lance el evento
-  useEffect(() => {
-    console.log('Escuchando actualizaciones de jugadores en sala');
+  //useEffect(() => {
+   // console.log('Escuchando actualizaciones de jugadores en sala');
     // Escuchar las actualizaciones de updatePlayers
     
     socket.on("updatePlayers", (nicknames) => {
@@ -67,11 +67,11 @@ function Sala() {
     });
     console.log('He salido de updatePlayers');
 
-    // Limpiar evento de escucha
+    /* Limpiar evento de escucha
     return () => {
       socket.off("updatePlayers");
     }
-  }, [socket]);
+  }, [socket]);*/
 
   /*
   useEffect(() => {
