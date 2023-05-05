@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import socket from '../../utils/socket.js';
 import io from 'socket.io-client';
 import './inicio.css';
 import '../../components/PopupSignUp.css'
@@ -34,12 +35,6 @@ function Inicio() {
   /***************************************************************************
    * FUNCIONES SOCKET
    ***************************************************************************/
-  //Puerto
-  const port = process.env.PORT || 3000;
-  const url = 'http://localhost:' + port;
-
-  const socket = io.connect(url, {auth:{token}});
-
   socket.on('connect', () => {
     console.log('Conectado al servidor de websockets');
   });

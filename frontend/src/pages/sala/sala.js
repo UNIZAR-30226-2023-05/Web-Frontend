@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
+import socket from '../../utils/socket.js';
 import './sala.css';
 import '../../components/SalaJuego.css'
 import chat from '../../assets/feather/message-square.svg'
@@ -19,9 +19,10 @@ function Sala() {
   // Controlar si el usuario es el lider o no
   const lider = localStorage.getItem('lider');
   const token = localStorage.getItem('token');
-  const [jugadores, setJugadores] = useState([]);
+  const [players, setJugadores] = useState([]);
   //const players = JSON.parse(localStorage.getItem('jugadores'));
-  const numPlayers = jugadores ? jugadores.length : 0; // Numero de jugadores en la sala
+  console.log(`Estamos en sala, en ninguna funcion y players=  ${players}`);
+  const numPlayers = players ? players.length : 0; // Numero de jugadores en la sala
 
   // Declaracion de variables
   const [isCopying, setIsCopying] = useState(false);
@@ -33,12 +34,6 @@ function Sala() {
   /***************************************************************************
    * FUNCIONES SOCKET
    ***************************************************************************/
-  //Puerto
-  const port = process.env.PORT || 3000;
-  const url = 'http://localhost:' + port;
-
-  const socket = io.connect(url, {auth:{token}});
-
   socket.on('connect', () => {
     console.log('Conectado al servidor de websockets');
   });
@@ -50,48 +45,14 @@ function Sala() {
   /***************************************************************************
    * FUNCION ACTUALIZAR JUGADORES
    ***************************************************************************/
-  function playerNames() {
-    setJugadores(playerNames);
-  }
-  
-  // Cada vez que se lance el evento
-  //useEffect(() => {
-   // console.log('Escuchando actualizaciones de jugadores en sala');
-    // Escuchar las actualizaciones de updatePlayers
-    
-    socket.on("updatePlayers", (nicknames) => {
-      console.log('Estoy dentro de updatePlayers');
-      console.log(nicknames);
-      // localStorage.setItem('jugadores', JSON.stringify(nicknames));
-      setJugadores(nicknames);
-    });
-    console.log('He salido de updatePlayers');
-
-    /* Limpiar evento de escucha
-    return () => {
-      socket.off("updatePlayers");
-    }
-  }, [socket]);*/
-
-  /*
   useEffect(() => {
-    console.log('Escuchando actualizaciones de jugadores en sala');
-    // Escuchar las actualizaciones de updatePlayers
-    
-    socket.on("updatePlayers", (data) => {
-      console.log('Estoy dentro de updatePlayers');
-      console.log(data.nicknames);
-      // localStorage.setItem('jugadores', JSON.stringify(data.nicknames));
-      setJugadores(data.nicknames);
-    });
-    console.log('He salido de updatePlayers');
-
-    // Limpiar evento de escucha
-    return () => {
-      socket.off("updatePlayers");
+    console.log('Estamos en useEffect de sala');
+    const players = JSON.parse(localStorage.getItem('jugadores'));
+    if (players) {
+      //console.log(`Estamos en useEffect de sala dentro del if y jugadoresLocalStorage= ${players}`);
+      setJugadores(players);
     }
-  }, [socket]);
-  */
+  }, []);
 
   /***************************************************************************
    * FUNCION ELIMINAR SALA
@@ -123,17 +84,14 @@ function Sala() {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {
-        console.log(data.message);
-        setError(data.message);
         // ELiminar la base de datos de react
         localStorage.removeItem('idRoom');
         localStorage.removeItem('lider');
         localStorage.removeItem('nombreSala');
-        //navigation("/principal");
+        navigation("/principal");
       }
     });
   }
-
 
   /***************************************************************************
     * FUNCION IMAGENES LINK
@@ -202,7 +160,7 @@ function Sala() {
       {lider === 'true' && <button className='eliminarSala' onClick={EliminarSala}>Eliminar sala</button>}
       <div className="players-container">
         <div className="texto-participante">Participantes: {numPlayers}</div>
-        {lider !== 'true' && jugadores.map((player, index) => (
+        {players.map((player, index) => (
           <div key={index} className="player">{player}</div>
         ))}
       </div>

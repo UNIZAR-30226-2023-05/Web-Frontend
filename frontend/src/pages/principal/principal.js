@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import socket from '../../utils/socket.js';
 import io from 'socket.io-client';
 import './principal.css';
 import '../../components/RestoPantallas.css'
@@ -34,12 +35,6 @@ function Principal() {
   /***************************************************************************
    * FUNCIONES SOCKET
    ***************************************************************************/
-  //Puerto
-  const port = process.env.PORT || 3000;
-  const url = 'http://localhost:' + port;
-
-  const socket = io.connect(url, {auth:{token}});
-
   socket.on('connect', () => {
     console.log('Conectado al servidor de websockets');
   });
@@ -57,7 +52,7 @@ function Principal() {
         setError(data.message);
       } else {
         console.log('Estas en la funcion unirSalaSocket');
-        //localStorage.setItem('jugadores', JSON.stringify(data.players));
+        localStorage.setItem('jugadores', JSON.stringify(data.players));
         //console.log(JSON.stringify(data.players));
         //console.log(data.players);
         console.log(data);
