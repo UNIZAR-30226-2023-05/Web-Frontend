@@ -13,8 +13,28 @@ html {
 }
 
 .cont .botonAbandonar {
-    
+    color: white;
+    font-family: 'chivo', sans-serif;
+    background-color: #14bae0;
+    width: fit-content;
+    border-radius: 35px;
+    font-weight: 600;
+    font-size: 20px;
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left:20px;
+    padding-right:20px;
+    border-width: 3px;
+    border-style: solid;
+    margin-right: 1%;
 }
+
+.botonAbandonar:hover {
+    background-color: #1d9bb8;
+    color: #81BFCD;
+    border-color: #81BFCD;
+    cursor: pointer;
+  }
 
 .cont .barraTitulo {
     width: 100%;
@@ -33,7 +53,7 @@ html {
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
-    position: relative;
+    position: relative; 
 
     width: 60%;
 }
@@ -90,4 +110,20 @@ html {
 .fichaTam {
     width: 2%;
     height: auto;
+}
+
+.contenedor .dado {
+    position: relative;
+    color: white;
+    
+}
+
+.dadoTam  {
+    width: 10%;
+    height: auto;
+    
+}
+
+.dadoTam:hover {
+    cursor: pointer;
 }

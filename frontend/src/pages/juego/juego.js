@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './juego.css';
 import { Link, useLocation } from 'wouter';
+
+import socket from '../../utils/socket.js';
 import Modal from 'react-modal';
 import image1 from '../../assets/img/Skin_dorada.png'
 import image2 from '../../assets/img/Skin_rosa.png'
@@ -8,13 +10,30 @@ import image3 from '../../assets/img/Skin_verde.png'
 import image4 from '../../assets/img/Skin_azul.png'
 import image5 from '../../assets/img/Skin_roja.png'
 import image6 from '../../assets/img/Skin_negra.png'
+import dadoImg from '../../assets/img/dado.png'
 import calcularPosicion from '../../data/coordTablero';
+import { setErrorHandler } from 'ionicons/dist/types/stencil-public-runtime';
 Modal.setAppElement('#root'); // para asegurarnos de que react-modal funcione correctamente
 
 function Juego() {
 
-  const posIni = 62;
-  const [contador, setContador] = useState(posIni);
+  const posIni = 0;
+
+  /***************************************************************************
+   * FUNCIONES SOCKET
+   ***************************************************************************/
+  socket.on('connect', () => {
+    console.log('Conectado al servidor de websockets');
+  });
+  
+  socket.on('disconnect', (reason) => {
+    console.log(`Se ha perdido la conexión con el servidor de websockets: ${reason}`);
+  });
+      
+
+  /***************************************************************************
+   * POSICIONES INICIALES DE LAS FICHAS
+   ***************************************************************************/
 
   //Posicion inicial del jugador 1
   const [inicialT1, inicialL1] = calcularPosicion(1, posIni);
@@ -49,71 +68,106 @@ function Juego() {
   const [myLeft6, setMyLeft6] = useState(inicialL6);
 
 
-  const [idFicha1, setIdCasilla1] = useState(0);
-  
- 
-  
+  const [idFicha1, setIdFicha1] = useState(0); //lo que me llegue de backend ira a idFicha1
+  const [idFicha2, setIdFicha2] = useState(0);
+  const [idFicha3, setIdFicha3] = useState(0);
+  const [idFicha4, setIdFicha4] = useState(0);
+  const [idFicha5, setIdFicha5] = useState(0);
+  const [idFicha6, setIdFicha6] = useState(0);
 
-  const [idFicha2, setIdCasilla2] = useState(0);
-  const [idFicha3, setIdCasilla3] = useState(0);
-  const [idFicha4, setIdCasilla4] = useState(0);
-  const [idFicha5, setIdCasilla5] = useState(0);
-  const [idFicha6, setIdCasilla6] = useState(0);
+  //Inicialización de dado
+  const [dado, setDado] = useState(0);
 
-  
+  const [error, setError] = useState(null);
 
+
+  /***************************************************************************
+   * FUNCIÓN PARA TIRAR EL DADO
+   ***************************************************************************/
+  socket.on("tirarDados", {'nickname': nickname}, (data) => {
+    console.log("Estoy dentro de la funcion escuchar backend");
+    socket.on("tirarDados", {'nickname': nickname}, (data) => {
+      if (data.status !== 'ok') {
+        setError(data.message);
+      } else {
+        console.log('Estas en la funcion tirarDado');
+        
+        //Valor del dado
+        setDado(datos.valor);
+
+        //Hasta que no tire el dado no puede mover la animacion
+
+        //Posicion de la ficha
+        datos.nuevaCelda
+      }
+      
+    });
+     
+  });
+
+  //Funcion para hacer todo lo visual que tenga que ver con el dado
+  const tirarDados = () => {
+
+  }
   
-  
-  /*Funcion para mover las fichas*/
+  /***************************************************************************
+   * FUNCIÓN PARA MOVER LAS FICHAS
+   ***************************************************************************/
   /*Funcion para hacer la logica del juego: puentes, preguntas...*/
   /*Por defecto: Renderiza cuando se modifica el valor y cuando se renderiza por primera vez la pantalla*/
   useEffect(() => {
     //Si no es ninguna de las logicas
-    if (idFicha1 != 0) {
-      setContador(contador + 1);
-      console.log(contador);
-      const [nuevoTop1, nuevoLeft1] = calcularPosicion(1, contador);
-      console.log(nuevoTop1, nuevoLeft1)
-      setMyTop1(nuevoTop1);
-      setMyLeft1(nuevoLeft1);
-
-      //ficha 2
-      const [nuevoTop2, nuevoLeft2] = calcularPosicion(2, contador);
-      console.log(nuevoTop2, nuevoLeft2)
-      setMyTop2(nuevoTop2);
-      setMyLeft2(nuevoLeft2);
-
-      //ficha 3
-      const [nuevoTop3, nuevoLeft3] = calcularPosicion(3, contador);
-      console.log(nuevoTop3, nuevoLeft3)
-      setMyTop3(nuevoTop3);
-      setMyLeft3(nuevoLeft3);
-
-      //ficha 4
-      const [nuevoTop4, nuevoLeft4] = calcularPosicion(4, contador);
-      console.log(nuevoTop4, nuevoLeft4)
-      setMyTop4(nuevoTop4);
-      setMyLeft4(nuevoLeft4);
-
-      //ficha 5
-      const [nuevoTop5, nuevoLeft5] = calcularPosicion(5, contador);
-      console.log(nuevoTop5, nuevoLeft5)
-      setMyTop5(nuevoTop5);
-      setMyLeft5(nuevoLeft5);
-
-      //ficha 6
-      const [nuevoTop6, nuevoLeft6] = calcularPosicion(6, contador);
-      console.log(nuevoTop6, nuevoLeft6)
-      setMyTop6(nuevoTop6);
-      setMyLeft6(nuevoLeft6);
-
-
-      
-    }
-  /*  if (idFicha2 != 0) {
-      calcularPosicion(idFicha1, posicion)
-    }*/
+    const [nuevoTop1, nuevoLeft1] = calcularPosicion(1, idFicha1);
+    console.log(nuevoTop1, nuevoLeft1)
+    setMyTop1(nuevoTop1);
+    setMyLeft1(nuevoLeft1);
+    
   }, [idFicha1])
+
+  useEffect(() => {
+    //ficha 2
+    const [nuevoTop2, nuevoLeft2] = calcularPosicion(2, idFicha2);
+    console.log(nuevoTop2, nuevoLeft2)
+    setMyTop2(nuevoTop2);
+    setMyLeft2(nuevoLeft2);
+    
+  }, [idFicha2])
+
+  useEffect(() => {
+    
+    //ficha 3
+    const [nuevoTop3, nuevoLeft3] = calcularPosicion(3, idFicha3);
+    console.log(nuevoTop3, nuevoLeft3)
+    setMyTop3(nuevoTop3);
+    setMyLeft3(nuevoLeft3);
+  }, [idFicha3])
+
+  useEffect(() => {
+    //ficha 4
+    const [nuevoTop4, nuevoLeft4] = calcularPosicion(4, idFicha4);
+    console.log(nuevoTop4, nuevoLeft4)
+    setMyTop4(nuevoTop4);
+    setMyLeft4(nuevoLeft4);
+    
+  }, [idFicha4])
+
+  useEffect(() => {
+      //ficha 5
+    const [nuevoTop5, nuevoLeft5] = calcularPosicion(5, idFicha5);
+    console.log(nuevoTop5, nuevoLeft5)
+    setMyTop5(nuevoTop5);
+    setMyLeft5(nuevoLeft5);
+  }, [idFicha5])
+
+  useEffect(() => {
+    //ficha 6
+    const [nuevoTop6, nuevoLeft6] = calcularPosicion(6, idFicha6);
+    console.log(nuevoTop6, nuevoLeft6)
+    setMyTop6(nuevoTop6);
+    setMyLeft6(nuevoLeft6);
+    
+
+  }, [idFicha6])
 
 
     
@@ -123,7 +177,10 @@ function Juego() {
         JUEGO
       </header>
       <div className='cont'>
-        <button className='botonAbandonar' as={Link} to='/principal'>Abandonar la sala</button>
+        <Link to='/principal'>
+          <button className='botonAbandonar'>Abandonar</button>
+        </Link>
+       
         <div className='barraTitulo'></div>
       </div>
       
@@ -147,13 +204,22 @@ function Juego() {
             <div className='ficha6' style={ {top:`${myTop6}%`,left:`${myLeft6}%`}}>
               <img className='fichaTam' src={image6} />
             </div>
+            <div className='dado' style={ {top: "50%", left: "87%"}}>
+              <img className='dadoTam' src={dadoImg}  onClick={() => tirarDado()} />
+              <p style={{ position: "absolute", top:"90%", left: "5%"}}>{dado}</p>
+            
+            </div>
             
 
             
           </div>
           <div className='chat'>
-              <button onClick={() => setIdCasilla1(1)}>saltar1</button>
-              <button onClick={() => setIdCasilla1(2)}>saltar2</button>
+              <button onClick={() => setIdFicha1(/*valorBackend*/ (idFicha1 + 1) % 63)}>saltar1</button>
+              <button onClick={() => setIdFicha2(idFicha2+1)}>saltar2</button>
+              <button onClick={() => setIdFicha3(idFicha3+1)}>saltar3</button>
+              <button onClick={() => setIdFicha4(idFicha4+1)}>saltar4</button>
+              <button onClick={() => setIdFicha5(idFicha5 + 1)}>saltar5</button>
+              <button onClick={() => setIdFicha6(idFicha6+1)}>saltar6</button>
           </div>
       </div> 
     </>
