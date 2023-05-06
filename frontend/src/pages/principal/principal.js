@@ -21,8 +21,6 @@ function Principal() {
   const [numJugadores, setNumJugadores] = useState('');
   const [estiloJuego, setEstiloJuego] = useState('');
 
-  
-  const token = localStorage.getItem('token');
   const nickname = localStorage.getItem('nickname');
 
   // Modal unirse a sala
@@ -52,9 +50,9 @@ function Principal() {
         setError(data.message);
       } else {
         console.log('Estas en la funcion unirSalaSocket');
+        console.log(data.players);
         localStorage.setItem('jugadores', JSON.stringify(data.players));
-        //console.log(JSON.stringify(data.players));
-        //console.log(data.players);
+        localStorage.setItem('nombreSala', data.roomName);
         console.log(data);
         localStorage.setItem('idRoom', codigoSala);
         // Variable para controlar quien es el lider
@@ -83,6 +81,7 @@ function Principal() {
         localStorage.setItem('idRoom', data.id);
         // Variable para controlar quien es el lider
         localStorage.setItem('lider', true);
+        localStorage.setItem('liderNickname', nickname);
         navigation("/sala");
       }
     });

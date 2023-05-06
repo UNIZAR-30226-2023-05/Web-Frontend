@@ -8,10 +8,10 @@
 }
 
 .imagenes {
-    float: right;
+    position: absolute;
+    right: 0;
     margin-right: 2%;
-
-}
+ }
 
 img .a {
     margin-right: 4%;
@@ -84,6 +84,21 @@ img .a {
     right: 0;
 }
 
+.copiadoIcono2 {
+    right: 0;
+}
+
+.eliminarIcono {
+    
+    border: none;
+    font-size: 10%;
+    cursor: pointer;
+    position: absolute;
+    height: 30px;
+    left: 22.5%;
+    margin-top: -0.5%;
+}
+
 .comenzarPartida {
     position: absolute;
     right: 0;
@@ -127,7 +142,7 @@ img .a {
 }
 
 
-.eliminarPartida:hover {
+.eliminarSala:hover {
     background-color: #FA7171;
     color: red;
     border-color: #FFAAAA;
@@ -157,13 +172,14 @@ img .a {
 }
 
 .mensaje-error-salas {
-    color: #F64C4C;
-    font-size: 100%;
+    color: #FF8D8D;
+    font-size: 140%;
     font-weight: bold;
     position: absolute;
-    top: 25%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
+
 }
 
 .abandonarSala {
