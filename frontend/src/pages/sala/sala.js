@@ -96,7 +96,7 @@ function Sala() {
    ***************************************************************************/
   const SalirSala = () => {
 
-    console.log(`estoy en salirSala ${idRoom}`)
+    
 
     socket.emit("leaveTheRoom", idRoom, (data) => {
       if (data.status !== 'ok') {
@@ -117,7 +117,9 @@ function Sala() {
    ***************************************************************************/
   const EliminarUsuario = (nickname) => {
 
-    socket.emit("removePlayerFromRoom", idRoom, nickname, (data) => {
+    console.log(`estoy en EliminarUsuario ${nickname}`);
+
+    socket.emit("removePlayerFromRoom", idRoom, nickname.toString(), (data) => {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {

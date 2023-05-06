@@ -49,11 +49,8 @@ function Principal() {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {
-        console.log('Estas en la funcion unirSalaSocket');
-        console.log(data.players);
         localStorage.setItem('jugadores', JSON.stringify(data.players));
         localStorage.setItem('nombreSala', data.roomName);
-        console.log(data);
         localStorage.setItem('idRoom', codigoSala);
         // Variable para controlar quien es el lider
         localStorage.setItem('lider', false);
