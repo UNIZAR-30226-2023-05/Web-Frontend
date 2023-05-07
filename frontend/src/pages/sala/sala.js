@@ -23,6 +23,7 @@ function Sala() {
   // Controlar si el usuario es el lider o no
   const lider = localStorage.getItem('lider');
   const [players, setJugadores] = useState([]);
+  console.log(`los jugadores en sala son ${players}`);
   const numPlayers = players ? players.length : 0; // Numero de jugadores en la sala
 
   // Declaracion de variables
@@ -52,7 +53,6 @@ function Sala() {
     if (players) {
       //console.log(`Estamos en useEffect de sala dentro del if y jugadoresLocalStorage= ${players}`);
       setJugadores(players);
-      <button className='botonSalir' onClick={() => navigation('/principal')}>Salir de la sala</button>
     }
     clearInterval(interval);
   }, 2000);
@@ -68,6 +68,14 @@ function Sala() {
     localStorage.removeItem('nombreSala');
     clearInterval(nomInterval);
     navigation("/principal");
+  });
+  
+
+  socket.on("updatePlayers", (nicknames) => {
+    console.log('Estoy dentro de updatePlayers sala');
+    console.log(nicknames);
+    localStorage.setItem('jugadores', JSON.stringify(nicknames));
+    console.log(JSON.stringify(nicknames));
   });
 
   /***************************************************************************
@@ -96,8 +104,6 @@ function Sala() {
    ***************************************************************************/
   const SalirSala = () => {
 
-    
-
     socket.emit("leaveTheRoom", idRoom, (data) => {
       if (data.status !== 'ok') {
         setError(data.message);
@@ -115,20 +121,18 @@ function Sala() {
   /***************************************************************************
    * FUNCION ELIMINAR USUARIO SALA DECISION LIDER
    ***************************************************************************/
-  const EliminarUsuario = (nickname) => {
+  const EliminarUsuario = (nicknameDelete) => {
 
-    console.log(`estoy en EliminarUsuario ${nickname}`);
+    console.log(`estoy en EliminarUsuario ${nicknameDelete}`);
+    console.log(`estoy en EliminarUsuario ${idRoom}`);
 
-    socket.emit("removePlayerFromRoom", idRoom, nickname.toString(), (data) => {
+    socket.emit("removePlayerFromRoom", idRoom, { 'nickname': nicknameDelete }, (data) => {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {
-        // ELiminar la base de datos de react
-        localStorage.removeItem('idRoom');
-        localStorage.removeItem('lider');
-        localStorage.removeItem('nombreSala');
         clearInterval(nomInterval);
-        navigation("/principal");
+        // Resetear num jugadores
+        localStorage.setItem('jugadores', players);
       }
     });
   }
