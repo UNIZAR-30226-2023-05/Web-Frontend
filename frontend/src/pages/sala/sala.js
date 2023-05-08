@@ -23,7 +23,7 @@ function Sala() {
   // Controlar si el usuario es el lider o no
   const lider = localStorage.getItem('lider');
   const [players, setJugadores] = useState([]);
-  console.log(`los jugadores en sala son ${players}`);
+  //console.log(`los jugadores en sala son ${players}`);
   const numPlayers = players ? players.length : 0; // Numero de jugadores en la sala
 
   // Declaracion de variables
@@ -62,6 +62,7 @@ function Sala() {
    * FUNCION ELIMINAR SALA
    ***************************************************************************/
   socket.on("destroyingRoom", (idRoom) => {
+    console.log('Estoy dentro de destroyingRoom sala');
     localStorage.removeItem('idRoom');
     localStorage.removeItem('lider');
     localStorage.removeItem('players');
@@ -69,14 +70,28 @@ function Sala() {
     clearInterval(nomInterval);
     navigation("/principal");
   });
-  
 
+  
+  /***************************************************************************
+   * FUNCION ACTUALIZAR JUGADORES
+   ***************************************************************************/
   socket.on("updatePlayers", (nicknames) => {
-    console.log('Estoy dentro de updatePlayers sala');
-    console.log(nicknames);
+    //console.log('Estoy dentro de updatePlayers sala');
+    //console.log(nicknames);
     localStorage.setItem('jugadores', JSON.stringify(nicknames));
-    console.log(JSON.stringify(nicknames));
   });
+
+
+  /***************************************************************************
+   * FUNCION AVISAR JUGADOR ELIMINADO
+   ***************************************************************************/
+  socket.on("serverRoomMessage", (message) => {
+    if (message === 'Has sido eliminado de la sala') {
+      console.log("Mensaje del servidor:", message);
+      navigation("/principal");
+    }
+  });
+  
 
   /***************************************************************************
    * FUNCION ELIMINAR SALA
@@ -123,9 +138,6 @@ function Sala() {
    ***************************************************************************/
   const EliminarUsuario = (nicknameDelete) => {
 
-    console.log(`estoy en EliminarUsuario ${nicknameDelete}`);
-    console.log(`estoy en EliminarUsuario ${idRoom}`);
-
     socket.emit("removePlayerFromRoom", idRoom, { 'nickname': nicknameDelete }, (data) => {
       if (data.status !== 'ok') {
         setError(data.message);
@@ -157,7 +169,7 @@ function Sala() {
 
 
   /***************************************************************************
-   * FUNCION COPIAR ID
+   * FUNCION COPIAR IDROOM
    **************************************************************************/
   const copyToClipboard = () => {
     setIsCopying(true);
@@ -171,7 +183,7 @@ function Sala() {
         }, 2000);
       })
       .catch((err) => {
-        console.error('Error copying to clipboard:', err);
+        console.error('Error copiando el código', err);
         setIsCopying(false);
       });
   };
