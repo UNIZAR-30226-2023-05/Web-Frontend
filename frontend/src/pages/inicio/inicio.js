@@ -19,6 +19,8 @@ function Inicio() {
   const [contRep, setContRep] = useState('');
   const [error, setError] = useState(null);
 
+  
+
   // Variables destinadas al popup de logIn
   // Estado para controlar si el popup está abierto o cerrado
   const [logInmodalIsOpen, setlogInModalIsOpen] = useState(false); 
@@ -76,6 +78,8 @@ function Inicio() {
       let data = await Login(email,password);
       console.log(data.ok);
       if(data.ok){
+        // Guarda el token en el localStorage. Con get te lo devuelve
+        localStorage.setItem('token', data.token);
         navigation("/principal");
       }
       else{
@@ -166,4 +170,3 @@ function Inicio() {
 
 
 export default Inicio;
-
