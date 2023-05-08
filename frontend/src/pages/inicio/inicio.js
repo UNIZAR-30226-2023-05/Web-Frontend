@@ -21,7 +21,6 @@ function Inicio() {
   const [contRep, setContRep] = useState('');
   const [error, setError] = useState(null);
 
-  const token = localStorage.getItem('token');
   const nickname = localStorage.getItem('nickname');
   
 
@@ -44,13 +43,15 @@ function Inicio() {
   });
 
   /***************************************************************************
-   * FUNCION COSALANTROLAR LOG IN
+   * FUNCION ABRIR SESION LOG IN
    ***************************************************************************/
   const comprobarLogIn = () => {
     socket.emit("openSession", {'nickname': nickname}, (data) => {
       if (data.ok === false) {
         setError(data.message);
       } else {
+        // Guardar la contaseña en la base de datos de react
+        localStorage.setItem('contrasena', cont);
         navigation("/principal");
       }
     });
@@ -124,7 +125,7 @@ function Inicio() {
 
   // Funcion para cerrar el modal y poner el error a ""
   const closeModal = () => {
-    setlogInModalIsOpen(false);
+    setlogInModalIsUSUARIOOpen(false);
     setError('');
     setEmail('');
     setPassword('');

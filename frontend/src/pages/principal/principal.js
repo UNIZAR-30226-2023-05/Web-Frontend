@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import socket from '../../utils/socket.js';
-import io from 'socket.io-client';
 import './principal.css';
 import '../../components/RestoPantallas.css'
 import '../../components/PopupCrearSala.css'
@@ -105,7 +104,7 @@ function Principal() {
         <a href="/">
           <img src={tienda} alt="Tienda" />
         </a>
-        <a href="/">
+        <a href="/ajustes">
           <img src={ajustes} alt="Ajustes" />
         </a>
       </div>
@@ -113,7 +112,7 @@ function Principal() {
   }
 
   /***************************************************************************
-   * FUNCION CERRAR MODAL CREAR SALA Y UNIRSE A SALA
+   * FUNCION CERRAR MOmessage-square.svg'DAL CREAR SALA Y UNIRSE A SALA
    ***************************************************************************/
   const closeModalCrearSala = () => {
     setCrearModalIsOpen(false);

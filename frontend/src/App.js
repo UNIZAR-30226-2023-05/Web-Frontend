@@ -5,6 +5,7 @@ import { Route } from "wouter" //indica las rutas de la aplicacion
 import Inicio from './pages/inicio/inicio'; // /carpeta/fichero
 import Principal from './pages/principal/principal';
 import Sala from './pages/sala/sala';
+import Ajustes from './pages/ajustes/ajustes';
 
 
 //path por defecto /
@@ -26,6 +27,10 @@ function App() {
         <Route
           component={Sala}
           path="/sala"
+        />
+        <Route
+          component={Ajustes}
+          path="/ajustes"
         />
         
       </header>

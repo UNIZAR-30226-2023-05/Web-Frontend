@@ -21,7 +21,7 @@ function Sala() {
   let interval;
 
   // Controlar si el usuario es el lider o no
-  const lider = localStorage.getItem('lider');
+  const lider = localStorage.getItem('lider'); // booleano
   const [players, setJugadores] = useState([]);
   //console.log(`los jugadores en sala son ${players}`);
   const numPlayers = players ? players.length : 0; // Numero de jugadores en la sala
@@ -63,6 +63,7 @@ function Sala() {
    ***************************************************************************/
   socket.on("destroyingRoom", (idRoom) => {
     console.log('Estoy dentro de destroyingRoom sala');
+    // ELiminar la base de datos de react
     localStorage.removeItem('idRoom');
     localStorage.removeItem('lider');
     localStorage.removeItem('players');
@@ -157,9 +158,6 @@ function Sala() {
   function ImagenesLink() {
     return (
       <div className="imagenes">
-        <a href="/">
-          <img src={chat} alt="Chat" />
-        </a>
         <a href="/">
           <img src={help} alt="Ayuda" />
         </a>
