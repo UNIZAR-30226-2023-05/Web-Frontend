@@ -59,12 +59,17 @@ function Principal() {
     });
   }
 
+
+  /***************************************************************************
+   * FUNCION ACTUALIZAR JUGADORES
+   ***************************************************************************/
   socket.on("updatePlayers", (nicknames) => {
     console.log('Estoy dentro de updatePlayers principal');
     console.log(nicknames);
     localStorage.setItem('jugadores', JSON.stringify(nicknames));
     console.log(JSON.stringify(nicknames));
   });
+
 
    /***************************************************************************
    * FUNCION CREAR SALA
