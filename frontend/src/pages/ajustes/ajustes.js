@@ -22,8 +22,10 @@ function Ajustes() {
     const regla = /^[A-Za-z0-9!?]{8,16}$/;
 
     // Informacion del usuario
-    const nickname = localStorage.getItem('nickname');
-    const [email, setEmail] = useState('');
+    //const nickname = localStorage.getItem('nickname');
+    //const [email, setEmail] = useState('');
+    const [nickname, setNickname] = useState('');
+    const email = localStorage.getItem('email');
     const [monedas, setMonedas] = useState('');
     const [fotoPerfil, setFotoPerfil] = useState('');
     const contrasena = localStorage.getItem('contrasena');
@@ -63,7 +65,7 @@ function Ajustes() {
         } else {
             // ELiminar la base de datos de react
             localStorage.removeItem('nickname');
-            navigation("/inicio");
+            navigation("/");
         }
         });
     }
@@ -74,7 +76,7 @@ function Ajustes() {
      ***************************************************************************/
     const eliminarCuenta = async () => {
         // Coger id del usuario
-        let dataId = await GetID(nickname);
+        let dataId = await GetID(email);
         console.log(dataId);
 
         if (dataId.ok === true) {
@@ -100,18 +102,18 @@ function Ajustes() {
      **************************************************************************/
     // Función para obtener la información de la cuenta al entrar en la pantalla
     useEffect(() => {
-        //cogerInfoCuenta();
+        cogerInfoCuenta();
     }, []);
 
 
     /***************************************************************************
-     * FUNCION MODIFICAR DATOS CUENTA
+     * FUNCION COGER DATOS CUENTA
      **************************************************************************/
     const cogerInfoCuenta = async () => {
         // Coger id del usuario
-        console.log(nickname);
+        console.log(email);
 
-        let dataId = await GetID(nickname);
+        let dataId = await GetID(email);
         console.log(dataId);
 
         if (dataId.ok === true) {
@@ -121,7 +123,7 @@ function Ajustes() {
         
             if(data.ok === true){
                 // Se guardan los datos del usuario
-                setEmail(data.datos[0].email);
+                setNickname(data.datos[0].nickname);
                 setMonedas(data.datos[0].monedas);
                 setFotoPerfil(data.datos[0].profilephoto);
 
@@ -139,7 +141,7 @@ function Ajustes() {
     }
 
     /***************************************************************************
-     * FUNCION COMPROBAR CONTRASEÑA
+     * FUNCION COMPROBAR Y CAMBIAR CONTRASEÑA
      ***************************************************************************/
     const comprobarContrasena = async () => {
         // Comprobar que la contraseña cumple la regla
@@ -149,33 +151,28 @@ function Ajustes() {
         else if (!regla.test(contrasena)) {
             setError('a contraseña mínimo 8 caracteres. Debe contener mínimo una mayuscula, un número y un símbolo');
         } 
+        else if (newContrasena !== newContrasenaRep) {
+            setError('Las contraseñas no coinciden');            
+        }
         else {
-            // Comprobar que la contraseña es correcta
-            if (newContrasena !== newContrasenaRep) {
-                setError('Las contraseñas no coinciden');
-            } else {
-                // Llama funcion moficicar datos en backend
-                let dataId = await GetID(nickname);
-                // console.log(dataId);
-                if (dataId.ok === true) {
-                
-                    // Eliminar cuenta
-                    let data = await PutInfoContrasena(dataId.id_usuario, newContrasena);
-                
-                    if(data.ok === true){
-                        localStorage.setItem('contrasena', newContrasena);
-                    }
-                    else{
-                        setError(data.msg);
-                    }
+            // Llama funcion moficicar contraseña en backend
+            let dataId = await GetID(nickname);
+            // console.log(dataId);
+            if (dataId.ok === true) {
+            
+                let data = await PutInfoContrasena(dataId.id_usuario, newContrasena);
+            
+                if(data.ok === true){
+                    localStorage.setItem('contrasena', newContrasena);
                 }
                 else{
-                    setError(dataId.msg);
+                    setError(data.msg);
                 }
-            
+            }
+            else{
+                setError(dataId.msg);
             }
         }
-
     }
 
 
@@ -249,6 +246,8 @@ function Ajustes() {
                 </div>
             </div>
 
+            {error && <p className="errorAjustes">{error}</p>}
+
             <Modal className="popup" isOpen={eliminarModalIsOpen} onRequestClose={() => setEliminarModalIsOpen(false)}>
             <div className="popup-ajustes">
                 <div className="tituloAjustes">ELIMINAR CUENTA</div>
@@ -268,6 +267,7 @@ function Ajustes() {
         </div>
     
     );
+
 }
 
 export default Ajustes;
