@@ -23,8 +23,7 @@ function Inicio() {
   const [contRep, setContRep] = useState('');
   const [error, setError] = useState(null);
 
-  const nickname = localStorage.getItem('nickname');
-  
+  //const [nickname, setNickname] = useState('');
 
   // Variables destinadas al popup de logIn
   // Estado para controlar si el popup está abierto o cerrado
@@ -47,13 +46,14 @@ function Inicio() {
   /***************************************************************************
    * FUNCION ABRIR SESION LOG IN
    ***************************************************************************/
-  const comprobarLogIn = () => {
+  const comprobarLogIn = (nickname) => {
     socket.emit("openSession", {'nickname': nickname}, (data) => {
       if (data.ok === false) {
         setError(data.message);
       } else {
         // Guardar la contaseña en la base de datos de react
         localStorage.setItem('contrasena', cont);
+        localStorage.setItem('email', email);
         navigation("/principal");
       }
     });
@@ -80,8 +80,7 @@ function Inicio() {
     else{
       let data =  await SignUp(name, mail, cont);
       console.log(data.ok);
-      if(data.ok === true){
-        //localStorage.setItem('nickname', data.datos[0].nicknamename);   
+      if(data.ok === true){ 
         closeModalSign();
         setlogInModalIsOpen(true);
         setError('');
@@ -113,12 +112,12 @@ function Inicio() {
     }
     else{
       let data = await Login(email, password);
-      console.log(data.ok);
       if(data.ok === true){
         // Guarda el token en el localStorage. Con get te lo devuelve
         localStorage.setItem('token', data.token);
-        cogerNickname();
-        comprobarLogIn();
+        // Para esperar a que termine
+        let nickname = await cogerNickname();
+        comprobarLogIn(nickname);
       }
       else{
         setError(data.msg);
@@ -133,8 +132,7 @@ function Inicio() {
     // Coger id del usuario
   
     let dataID = await GetID(email);
-    console.log(dataID);
-    console.log(dataID.ok);
+    //console.log(dataID);
 
     if (dataID.ok === true) {
         console.log('He entrado en el if')
@@ -144,8 +142,10 @@ function Inicio() {
     
         if(data.ok === true){
             // Se guardan los datos del usuario
-            console.log(data.datos[0].nickname);
-            localStorage.setItem('nickname', data.datos[0].nickname);   
+            //console.log(data.datos[0].nickname);
+            localStorage.setItem('nickname', data.datos[0].nickname); 
+            //setNickname(data.datos[0].nickname);
+            return data.datos[0].nickname;
         }
         else{
             setError(data.msg);
@@ -154,7 +154,8 @@ function Inicio() {
     else{
       setError(dataID.msg);
     }
-}
+    return null;
+  }
 
   // Funcion para cerrar el modal y poner el error a ""
   const closeModal = () => {
