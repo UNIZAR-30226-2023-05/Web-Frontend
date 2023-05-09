@@ -52,7 +52,8 @@ function Inicio() {
         setError(data.message);
       } else {
         // Guardar la contaseña en la base de datos de react
-        localStorage.setItem('contrasena', cont);
+        localStorage.setItem('contrasena', password);
+        console.log(`La contrasena del usuario es ${password}`);
         localStorage.setItem('email', email);
         navigation("/principal");
       }

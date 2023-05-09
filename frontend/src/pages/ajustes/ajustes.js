@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import socket from '../../utils/socket.js';
 import './ajustes.css';
-import '../../components/RestoPantallas.css'
-import '../../components/PopupAjustes.css'
-import home from '../../assets/feather/home.svg'
+import '../../components/RestoPantallas.css';
+import '../../components/PopupAjustes.css';
+import '../../components/PopupAjustesImagen.css';
+import home from '../../assets/feather/home.svg';
 import Modal from 'react-modal';
 import DeleteUser  from '../../services/deleteUser_log.js';
 import GetID from '../../services/getID_log.js';
@@ -12,6 +13,16 @@ import PutInfoContrasena from '../../services/putInfoContrasena_log.js';
 import GetInfo from '../../services/getInfo_log.js';
 import PutInfoNickname from '../../services/putInfoNickname_log.js';
 import PutInfoFotoPerfil from '../../services/putInfoFotoPerfil_log.js';
+
+// Import de las imagenes
+import fotoSinUsuario from '../../assets/img/imagenSinUsuario.jpg';
+import img1 from '../../assets/ocas/oca1.png';
+import img2 from '../../assets/ocas/oca2.png';
+import img3 from '../../assets/ocas/oca3.png';
+import img4 from '../../assets/ocas/oca4.png';
+import img5 from '../../assets/ocas/oca5.png';
+import img6 from '../../assets/ocas/oca6.png';
+
 
 function Ajustes() {
 
@@ -30,7 +41,12 @@ function Ajustes() {
     const [fotoPerfil, setFotoPerfil] = useState('');
     const contrasena = localStorage.getItem('contrasena');
 
+    // Comprobacion de la contraseña y el nickname
+    console.log(`El nickname es ${nickname}`);
+    console.log(`La contraseña es ${contrasena}`);
+
     // Informacion modificada
+    const [newNickname, setNewNickname] = useState('');
     const [newContrasena, setNewContrasena] = useState('');
     const [newContrasenaRep, setNewContrasenaRep] = useState('');
 
@@ -38,10 +54,15 @@ function Ajustes() {
     const [eliminarModalIsOpen, setEliminarModalIsOpen] = useState(false);
     const [codigoSala, setCodigoSala] = useState('');
 
-    const [okInfo, setOkInfo] = useState(false);
-
     const [error, setError] = useState(null);
     const [path,navigation] = useLocation();
+
+    // Modal imagenes
+    const [imagenesModalIsOpen, setImagenesModalIsOpen] = useState(false); 
+    // Seleccionar la imagen
+    const [selectedImage, setSelectedImage] = useState(''); 
+    console.log(`selectedImage: ${selectedImage}`);
+    const images = [img1, img2, img3, img4, img5, img6];
 
     /***************************************************************************
      * FUNCIONES SOCKET
@@ -86,7 +107,7 @@ function Ajustes() {
         
             if(data.ok === true){
                 // Cerrar la sesion del usuario al eliminar la cuenta
-                cerrarSesion();
+                navigation("/");
             }
             else{
                 setError(data.msg);
@@ -126,9 +147,6 @@ function Ajustes() {
                 setNickname(data.datos[0].nickname);
                 setMonedas(data.datos[0].monedas);
                 setFotoPerfil(data.datos[0].profilephoto);
-
-                // Los datos ya han sido recogidos
-                setOkInfo(true);
                 
             }
             else{
@@ -145,20 +163,21 @@ function Ajustes() {
      ***************************************************************************/
     const comprobarContrasena = async () => {
         // Comprobar que la contraseña cumple la regla
-        if (contrasena === newContrasena) {
-            setError('La contraseña es la misma que la anterior');
+        if (newContrasena === "" || newContrasenaRep === "") {
+            setError('Contraseña y confirmar contraseña deben estar rellenos');
         }
-        else if (!regla.test(contrasena)) {
-            setError('a contraseña mínimo 8 caracteres. Debe contener mínimo una mayuscula, un número y un símbolo');
+        else if (!regla.test(newContrasena)) {
+            setError('La contraseña mínimo 8 caracteres. Debe contener mínimo una mayuscula, un número y un símbolo');
         } 
         else if (newContrasena !== newContrasenaRep) {
             setError('Las contraseñas no coinciden');            
         }
         else {
             // Llama funcion moficicar contraseña en backend
-            let dataId = await GetID(nickname);
+            let dataId = await GetID(email);
             // console.log(dataId);
             if (dataId.ok === true) {
+                console.log(`Estoy en comprbarContrasena y el id es ${dataId.id_usuario}`);
             
                 let data = await PutInfoContrasena(dataId.id_usuario, newContrasena);
             
@@ -177,22 +196,65 @@ function Ajustes() {
 
 
     /***************************************************************************
-     * FUNCION UNIR SALA
-     ***************************************************************************
-    const unirSalaSocket = () => {
-        socket.emit("joinRoom", codigoSala, {'nickname': nickname}, (data) => {
-            if (data.status !== 'ok') {
-            setError(data.message);
-            } else {
-            localStorage.setItem('jugadores', JSON.stringify(data.players));
-            localStorage.setItem('nombreSala', data.roomName);
-            localStorage.setItem('idRoom', codigoSala);
-            // Variable para controlar quien es el lider
-            localStorage.setItem('lider', false);
-            navigation("/sala");
+     * FUNCION COMPROBAR Y CAMBIAR CONTRASEÑA
+     ***************************************************************************/
+    const comprobarNickname = async () => {
+        // Comprobar que la contraseña cumple la regla
+        if (newNickname === "") {
+            setError('Nickname debe estar relleno');
+        }
+        else {
+            // Llama funcion moficicar contraseña en backend
+            let dataId = await GetID(email);
+            // console.log(dataId);
+            if (dataId.ok === true) {
+            
+                let data = await PutInfoNickname(dataId.id_usuario, newNickname);
+            
+                if(data.ok === true){
+                    localStorage.setItem('nickname', newNickname);
+                }
+                else{
+                    setError(data.msg);
+                }
             }
-        });
-    }*/
+            else{
+                setError(dataId.msg);
+            }
+        }
+    }
+
+    /***************************************************************************
+     * FUNCION CAMBIOS EN LA CUENTA
+     ***************************************************************************/
+    const cambiosCuenta = async () => {
+        console.log(`Nickname: ${nickname}, newNickname: ${newNickname}, newContrasena: ${newContrasena}, newContrasenaRep: ${newContrasenaRep}`);
+        if (nickname !== newNickname && newNickname !== "") {
+            // Llama funcion moficicar nickname en backend
+            console.log("Se va a cambiar el nickname");
+            comprobarNickname()
+        }else if (nickname === newNickname && newNickname !== ""){
+            setError('El nickname es el mismo que el anterior');
+        }
+
+        if (contrasena !== newContrasena && newContrasena !== "") {
+            // Llama funcion moficicar contraseña en backend
+            console.log("Se va a cambiar la contraseña");
+            comprobarContrasena();
+        }else if (contrasena === newContrasena && newContrasena !== ""){
+            setError('La contraseña es la misma que la anterior');
+        }
+    }
+
+    /***************************************************************************
+     * FUNCION CANCELAR CAMBIOS
+     ***************************************************************************/
+    const cancelarCambios = () => {
+        setNickname(nickname);
+        setNewNickname("");
+        setNewContrasena("");
+        setNewContrasenaRep("");
+    }
 
 
     /***************************************************************************
@@ -213,6 +275,7 @@ function Ajustes() {
      ***************************************************************************/
     const closeModal = () => {
         setEliminarModalIsOpen(false);
+        setImagenesModalIsOpen(false);
     };
 
 
@@ -228,16 +291,20 @@ function Ajustes() {
             </div>
 
             <div className='contenedorInfo'>
+            <div className='info'>E-mail</div>
+                    <div className='barraEscribirAjustesEmail'>{email}</div>
                 <div className='info'>Nickname</div>
-                    <div className='info'>{nickname}</div>
-                <div className='info'>E-mail</div>
-                    <div className='info'>{email}</div>
-
+                    <input className="barraEscribirAjustes" type="text" value={newNickname || nickname} onChange={(e) => setNewNickname(e.target.value)}/>
+                <div className='info'>Contraseña</div>
+                    <input className="barraEscribirAjustes" type="password" placeholder="Contraseña" value={newContrasena} onChange={(e) => setNewContrasena(e.target.value)}/>
+                <div className='info'>Confirmar contraseña</div>
+                    <input className="barraEscribirAjustes" type="password" placeholder="Confirmar contraseña" value={newContrasenaRep} onChange={(e) => setNewContrasenaRep(e.target.value)}/>
             </div>
+
             <div className='contenedorBotonesTodos'>
                 <div className='contenedorBotones'>
-                    <button className='botonConfirmarCancelar' onClick={cerrarSesion}>Confirmar</button>
-                    <button className='botonConfirmarCancelar' >Cancelar</button>
+                    <button className='botonConfirmarCancelar' onClick={cambiosCuenta}>Confirmar</button>
+                    <button className='botonConfirmarCancelar' onClick={cancelarCambios}>Cancelar</button>
                 </div>
 
                 <div className='contenedorBotonesPeligro'>
@@ -247,6 +314,11 @@ function Ajustes() {
             </div>
 
             {error && <p className="errorAjustes">{error}</p>}
+
+            <div className='contenedorImagen'>
+                <img className='imagenAjustes' src={fotoSinUsuario} alt="Foto sin usuario" />
+                <button className='botonAjustes' onClick={() => setImagenesModalIsOpen(true)}>Cambiar foto</button>
+            </div>
 
             <Modal className="popup" isOpen={eliminarModalIsOpen} onRequestClose={() => setEliminarModalIsOpen(false)}>
             <div className="popup-ajustes">
@@ -260,6 +332,30 @@ function Ajustes() {
                 {error && <p className="error-messageAjustes">{error}</p>}
                 
                 <button className='elButtonAjustes' onClick={eliminarCuenta}>Eliminar cuenta</button>
+                
+            </div>
+            </Modal>
+
+            <Modal className="popup" isOpen={imagenesModalIsOpen} onRequestClose={() => setImagenesModalIsOpen(false)}>
+            <div className="popup-imagen">
+                <div className="tituloImagen">CAMBIAR DE FOTO DE PERFIL</div>
+
+                <div className="image-container">
+                    {images.map((image, index) => (
+                    <img
+                        key={index}
+                        src={image}
+                        alt={`Oca ${index + 1}`}
+                        className={selectedImage === image ? 'selected' : ''}
+                        onClick={() => setSelectedImage(image)}
+                    />
+                    ))}
+                </div>
+               
+                <button className='closeButtonImagen' onClick={() => closeModal()}>X</button>
+                {error && <p className="error-messageImagen">{error}</p>}
+                
+                <button className='elButtonImagen' onClick={eliminarCuenta}>Confirmar imagen</button>
                 
             </div>
             </Modal>

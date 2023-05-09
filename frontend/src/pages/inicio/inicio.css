@@ -1,12 +1,17 @@
-html{
-  background-image: url('../../assets/img/foto_fondo.PNG');
-  background-size: cover;
+body {
+  background-image: url('../../assets/img/fondo.jpg');
+  background-size: 100%;
   background-color: #1C6473;
   background-repeat: no-repeat;
   background-position: center center;
-}
+  }
 
   .Inicio {
+    background-image: url('../../assets/img/foto_fondo.PNG');
+    background-size: 100%;
+    background-color: #1C6473;
+    background-repeat: no-repeat;
+    background-position: center center;
     z-index: 2; 
     display: flex;
     flex-direction: column;
