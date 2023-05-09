@@ -8,6 +8,8 @@ import { Link, useLocation } from 'wouter';
 import Modal from 'react-modal';
 import Login from '../../services/login_log';
 import SignUp  from '../../services/signup_log.js';
+import GetID from '../../services/getID_log.js';
+import GetInfo from '../../services/getInfo_log.js';
 
 Modal.setAppElement('#root'); // para asegurarnos de que react-modal funcione correctamente
 
@@ -79,7 +81,7 @@ function Inicio() {
       let data =  await SignUp(name, mail, cont);
       console.log(data.ok);
       if(data.ok === true){
-        localStorage.setItem('nickname', name);
+        //localStorage.setItem('nickname', data.datos[0].nicknamename);   
         closeModalSign();
         setlogInModalIsOpen(true);
         setError('');
@@ -115,6 +117,7 @@ function Inicio() {
       if(data.ok === true){
         // Guarda el token en el localStorage. Con get te lo devuelve
         localStorage.setItem('token', data.token);
+        cogerNickname();
         comprobarLogIn();
       }
       else{
@@ -123,9 +126,39 @@ function Inicio() {
     }
   };
 
+  /***************************************************************************
+   * FUNCION COGER NICKNAME
+   ****************************************************************************/
+  const cogerNickname = async () => {
+    // Coger id del usuario
+  
+    let dataID = await GetID(email);
+    console.log(dataID);
+    console.log(dataID.ok);
+
+    if (dataID.ok === true) {
+        console.log('He entrado en el if')
+        console.log(dataID.id_usuario);
+        // Eliminar cuenta
+        let data = await GetInfo(dataID.id_usuario);
+    
+        if(data.ok === true){
+            // Se guardan los datos del usuario
+            console.log(data.datos[0].nickname);
+            localStorage.setItem('nickname', data.datos[0].nickname);   
+        }
+        else{
+            setError(data.msg);
+        }
+    }
+    else{
+      setError(dataID.msg);
+    }
+}
+
   // Funcion para cerrar el modal y poner el error a ""
   const closeModal = () => {
-    setlogInModalIsUSUARIOOpen(false);
+    setlogInModalIsOpen(false);
     setError('');
     setEmail('');
     setPassword('');
@@ -145,7 +178,7 @@ function Inicio() {
   return (
     <>
     <div className="Inicio">
-      <button className="buttonCrear" onClick={() => setModalIsOpen(true)} >
+      <button className="buttonCrear" onClick={() => {localStorage.clear(); setModalIsOpen(true);}} >
         Crear cuenta
       </button>
       <Modal className="popup" isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>

@@ -3,10 +3,15 @@ import { Link, useLocation } from 'wouter';
 import socket from '../../utils/socket.js';
 import './ajustes.css';
 import '../../components/RestoPantallas.css'
+import '../../components/PopupAjustes.css'
 import home from '../../assets/feather/home.svg'
 import Modal from 'react-modal';
 import DeleteUser  from '../../services/deleteUser_log.js';
 import GetID from '../../services/getID_log.js';
+import PutInfoContrasena from '../../services/putInfoContrasena_log.js';
+import GetInfo from '../../services/getInfo_log.js';
+import PutInfoNickname from '../../services/putInfoNickname_log.js';
+import PutInfoFotoPerfil from '../../services/putInfoFotoPerfil_log.js';
 
 function Ajustes() {
 
@@ -90,12 +95,22 @@ function Ajustes() {
         }
     }
 
+    /***************************************************************************
+     * FUNCIONES COGER INFORMACION NADA MAS RENDERIZAR
+     **************************************************************************/
+    // Función para obtener la información de la cuenta al entrar en la pantalla
+    useEffect(() => {
+        //cogerInfoCuenta();
+    }, []);
+
 
     /***************************************************************************
      * FUNCION MODIFICAR DATOS CUENTA
      **************************************************************************/
     const cogerInfoCuenta = async () => {
         // Coger id del usuario
+        console.log(nickname);
+
         let dataId = await GetID(nickname);
         console.log(dataId);
 
@@ -106,9 +121,9 @@ function Ajustes() {
         
             if(data.ok === true){
                 // Se guardan los datos del usuario
-                setEmail(data.email);
-                setMonedas(data.monedas);
-                setFotoPerfil(data.profilephoto);
+                setEmail(data.datos[0].email);
+                setMonedas(data.datos[0].monedas);
+                setFotoPerfil(data.datos[0].profilephoto);
 
                 // Los datos ya han sido recogidos
                 setOkInfo(true);
@@ -126,7 +141,7 @@ function Ajustes() {
     /***************************************************************************
      * FUNCION COMPROBAR CONTRASEÑA
      ***************************************************************************/
-    const comprobarContrasena = () => {
+    const comprobarContrasena = async () => {
         // Comprobar que la contraseña cumple la regla
         if (contrasena === newContrasena) {
             setError('La contraseña es la misma que la anterior');
@@ -140,6 +155,23 @@ function Ajustes() {
                 setError('Las contraseñas no coinciden');
             } else {
                 // Llama funcion moficicar datos en backend
+                let dataId = await GetID(nickname);
+                // console.log(dataId);
+                if (dataId.ok === true) {
+                
+                    // Eliminar cuenta
+                    let data = await PutInfoContrasena(dataId.id_usuario, newContrasena);
+                
+                    if(data.ok === true){
+                        localStorage.setItem('contrasena', newContrasena);
+                    }
+                    else{
+                        setError(data.msg);
+                    }
+                }
+                else{
+                    setError(dataId.msg);
+                }
             
             }
         }
@@ -172,17 +204,22 @@ function Ajustes() {
     function ImagenesLink() {
         return (
         <div className="imagenes">
-            <a href="/">
+            <a href="/principal">
             <img src={home} alt="Home" />
             </a>
         </div>
         );
     }
 
+    /***************************************************************************
+     * FUNCION CERRAR MODAL
+     ***************************************************************************/
+    const closeModal = () => {
+        setEliminarModalIsOpen(false);
+    };
+
 
     return (
-        <>
-        {okInfo !== true && cogerInfoCuenta}
 
         <div className="Ajustes">
             <header className="header">
@@ -200,29 +237,35 @@ function Ajustes() {
                     <div className='info'>{email}</div>
 
             </div>
+            <div className='contenedorBotonesTodos'>
+                <div className='contenedorBotones'>
+                    <button className='botonConfirmarCancelar' onClick={cerrarSesion}>Confirmar</button>
+                    <button className='botonConfirmarCancelar' >Cancelar</button>
+                </div>
 
-            <button className='botonConfirmarCancelar' onClick={cerrarSesion}>Confirmar</button>
-            <button className='botonConfirmarCancelar' >Cancelar</button>
-            <button className='botonPeligro' onClick={cerrarSesion}>Cerrar sesión</button>
-            <button className='botonPeligro' onClick={() => setEliminarModalIsOpen(true)}>ELiminar cuenta</button>
-        
+                <div className='contenedorBotonesPeligro'>
+                    <button className='botonPeligro' onClick={cerrarSesion}>Cerrar sesión</button>
+                    <button className='botonPeligro' onClick={() => setEliminarModalIsOpen(true)}>Eliminar cuenta</button>
+                </div>
+            </div>
 
             <Modal className="popup" isOpen={eliminarModalIsOpen} onRequestClose={() => setEliminarModalIsOpen(false)}>
             <div className="popup-ajustes">
-                <div className="titulo">ELIMINAR CUENTA</div>
-                <div className="texto">
+                <div className="tituloAjustes">ELIMINAR CUENTA</div>
+                <div className="textoAjustes">
                     <p>¿Desea eliminar su cuenta?</p>
-                    <p>Esta a punto de eliminar su cuanta de forma</p>
-                    <p>permanente.</p>
+                    <p>Estás a punto de eliminar tu cuenta de forma permanente.</p>
                 </div>
+
+                <button className='closeButtonAjustes' onClick={() => closeModal()}>X</button>
+                {error && <p className="error-messageAjustes">{error}</p>}
                 
-                <button className='elButtonAjustes' onClick={eliminarCuenta}>ELiminar cuenta</button>
+                <button className='elButtonAjustes' onClick={eliminarCuenta}>Eliminar cuenta</button>
                 
             </div>
             </Modal>
 
         </div>
-        </>
     
     );
 }

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import socket from '../../utils/socket.js';
 import './sala.css';
 import '../../components/SalaJuego.css'
-import chat from '../../assets/feather/message-square.svg'
 import help from '../../assets/feather/help-circle.svg'
 import check from '../../assets/feather/check.svg'
 import copy from '../../assets/feather/copy.svg'

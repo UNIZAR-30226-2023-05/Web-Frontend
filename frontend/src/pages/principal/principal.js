@@ -21,6 +21,7 @@ function Principal() {
   const [estiloJuego, setEstiloJuego] = useState('');
 
   const nickname = localStorage.getItem('nickname');
+  console.log(nickname);
 
   // Modal unirse a sala
   const [unirseModalIsOpen, setUnirseModalIsOpen] = useState(false);

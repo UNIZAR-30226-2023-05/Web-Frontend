@@ -3,7 +3,7 @@ async function DeleteUser(id_usuario) {
         "Content-Type": "application/json"
     }
     
-    let response = await fetch("localhost:3000/users/register/${id_usuario}", { 
+    let response = await fetch(`http://localhost:3000/users/register/${id_usuario}`, { 
         method: "DELETE",
         headers: headersList
     });

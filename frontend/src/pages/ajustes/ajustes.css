@@ -7,6 +7,81 @@
     background-position: center center;
 }
 
+.imagenes {
+    position: absolute;
+    right: 0;
+    margin-right: 2%;
+}
+
+img .a {
+    margin-right: 4%;
+}
+
+
 .contenedorInfo .info {
     font-size: 130%;
 }
+
+.contenedorBotonesTodos {
+    position: absolute;
+    right: 0;
+    top: 40%;
+    right: 8%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contenedorBotones {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;transform: translateY(-50%);transform: translateY(-50%);
+}
+
+.contenedorBotonesPeligro {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.botonConfirmarCancelar {
+    display: block;
+    color: white;
+    font-family: 'Chivo', sans-serif;
+    border-radius: 35px;
+    font-size: 130%;
+    background-color: #24AECD;
+    border-style: solid;
+    height: 50px;
+    width: 100%;
+    border: 4px solid white;
+}
+
+.botonConfirmarCancelar:hover {
+    background-color: #1d9bb8;
+    color: #81BFCD;
+    border-color: #81BFCD;
+    cursor: pointer;
+}
+
+.botonPeligro {
+    display: block;
+    color: white;
+    font-family: 'Chivo', sans-serif;
+    border-radius: 35px;
+    font-size: 130%;
+    background-color: #F64C4C;
+    border-style: solid;
+    height: 50px;
+    width: 120%;
+    border: 4px solid white;
+}
+
+.botonPeligro:hover {
+    background-color: #FF6262;
+    color: #FAABAB;
+    border-color: #FF8181;
+    cursor: pointer;
+}
+
+
