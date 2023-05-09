@@ -8,7 +8,7 @@ async function PutInfoContrasena(id_usuario, contrasena) {
         "password": contrasena,
       });
     
-    let response = await fetch("http://localhost:3000/users/register", { 
+    let response = await fetch("http://localhost:4000/users/register", { 
         method: "PUT",
         body: bodyContent,
         headers: headersList

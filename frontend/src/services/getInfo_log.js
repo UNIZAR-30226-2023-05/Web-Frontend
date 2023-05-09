@@ -3,7 +3,7 @@ async function GetInfo(id_usuario) {
         "Content-Type": "application/json"
     }
 
-    let response = await fetch(`http://localhost:3000/users/${id_usuario}`, { 
+    let response = await fetch(`http://localhost:4000/users/${id_usuario}`, { 
         method: "GET",
         headers: headersList
     });

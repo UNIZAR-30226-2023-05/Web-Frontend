@@ -8,7 +8,7 @@ async function PutInfoNickname(id_usuario, nickname) {
         "nickname": nickname,
       });
     
-    let response = await fetch("http://localhost:3000/users/register", { 
+    let response = await fetch("http://localhost:4000/users/register", { 
         method: "PUT",
         body: bodyContent,
         headers: headersList

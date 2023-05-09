@@ -8,7 +8,7 @@ async function PutInfoFotoPerfil(id_usuario, fotoPerfil) {
         "profilephoto": fotoPerfil,
       });
     
-    let response = await fetch("http://localhost:3000/users/register", { 
+    let response = await fetch("http://localhost:4000/users/register", { 
         method: "PUT",
         body: bodyContent,
         headers: headersList
