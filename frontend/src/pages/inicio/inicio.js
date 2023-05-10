@@ -188,7 +188,6 @@ function Inicio() {
           <button className="closeButton" onClick={() => closeModalSign()}>X</button>
           <div className="titulo">REGÍSTRATE</div>
           <div className="texto">
-            <p>Añade una foto:</p>
             <p>Nombre de usuario *</p>
             <input className="barraEscribirSign" type="text" placeholder="Nombre de usuario" value={name} onChange={(e) => setName(e.target.value)}/>
             <p>E-mail *</p>
