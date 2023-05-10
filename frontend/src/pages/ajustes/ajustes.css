@@ -168,36 +168,19 @@ img .a {
     cursor: pointer;
 }
 
-/* Imagenes 
-.contenedorImagen {
-    position: flex;
-    justify-content: left;
-    width: 15%;
-    right: 0;
-    margin-left: 77%;
+
+.opcionesDespegable {
+    position: absolute;
+    font-size: 100%;
+    left: 0;
+    top: 0;
     margin-top: 12%;
-    right: 8%;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    
+    font-family: "Trocchi", sans-serif;
+    width: 20%;
+    color: #1C6473;
+    background-color: whitesmoke;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 0 15px 15px 0 ;
 }
-
-.contenedorImagen .imagenAjustes {
-    position: absolute;
-    right: 0;
-    margin-right: 28%;
-    top: 30%;
-    width: 15%;
-    height: auto;
-}
-
-.contenedorImagen .botonAjustes {
-    position: absolute;
-    right: 0;
-    margin-right: 28%;
-    top: 30%;
-    width: 15%;
-    height: auto;
-}*/
 

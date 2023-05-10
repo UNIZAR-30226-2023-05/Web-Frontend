@@ -15,7 +15,6 @@ import PutInfoNickname from '../../services/putInfoNickname_log.js';
 import PutInfoFotoPerfil from '../../services/putInfoFotoPerfil_log.js';
 
 // Import de las imagenes
-import fotoSinUsuario from '../../assets/img/imagenSinUsuario.jpg';
 import img1 from '../../assets/ocas/oca1.png';
 import img2 from '../../assets/ocas/oca2.png';
 import img3 from '../../assets/ocas/oca3.png';
@@ -39,6 +38,7 @@ function Ajustes() {
     const email = localStorage.getItem('email');
     const [monedas, setMonedas] = useState('');
     const [fotoPerfil, setFotoPerfil] = useState('');
+    console.log(`La foto de perfil es ${fotoPerfil}`);
     const contrasena = localStorage.getItem('contrasena');
 
     // Comprobacion de la contraseña y el nickname
@@ -60,9 +60,13 @@ function Ajustes() {
     // Modal imagenes
     const [imagenesModalIsOpen, setImagenesModalIsOpen] = useState(false); 
     // Seleccionar la imagen
-    const [selectedImage, setSelectedImage] = useState(''); 
-    console.log(`selectedImage: ${selectedImage}`);
+    const [newFotoPerfil, setSelectedImage] = useState(''); 
+    console.log(`newFotoPerfil: ${newFotoPerfil}`);
     const images = [img1, img2, img3, img4, img5, img6];
+
+    // Desplegable barra lateral
+    const [menuDesplegado, setMenuDesplegado] = useState(false);
+
 
     /***************************************************************************
      * FUNCIONES SOCKET
@@ -145,6 +149,7 @@ function Ajustes() {
             if(data.ok === true){
                 // Se guardan los datos del usuario
                 setNickname(data.datos[0].nickname);
+                setNewNickname(data.datos[0].nickname);
                 setMonedas(data.datos[0].monedas);
                 setFotoPerfil(data.datos[0].profilephoto);
                 
@@ -199,7 +204,7 @@ function Ajustes() {
      * FUNCION COMPROBAR Y CAMBIAR CONTRASEÑA
      ***************************************************************************/
     const comprobarNickname = async () => {
-        // Comprobar que la contraseña cumple la regla
+    
         if (newNickname === "") {
             setError('Nickname debe estar relleno');
         }
@@ -225,6 +230,27 @@ function Ajustes() {
     }
 
     /***************************************************************************
+     * FUNCION COMPROBAR Y CAMBIAR FOTO DE PERFIL
+     ***************************************************************************/
+    const comprobarFotoPerfil = async () => {
+        
+        // Llama funcion moficicar contraseña en backend
+        let dataId = await GetID(email);
+        // console.log(dataId);
+        if (dataId.ok === true) {
+        
+            let data = await PutInfoFotoPerfil(dataId.id_usuario, newFotoPerfil);
+        
+            if(data.ok !== true){
+                setError(data.msg);
+            }
+        }
+        else{
+            setError(dataId.msg);
+        }
+    }
+
+    /***************************************************************************
      * FUNCION CAMBIOS EN LA CUENTA
      ***************************************************************************/
     const cambiosCuenta = async () => {
@@ -233,9 +259,10 @@ function Ajustes() {
             // Llama funcion moficicar nickname en backend
             console.log("Se va a cambiar el nickname");
             comprobarNickname()
-        }else if (nickname === newNickname && newNickname !== ""){
-            setError('El nickname es el mismo que el anterior');
         }
+        /*else if (nickname === newNickname && newNickname !== ""){
+            setError('El nickname es el mismo que el anterior');
+        }*/
 
         if (contrasena !== newContrasena && newContrasena !== "") {
             // Llama funcion moficicar contraseña en backend
@@ -243,6 +270,16 @@ function Ajustes() {
             comprobarContrasena();
         }else if (contrasena === newContrasena && newContrasena !== ""){
             setError('La contraseña es la misma que la anterior');
+        }
+
+        console.log(`FotoPerfil: ${fotoPerfil}`)
+        console.log(`newFotoPerfil: ${newFotoPerfil}`);
+        if (newFotoPerfil !== fotoPerfil && newFotoPerfil !== "") {
+            // Llama funcion moficicar contraseña en backend
+            console.log("Se va a cambiar la foto de perfil");
+            comprobarFotoPerfil();
+        }else if (newFotoPerfil === fotoPerfil && newFotoPerfil !== ""){
+            setError('La foto de perfil es la misma que la anterior');
         }
     }
 
@@ -278,6 +315,13 @@ function Ajustes() {
         setImagenesModalIsOpen(false);
     };
 
+    /***************************************************************************
+     * FUNCION DESPLEGABLE
+     ***************************************************************************/
+    const toggleMenuDesplegado = () => {
+        setMenuDesplegado(!menuDesplegado);
+    };
+
 
     return (
 
@@ -294,7 +338,7 @@ function Ajustes() {
             <div className='info'>E-mail</div>
                     <div className='barraEscribirAjustesEmail'>{email}</div>
                 <div className='info'>Nickname</div>
-                    <input className="barraEscribirAjustes" type="text" value={newNickname || nickname} onChange={(e) => setNewNickname(e.target.value)}/>
+                    <input className="barraEscribirAjustes" type="text" value={newNickname} onChange={(e) => setNewNickname(e.target.value)}/>
                 <div className='info'>Contraseña</div>
                     <input className="barraEscribirAjustes" type="password" placeholder="Contraseña" value={newContrasena} onChange={(e) => setNewContrasena(e.target.value)}/>
                 <div className='info'>Confirmar contraseña</div>
@@ -316,7 +360,7 @@ function Ajustes() {
             {error && <p className="errorAjustes">{error}</p>}
 
             <div className='contenedorImagen'>
-                <img className='imagenAjustes' src={fotoSinUsuario} alt="Foto sin usuario" />
+            <img className='imagenAjustes' src={newFotoPerfil ? newFotoPerfil : fotoPerfil} alt="Foto sin usuario" />
                 <button className='botonAjustes' onClick={() => setImagenesModalIsOpen(true)}>Cambiar foto</button>
             </div>
 
@@ -346,7 +390,7 @@ function Ajustes() {
                         key={index}
                         src={image}
                         alt={`Oca ${index + 1}`}
-                        className={selectedImage === image ? 'selected' : ''}
+                        className={newFotoPerfil === image ? 'selected' : ''}
                         onClick={() => setSelectedImage(image)}
                     />
                     ))}
@@ -355,11 +399,24 @@ function Ajustes() {
                 <button className='closeButtonImagen' onClick={() => closeModal()}>X</button>
                 {error && <p className="error-messageImagen">{error}</p>}
                 
-                <button className='elButtonImagen' onClick={eliminarCuenta}>Confirmar imagen</button>
+                <button className='elButtonImagen' onClick={() => closeModal()}>Seleccionar imagen</button>
                 
             </div>
             </Modal>
-
+            
+            <div className='opcionesDespegable'>
+                <div onClick={toggleMenuDesplegado}>
+                    <h2> - Configuración</h2>
+                    <i className={menuDesplegado ? 'arrow up' : 'arrow down'}></i>
+                </div>
+                {menuDesplegado && (
+                    <ul>
+                    <li>Nombre de usuario</li>
+                    <li>Contraseña</li>
+                    <li>Foto de perfil</li>
+                    </ul>
+                )}
+            </div>
         </div>
     
     );
