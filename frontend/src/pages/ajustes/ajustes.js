@@ -38,12 +38,11 @@ function Ajustes() {
     const email = localStorage.getItem('email');
     const [monedas, setMonedas] = useState('');
     const [fotoPerfil, setFotoPerfil] = useState('');
-    console.log(`La foto de perfil es ${fotoPerfil}`);
     const contrasena = localStorage.getItem('contrasena');
 
     // Comprobacion de la contraseña y el nickname
-    console.log(`El nickname es ${nickname}`);
-    console.log(`La contraseña es ${contrasena}`);
+    // console.log(`El nickname es ${nickname}`);
+    // console.log(`La contraseña es ${contrasena}`);
 
     // Informacion modificada
     const [newNickname, setNewNickname] = useState('');
@@ -60,8 +59,7 @@ function Ajustes() {
     // Modal imagenes
     const [imagenesModalIsOpen, setImagenesModalIsOpen] = useState(false); 
     // Seleccionar la imagen
-    const [newFotoPerfil, setSelectedImage] = useState(''); 
-    console.log(`newFotoPerfil: ${newFotoPerfil}`);
+    const [newFotoPerfil, setSelectedImage] = useState('');
     const images = [img1, img2, img3, img4, img5, img6];
 
     // Desplegable barra lateral
@@ -111,7 +109,7 @@ function Ajustes() {
         
             if(data.ok === true){
                 // Cerrar la sesion del usuario al eliminar la cuenta
-                navigation("/");
+                cerrarSesion();
             }
             else{
                 setError(data.msg);
@@ -254,7 +252,7 @@ function Ajustes() {
      * FUNCION CAMBIOS EN LA CUENTA
      ***************************************************************************/
     const cambiosCuenta = async () => {
-        console.log(`Nickname: ${nickname}, newNickname: ${newNickname}, newContrasena: ${newContrasena}, newContrasenaRep: ${newContrasenaRep}`);
+        
         if (nickname !== newNickname && newNickname !== "") {
             // Llama funcion moficicar nickname en backend
             console.log("Se va a cambiar el nickname");

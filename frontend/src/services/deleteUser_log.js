@@ -8,7 +8,7 @@ async function DeleteUser(id_usuario) {
         headers: headersList
     });
     
-    let data = await response.text();
+    let data = await response.json();
     console.log(data);
     
     return data; //devuelve el .json con los datos del registro
