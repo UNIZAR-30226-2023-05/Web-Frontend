@@ -29,6 +29,12 @@ function Amigos() {
     const [correoAmigoAnadir, setCorreoAmigoAnadir] = useState('');
     const [idAmigo, setIdAmigo] = useState('');
 
+    // Lista de amigos
+    const [listaAmigos, setListaAmigos] = useState([]);
+
+    const [error, setError] = useState(null);
+    const [path,navigation] = useLocation();
+
     /***************************************************************************
      * FUNCION OBTENER ID USUARIO
      ***************************************************************************/
@@ -122,9 +128,14 @@ function Amigos() {
     }
 
 
+
     /***************************************************************************
      * FUNCION OBTENER AMIGOS
      ***************************************************************************/
+    useEffect(() => {
+        obtenerAmigos();
+    }, []);
+
     const obtenerAmigos = async () => {
         // Se espera hasta que se obtenga el id del usuario
         await IDUsuario();
@@ -132,11 +143,31 @@ function Amigos() {
         let data = await GetAmigos(id);
         console.log(data);
         if (data.ok === true) {
-            
+            setListaAmigos(data.amigos);
         }
         else{
             setError(data.msg);
         }
+    }
+    /* Info BBDD 
+    {
+        "ok": true,
+        "message": "Amigos del usuario:",
+        "amigos": []
+    }
+    */
+
+    /***************************************************************************
+     * FUNCION IMAGENES LINK
+     ***************************************************************************/
+     function ImagenesLink() {
+        return (
+        <div className="imagenes">
+            <a href="/principal">
+            <img src={home} alt="Home" />
+            </a>
+        </div>
+        );
     }
 
 
@@ -160,8 +191,19 @@ function Amigos() {
                 <ImagenesLink />
             </div>
 
-            {error && <p className="errorAmigos">{error}</p>}
-
+            <div className="contenedorAmigos">
+                <div className="lista-amigos">
+                    {listaAmigos.length > 0 ? (
+                        <ul>
+                        {listaAmigos.map((amigo) => (
+                            <li key={amigo.id}>{amigo.nombre}</li>
+                        ))}
+                        </ul>
+                    ) : (
+                        <p>Busca amigos con los que compartir esta experiencia</p>
+                    )}
+                </div>
+            </div>
 
             <Modal className="popup" isOpen={eliminarModalIsOpen} onRequestClose={() => setEliminarModalIsOpen(false)}>
             <div className="popup-amigos">
@@ -174,8 +216,7 @@ function Amigos() {
                 <button className='closeButtonAmigos' onClick={() => closeModal()}>X</button>
                 {error && <p className="error-messageAmigos">{error}</p>}
                 
-                <button className='elButtonAmigos' onClick={eliminarAMigo}>Eliminar solicitud</button>
-                
+                <button className='elButtonAmigos' onClick={rechazarSolicitud}>Eliminar solicitud</button>
             </div>
             </Modal>
 
