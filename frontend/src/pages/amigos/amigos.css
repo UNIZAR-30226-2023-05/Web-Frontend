@@ -54,4 +54,74 @@ img .a {
 }
 
 
+.botonNuevoAmigo {
+    position: inline-block;
+    color: white;
+    font-family: 'Chivo', sans-serif;
+    border-radius: 35px;
+    font-size: 120%;
+    background-color: #24AECD;
+    border-style: solid;
+    height: 40px;
+    width: 11%;
+    margin-left: 2%;
+    border: 4px solid white;
+}
+
+.botonNuevoAmigo:hover {
+    background-color: #1d9bb8;
+    color: #81BFCD;
+    border-color: #81BFCD;
+    cursor: pointer;
+}
+
+.botonSolicitudes {
+    position: inline-block;
+    color: white;
+    font-family: 'Chivo', sans-serif;
+    border-radius: 35px;
+    font-size: 120%;
+    background-color: #24AECD;
+    border-style: solid;
+    height: 40px;
+    width: 17%;
+    margin-left: 2%;
+    border: 4px solid white;
+}
+
+.botonSolicitudes:hover {
+    background-color: #1d9bb8;
+    color: #81BFCD;
+    border-color: #81BFCD;
+    cursor: pointer;
+}
+
+
+.amigosSolicitudes-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    margin-left: 5%;
+    width: 20%;
+
+}
+
+.amigosSolicitudes {
+    background-color: #C3FAFE;
+    padding: 10px;
+    border: 1px solid black;
+    font-family: 'Chivo', sans-serif;
+}
+
+.eliminarIconoSolicitudes {
+    border: none;
+    font-size: 10%;
+    cursor: pointer;
+    position: absolute;
+    height: 30px;
+    left: 22.5%;
+    margin-top: -0.5%;
+}
+
+
   

@@ -3,7 +3,10 @@ import { Link, useLocation } from 'wouter';
 import socket from '../../utils/socket.js';
 import './amigos.css';
 import '../../components/RestoPantallas.css';
+import '../../components/PopupAmigos.css';
 import home from '../../assets/feather/home.svg';
+import trash_2 from '../../assets/feather/trash_2.svg'
+import plus from '../../assets/feather/plus.svg';
 import Modal from 'react-modal';
 import GetID from '../../services/getID_log.js';
 import GetInfo from '../../services/getInfo_log.js';
@@ -18,36 +21,44 @@ function Amigos() {
      * DECLARACION DE VARIABLES
      ***************************************************************************/
     const email = localStorage.getItem('email');
-    const [id, setId] = useState('');
-
     // Modal eliminar amigo
     const [eliminarModalIsOpen, setEliminarModalIsOpen] = useState(false);
     // Modal agregar amigo
     const [nuevoAmigoModalIsOpen, setNuevoAmigoModalIsOpen] = useState(false);
+    // Modal solicitudes
+    const [solicitudesModalIsOpen, setSolicitudesModalIsOpen] = useState(false);
 
     // Correo e id del amigo
     const [correoAmigoAnadir, setCorreoAmigoAnadir] = useState('');
-    const [idAmigo, setIdAmigo] = useState('');
 
     // Lista de amigos
     const [listaAmigos, setListaAmigos] = useState([]);
 
+    // Lista solicitudes
+    const [listaSolicitudes, setListaSolicitudes] = useState([]);
+
+    // Booleano para renderizar
+    const [render, setRender] = useState(true);
+    //console.log(`Render: ${render}`);
+
     const [error, setError] = useState(null);
-    const [path,navigation] = useLocation();
+    const [path, navigation] = useLocation();
 
     /***************************************************************************
      * FUNCION OBTENER ID USUARIO
      ***************************************************************************/
     const IDUsuario = async () => {
+        console.log(`Estoy en IDUsuario con email: ${email}`);
         
         // Llama funcion moficicar contraseña en backend
         let dataId = await GetID(email);
-        // console.log(dataId);
+        //console.log(dataId);
         if (dataId.ok === true) {
-            setId(dataId.id_usuario);
+            return dataId.id_usuario;
         }
         else{
             setError(dataId.msg);
+            return null;
         }
     }
 
@@ -61,10 +72,11 @@ function Amigos() {
         let dataId = await GetID(correoAmigoAnadir);
         // console.log(dataId);
         if (dataId.ok === true) {
-            setIdAmigo(dataId.id_usuario);
+            return dataId.id_usuario;
         }
         else{
             setError(dataId.msg);
+            return null;
         }
     }
 
@@ -74,13 +86,16 @@ function Amigos() {
      ***************************************************************************/
     const anadirAmigo = async () => {
         // Se espera hasta que se obtengan ambos ids
-        await IDAmigo();
-        await IDUsuario();
+        let id = await IDUsuario();
+        let idAmigo = await IDAmigo();
+
+        console.log(`id: ${id}, idAmigo: ${idAmigo}`);
 
         let data = await SolicitudAmigo(id, idAmigo);
         console.log(data);
         if (data.ok === true) {
-            //setNuevoAmigoModalIsOpen(false);
+            console.log(data.message);
+            closeModal();
         }
         else{
             setError(data.msg);
@@ -88,14 +103,25 @@ function Amigos() {
 
     }
 
+    /* {
+        "ok": true,
+        "message": "Solicitud enviada correctamente."
+        } 
+        {
+        "ok": false,
+        "msg": "Lo sentimos, ya existe una solicitud entre estos dos usuarios."
+        }
+        
+        */
+
 
     /***************************************************************************
      * FUNCION RECHAZAR SOLICITUD
      ***************************************************************************/
     const rechazarSolicitud = async () => {
         // Se espera hasta que se obtengan ambos ids
-        await IDAmigo();
-        await IDUsuario();
+        let id = await IDAmigo();
+        let idAmigo = await IDUsuario();
 
         let data = await RechazarSolicitud(id, idAmigo);
         console.log(data);
@@ -114,12 +140,15 @@ function Amigos() {
      ***************************************************************************/
     const obtenerSolicitudes = async () => {
         // Se espera hasta que se obtenga el id del usuario
-        await IDUsuario();
+        let id = await IDUsuario();
 
         let data = await GetSolicitudes(id);
-        console.log(data);
+        console.log(`estoy en obtenerSolicitudes y el data es: ${data}`);
         if (data.ok === true) {
-            
+            const nicknames = data.solicitudes.map((solicitud) => solicitud.usuario_solicitud_id_usuario_enviaTousuario.nickname);
+            // Almacenar la lista de solicitudes
+            setListaSolicitudes(nicknames);
+            console.log(`estoy en obtenerSolicitudes y los nicknames es: ${nicknames}`);
         }
         else{
             setError(data.msg);
@@ -127,18 +156,38 @@ function Amigos() {
 
     }
 
+    /*
+    {
+    "ok": true,
+    "message": "Solicitudes para el usuario:",
+    "solicitudes": [
+        {
+        "usuario_solicitud_id_usuario_enviaTousuario": {
+            "nickname": "miguel"
+        }
+        }
+    ]
+    }
+     */
+
 
 
     /***************************************************************************
      * FUNCION OBTENER AMIGOS
      ***************************************************************************/
-    useEffect(() => {
-        obtenerAmigos();
-    }, []);
+    /*useEffect(() => {
+        console.log(`Estoy en useEffect de amigos y render es: ${render}`);
+    
+        if (render) {
+            obtenerAmigos();
+            setRender(false);
+        }
+    }, [render]);*/
 
     const obtenerAmigos = async () => {
         // Se espera hasta que se obtenga el id del usuario
-        await IDUsuario();
+        let id = await IDUsuario();
+        console.log(`id: ${id}`);
 
         let data = await GetAmigos(id);
         console.log(data);
@@ -177,6 +226,8 @@ function Amigos() {
     const closeModal = () => {
         setEliminarModalIsOpen(false);
         setNuevoAmigoModalIsOpen(false);
+        setSolicitudesModalIsOpen(false);
+        setError("");
     };
 
 
@@ -190,6 +241,9 @@ function Amigos() {
             <div className='imagenes-link'>
                 <ImagenesLink />
             </div>
+
+            <button className="botonNuevoAmigo" onClick={() => setNuevoAmigoModalIsOpen(true)}>Añadir amigo</button>
+            <button className="botonSolicitudes" onClick={() => {obtenerSolicitudes();setSolicitudesModalIsOpen(true)}}>Solicitudes pendientes</button>
 
             <div className="contenedorAmigos">
                 <div className="lista-amigos">
@@ -224,13 +278,30 @@ function Amigos() {
             <div className="popup-amigos">
                 <div className="tituloAmigos">AÑADIR AMIGO</div>
                 <p className="textoAmigos">Añade nuevos amigos mediante el e-mail</p>
-                <p>E-mail </p>
+                <p className="textoAmigos">E-mail </p>
                 <input className="barraEscribirAmigos" type="text" placeholder="E-mail" value={correoAmigoAnadir} onChange={(e) => setCorreoAmigoAnadir(e.target.value)}/>
                
                 <button className='closeButtonAmigos' onClick={() => closeModal()}>X</button>
                 {error && <p className="error-messageAmigos">{error}</p>}
-                
                 <button className='elButtonAmigos' onClick={anadirAmigo}>Añadir amigo</button>
+                
+            </div>
+            </Modal>
+
+            <Modal className="popup" isOpen={solicitudesModalIsOpen} onRequestClose={() => setSolicitudesModalIsOpen(false)}>
+            <div className="popup-amigos">
+                <div className="tituloAmigos">SOLICITUDES PENDIENTES</div>
+
+                {listaSolicitudes.map((solicitudNickname, index) => (
+                    <div key={index} className="amigosSolicitudes">
+                        {solicitudNickname}
+                        {<img className='eliminarIconoSolicitudes' src={plus} alt='Añadir' onClick={() => rechazarSolicitud(solicitudNickname)} />}
+                        {<img className='eliminarIconoSolicitudes' src={trash_2} alt='Eliminar' onClick={() => rechazarSolicitud(solicitudNickname)} />}
+                    </div>
+                ))}
+
+                <button className='closeButtonAmigos' onClick={() => closeModal()}>X</button>
+                {error && <p className="error-messageAmigos">{error}</p>}
                 
             </div>
             </Modal>
