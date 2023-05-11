@@ -114,13 +114,20 @@ img .a {
 }
 
 .eliminarIconoSolicitudes {
-    border: none;
+    position: absolute;
+    right: 0;
+    /*border: none;
     font-size: 10%;
     cursor: pointer;
     position: absolute;
     height: 30px;
     left: 22.5%;
-    margin-top: -0.5%;
+    margin-top: -0.5%;*/
+}
+
+.anadirIconoSolicitudes {
+    position: absolute;
+    left: 0;
 }
 
 

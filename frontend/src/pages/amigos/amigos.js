@@ -9,6 +9,7 @@ import trash_2 from '../../assets/feather/trash_2.svg'
 import plus from '../../assets/feather/plus.svg';
 import Modal from 'react-modal';
 import GetID from '../../services/getID_log.js';
+import GetIDNickname from '../../services/getID_nickname_log.js';
 import GetInfo from '../../services/getInfo_log.js';
 import SolicitudAmigo from '../../services/solicitudAmigo_log.js';
 import RechazarSolicitud from '../../services/rechazarSolicitud_log.js';
@@ -20,6 +21,7 @@ function Amigos() {
     /***************************************************************************
      * DECLARACION DE VARIABLES
      ***************************************************************************/
+    const nicknameUsuario = localStorage.getItem('nickname');
     const email = localStorage.getItem('email');
     // Modal eliminar amigo
     const [eliminarModalIsOpen, setEliminarModalIsOpen] = useState(false);
@@ -29,7 +31,7 @@ function Amigos() {
     const [solicitudesModalIsOpen, setSolicitudesModalIsOpen] = useState(false);
 
     // Correo e id del amigo
-    const [correoAmigoAnadir, setCorreoAmigoAnadir] = useState('');
+    const [nicknameAmigo, setNicknameAmigo] = useState('');
 
     // Lista de amigos
     const [listaAmigos, setListaAmigos] = useState([]);
@@ -46,7 +48,7 @@ function Amigos() {
 
     /***************************************************************************
      * FUNCION OBTENER ID USUARIO
-     ***************************************************************************/
+     ***************************************************************************
     const IDUsuario = async () => {
         console.log(`Estoy en IDUsuario con email: ${email}`);
         
@@ -63,13 +65,49 @@ function Amigos() {
     }
 
 
-    /***************************************************************************
+    ***************************************************************************
      * FUNCION OBTENER ID AMIGO ANADIR
-     ***************************************************************************/
+     ***************************************************************************
     const IDAmigo = async () => {
         
         // Llama funcion moficicar contraseña en backend
         let dataId = await GetID(correoAmigoAnadir);
+        // console.log(dataId);
+        if (dataId.ok === true) {
+            return dataId.id_usuario;
+        }
+        else{
+            setError(dataId.msg);
+            return null;
+        }
+    }*/
+
+     /***************************************************************************
+     * FUNCION OBTENER ID USUARIO
+     ***************************************************************************/
+     const IDUsuario = async () => {
+        console.log(`Estoy en IDUsuario con email: ${nicknameUsuario}`);
+        
+        // Llama funcion moficicar contraseña en backend
+        let dataId = await GetIDNickname(nicknameUsuario);
+        //console.log(dataId);
+        if (dataId.ok === true) {
+            return dataId.id_usuario;
+        }
+        else{
+            setError(dataId.msg);
+            return null;
+        }
+    }
+
+
+    /***************************************************************************
+     * FUNCION OBTENER ID AMIGO ANADIR
+     ***************************************************************************/
+    const IDAmigo = async () => {
+        console.log(`Estoy en IDAmigo con nickname: ${nicknameAmigo}`);
+        // Llama funcion moficicar contraseña en backend
+        let dataId = await GetIDNickname(nicknameAmigo);
         // console.log(dataId);
         if (dataId.ok === true) {
             return dataId.id_usuario;
@@ -230,7 +268,13 @@ function Amigos() {
         setError("");
     };
 
-
+    /***************************************************************************
+     * FUNCION GUARDAR NICKNAMES
+     ***************************************************************************/
+    const guardarNicknameUsuario = (nombreNicknameAmigo) => {
+        setNicknameAmigo(nombreNicknameAmigo);
+    }
+    
     return (
 
         <div className="Ajustes">
@@ -277,9 +321,9 @@ function Amigos() {
             <Modal className="popup" isOpen={nuevoAmigoModalIsOpen} onRequestClose={() => setNuevoAmigoModalIsOpen(false)}>
             <div className="popup-amigos">
                 <div className="tituloAmigos">AÑADIR AMIGO</div>
-                <p className="textoAmigos">Añade nuevos amigos mediante el e-mail</p>
-                <p className="textoAmigos">E-mail </p>
-                <input className="barraEscribirAmigos" type="text" placeholder="E-mail" value={correoAmigoAnadir} onChange={(e) => setCorreoAmigoAnadir(e.target.value)}/>
+                <p className="textoAmigos">Añade nuevos amigos mediante el nombre de usuario</p>
+                <p className="textoAmigos">Nombre de usuario</p>
+                <input className="barraEscribirAmigos" type="text" placeholder="E-mail" value={nicknameAmigo} onChange={(e) => setNicknameAmigo(e.target.value)}/>
                
                 <button className='closeButtonAmigos' onClick={() => closeModal()}>X</button>
                 {error && <p className="error-messageAmigos">{error}</p>}
@@ -295,8 +339,8 @@ function Amigos() {
                 {listaSolicitudes.map((solicitudNickname, index) => (
                     <div key={index} className="amigosSolicitudes">
                         {solicitudNickname}
-                        {<img className='eliminarIconoSolicitudes' src={plus} alt='Añadir' onClick={() => rechazarSolicitud(solicitudNickname)} />}
-                        {<img className='eliminarIconoSolicitudes' src={trash_2} alt='Eliminar' onClick={() => rechazarSolicitud(solicitudNickname)} />}
+                        {<img className='anadirIconoSolicitudes' src={plus} alt='Añadir' onClick={() => {guardarNicknameUsuario(solicitudNickname); anadirAmigo();}} />}
+                        {/*<img className='eliminarIconoSolicitudes' src={trash_2} alt='Eliminar' onClick={() => {guardarNicknameUsuario(solicitudNickname);rechazarSolicitud()}} />*/}
                     </div>
                 ))}
 
