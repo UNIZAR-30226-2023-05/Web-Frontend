@@ -124,6 +124,19 @@ img .a {
     cursor: pointer;
 }
 
+.refrescar {
+    
+    
+}
+
+
+.refrescar:hover {
+    background-color: #1d9bb8;
+    color: #81BFCD;
+    border-color: #81BFCD;
+    cursor: pointer;
+}
+
 .eliminarSala {
     position: absolute;
     right: 0;

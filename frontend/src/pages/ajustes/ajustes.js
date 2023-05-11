@@ -140,7 +140,6 @@ function Ajustes() {
 
         if (dataId.ok === true) {
         
-            // Eliminar cuenta
             let data = await GetInfo(dataId.id_usuario);
         
             if(data.ok === true){
