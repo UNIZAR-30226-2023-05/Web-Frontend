@@ -1,22 +1,23 @@
-async function GetID(nickname) {
+async function GetID(email) {
     let headersList = {
-        "Accept": "*/*",
-        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
         "Content-Type": "application/json"
-    }
-    
-    let bodyContent = JSON.stringify({
-        "nickname": nickname
-    });
+       }
+       
+       let bodyContent = JSON.stringify({
+         "email": email
+       });
+       
+       let response = await fetch("http://localhost:4000/users/userid", { 
+         method: "PUT",
+         body: bodyContent,
+         headers: headersList
+       });
+       
+       let data = await response.json();
+        console.log(data);
+       
 
-    let response = await fetch("https://backendps.vercel.app/users/register", { 
-        method: "GET",
-        body: bodyContent,
-        headers: headersList
-    });
-
-    let data = await response.text();
-    console.log(data);
+    return data; //devuelve el .json con los datos del registro
 }
 
 export default GetID;

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import socket from '../../utils/socket.js';
+import io from 'socket.io-client';
 import './inicio.css';
 import '../../components/PopupSignUp.css'
 import '../../components/PopupLogIn.css'
@@ -6,11 +8,13 @@ import { Link, useLocation } from 'wouter';
 import Modal from 'react-modal';
 import Login from '../../services/login_log';
 import SignUp  from '../../services/signup_log.js';
+import GetID from '../../services/getID_log.js';
+import GetInfo from '../../services/getInfo_log.js';
 
 Modal.setAppElement('#root'); // para asegurarnos de que react-modal funcione correctamente
 
 function Inicio() {
-  const regla = /^[A-Za-z0-9]{8,16}$/
+  const regla = /^[A-Za-z0-9!?]{8,16}$/;
 
   const [modalIsOpen, setModalIsOpen] = useState(false); // estado para controlar si el popup está abierto o cerrado
   const [name, setName] = useState('');
@@ -19,7 +23,7 @@ function Inicio() {
   const [contRep, setContRep] = useState('');
   const [error, setError] = useState(null);
 
-  
+  //const [nickname, setNickname] = useState('');
 
   // Variables destinadas al popup de logIn
   // Estado para controlar si el popup está abierto o cerrado
@@ -28,7 +32,37 @@ function Inicio() {
   const [password, setPassword] = useState('');
   const [path,navigation] = useLocation();
 
-  //funcion lambda lo mismo que una funcion pero expresado así.
+  /***************************************************************************
+   * FUNCIONES SOCKET
+   ***************************************************************************/
+  socket.on('connect', () => {
+    console.log('Conectado al servidor de websockets');
+  });
+  
+  socket.on('disconnect', (reason) => {
+    console.log(`Se ha perdido la conexión con el servidor de websockets: ${reason}`);
+  });
+
+  /***************************************************************************
+   * FUNCION ABRIR SESION LOG IN
+   ***************************************************************************/
+  const comprobarLogIn = (nickname) => {
+    socket.emit("openSession", {'nickname': nickname}, (data) => {
+      if (data.ok === false) {
+        setError(data.message);
+      } else {
+        // Guardar la contaseña en la base de datos de react
+        localStorage.setItem('contrasena', password);
+        console.log(`La contrasena del usuario es ${password}`);
+        localStorage.setItem('email', email);
+        navigation("/principal");
+      }
+    });
+  }
+
+  /***************************************************************************
+   * FUNCION CREAR USUARIO
+   ****************************************************************************/
   const crearUsuario = async() => {  
     
     // Validar que el e-mail sigue el formato <nombre>@<dominio>.<extensión>
@@ -41,18 +75,19 @@ function Inicio() {
     else if(!regla.test(cont)){
       setError('La contraseña mínimo 8 caracteres. Debe contener mínimo una mayuscula, un número y un símbolo')
     }
-    else if(cont != contRep){
+    else if(cont !== contRep){
       setError('Las contraseñas no coinciden');
     }
     else{
       let data =  await SignUp(name, mail, cont);
       console.log(data.ok);
-      if(data.ok === true){
-        setModalIsOpen(false);
+      if(data.ok === true){ 
+        closeModalSign();
         setlogInModalIsOpen(true);
+        setError('');
       }
       else{
-        setError(data.message);
+        setError(data.msg);
       }
     }
 
@@ -68,19 +103,22 @@ function Inicio() {
     setContRep('');
   }
 
-  // Validar datos de logIn
+  /***************************************************************************
+   * FUNCION LOG IN
+   ****************************************************************************/
   const handleLogIn = async () => {
     // Validar que el usuario haya ingresado un e-mail y una contraseña
     if (email === '' || password === '') {
       setError('Por favor ingresa el e-mail y la contraseña'); 
     }
     else{
-      let data = await Login(email,password);
-      console.log(data.ok);
-      if(data.ok){
+      let data = await Login(email, password);
+      if(data.ok === true){
         // Guarda el token en el localStorage. Con get te lo devuelve
         localStorage.setItem('token', data.token);
-        navigation("/principal");
+        // Para esperar a que termine
+        let nickname = await cogerNickname();
+        comprobarLogIn(nickname);
       }
       else{
         setError(data.msg);
@@ -88,12 +126,45 @@ function Inicio() {
     }
   };
 
+  /***************************************************************************
+   * FUNCION COGER NICKNAME
+   ****************************************************************************/
+  const cogerNickname = async () => {
+    // Coger id del usuario
+  
+    let dataID = await GetID(email);
+    //console.log(dataID);
+
+    if (dataID.ok === true) {
+        console.log('He entrado en el if')
+        console.log(dataID.id_usuario);
+        // Eliminar cuenta
+        let data = await GetInfo(dataID.id_usuario);
+    
+        if(data.ok === true){
+            // Se guardan los datos del usuario
+            //console.log(data.datos[0].nickname);
+            localStorage.setItem('nickname', data.datos[0].nickname); 
+            //setNickname(data.datos[0].nickname);
+            return data.datos[0].nickname;
+        }
+        else{
+            setError(data.msg);
+        }
+    }
+    else{
+      setError(dataID.msg);
+    }
+    return null;
+  }
+
   // Funcion para cerrar el modal y poner el error a ""
   const closeModal = () => {
     setlogInModalIsOpen(false);
     setError('');
     setEmail('');
     setPassword('');
+
   };
 
   const closeOpenModales = () => {
@@ -109,7 +180,7 @@ function Inicio() {
   return (
     <>
     <div className="Inicio">
-      <button className="buttonCrear" onClick={() => setModalIsOpen(true)} >
+      <button className="buttonCrear" onClick={() => {localStorage.clear(); setModalIsOpen(true);}} >
         Crear cuenta
       </button>
       <Modal className="popup" isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
@@ -117,7 +188,6 @@ function Inicio() {
           <button className="closeButton" onClick={() => closeModalSign()}>X</button>
           <div className="titulo">REGÍSTRATE</div>
           <div className="texto">
-            <p>Añade una foto:</p>
             <p>Nombre de usuario *</p>
             <input className="barraEscribirSign" type="text" placeholder="Nombre de usuario" value={name} onChange={(e) => setName(e.target.value)}/>
             <p>E-mail *</p>

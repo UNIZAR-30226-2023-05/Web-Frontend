@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import socket from '../../utils/socket.js';
 import './principal.css';
 import '../../components/RestoPantallas.css'
 import '../../components/PopupCrearSala.css'
@@ -17,7 +18,10 @@ function Principal() {
   const [crearModalIsOpen, setCrearModalIsOpen] = useState(false); 
   const [nombreSala, setNombreSala] = useState('');
   const [numJugadores, setNumJugadores] = useState('');
-  
+  const [estiloJuego, setEstiloJuego] = useState('');
+
+  const nickname = localStorage.getItem('nickname');
+  console.log(nickname);
 
   // Modal unirse a sala
   const [unirseModalIsOpen, setUnirseModalIsOpen] = useState(false);
@@ -26,6 +30,69 @@ function Principal() {
   const [error, setError] = useState(null);
   const [path,navigation] = useLocation();
 
+  /***************************************************************************
+   * FUNCIONES SOCKET
+   ***************************************************************************/
+  socket.on('connect', () => {
+    console.log('Conectado al servidor de websockets');
+  });
+  
+  socket.on('disconnect', (reason) => {
+    console.log(`Se ha perdido la conexión con el servidor de websockets: ${reason}`);
+  });
+    
+  /***************************************************************************
+   * FUNCION UNIR SALA
+   ***************************************************************************/
+  const unirSalaSocket = () => {
+    socket.emit("joinRoom", codigoSala, {'nickname': nickname}, (data) => {
+      if (data.status !== 'ok') {
+        setError(data.message);
+      } else {
+        localStorage.setItem('jugadores', JSON.stringify(data.players));
+        localStorage.setItem('nombreSala', data.roomName);
+        localStorage.setItem('idRoom', codigoSala);
+        // Variable para controlar quien es el lider
+        localStorage.setItem('lider', false);
+        navigation("/sala");
+      }
+    });
+  }
+
+
+  /***************************************************************************
+   * FUNCION ACTUALIZAR JUGADORES
+   ***************************************************************************/
+  socket.on("updatePlayers", (nicknames) => {
+    console.log('Estoy dentro de updatePlayers principal');
+    console.log(nicknames);
+    localStorage.setItem('jugadores', JSON.stringify(nicknames));
+    console.log(JSON.stringify(nicknames));
+  });
+
+
+   /***************************************************************************
+   * FUNCION CREAR SALA
+   ***************************************************************************/
+  const crearSalaSockets = () => {
+    socket.emit("createRoom", {'nickname': nickname}, nombreSala, numJugadores, estiloJuego, (data) => {
+      if (data.status !== 'ok') {
+        setError(data.message);
+      } else {
+        localStorage.setItem('nombreSala', nombreSala);
+        localStorage.setItem('idRoom', data.id);
+        // Variable para controlar quien es el lider
+        localStorage.setItem('lider', true);
+        localStorage.setItem('liderNickname', nickname);
+        navigation("/sala");
+      }
+    });
+  }
+
+
+  /***************************************************************************
+    * FUNCION IMAGENES LINK
+    ***************************************************************************/
   function ImagenesLink(){
     return (
       <div className="imagenes">
@@ -38,7 +105,7 @@ function Principal() {
         <a href="/">
           <img src={tienda} alt="Tienda" />
         </a>
-        <a href="/">
+        <a href="/ajustes">
           <img src={ajustes} alt="Ajustes" />
         </a>
       </div>
@@ -46,7 +113,7 @@ function Principal() {
   }
 
   /***************************************************************************
-   * FUNCION CERRAR MODAL CREAR SALA Y UNIRSE A SALA
+   * FUNCION CERRAR MOmessage-square.svg'DAL CREAR SALA Y UNIRSE A SALA
    ***************************************************************************/
   const closeModalCrearSala = () => {
     setCrearModalIsOpen(false);
@@ -64,16 +131,13 @@ function Principal() {
   /***************************************************************************
    * FUNCION HANDLE
    ***************************************************************************/
-
   // Funcion para crear la sala
   const crearSala = () => {
-    if (nombreSala === '' || numJugadores === ''){
+    if (nombreSala === '' || numJugadores === '' || estiloJuego === ''){
       setError('Rellene todos los campos obligatorios')
     }
     else{
-      // Aqui se llama a la funcion que crea la sala
-      // FALTA
-      navigation("/sala");
+      crearSalaSockets();
     }
   };
 
@@ -83,9 +147,7 @@ function Principal() {
       setError('Rellene el campo obligatorio')
     }
     else{
-      // Aqui se llama a la funcion que unirse a la sala
-      // FALTA
-      navigation("/sala");
+      unirSalaSocket();  
     }
   };
 
@@ -123,8 +185,15 @@ function Principal() {
           <p className='texto'>Número de jugadores*</p>
           <select className='barraDespegable' value={numJugadores} onChange={(e) => setNumJugadores(e.target.value)}>
             <option value="">Número de jugadores</option>
-            {[1, 2, 3, 4, 5, 6].map(num => (
+            {[2, 3, 4, 5, 6].map(num => (
               <option key={num} value={num}>{num}</option>
+            ))}
+          </select>
+          <p className='texto'>Estilo de juego*</p>
+          <select className='barraDespegable' value={estiloJuego} onChange={(e) => setEstiloJuego(e.target.value)}>
+            <option value="">Estilo de juego</option>
+            {["clásico"].map(option => (
+              <option key={option} value={option}>{option}</option>
             ))}
           </select>
           

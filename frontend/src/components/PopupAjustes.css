@@ -11,10 +11,9 @@
 
 }
   
-.popup-sala{
+.popup-ajustes{
     position: absolute;
-    top: 5%;
-    left: 25%;
+    top: 25%;
     padding: 2%;
     width: 70%;
     max-width: 50%;
@@ -24,7 +23,7 @@
     border: 10px solid white;
 }
 
-.popup-sala .titulo {
+.popup-ajustes .tituloAjustes {
     margin-top: 0%;
     margin-bottom: 0%;
     font-family: 'Trocchi', serif;
@@ -32,31 +31,31 @@
     color: #1C6473;
 }
 
-.popup-sala .texto {
+.popup-ajustes .textoAjustes {
     font-size: 130%;
 }
 
-.popup-sala .textoEspecifico {
+.popup-ajustes .textoEspecificoAjustes {
     font-size: 130%;
     text-decoration: underline;
     color: #337A8A; 
     margin-bottom: 0%;
 }
 
-.popup-sala .textoEspecifico:hover {
+.popup-ajustes .textoEspecificoAjustes:hover {
     color: #24AECD; 
 }
 
-.popup-sala .barraEscribirSala {
+.popup-ajustes .barraEscribirAjustes {
     font-size: 120%;
     width: 80%;
     border-radius: 5px;
     border: 2.5px solid black;
 }
 
-.popup-sala .closeButton{
+.popup-ajustes .closeButtonAjustes{
     position: absolute;
-    top: 3%;
+    top: 6%;
     right: 3%;
     cursor: pointer;
     border-radius: 10px;
@@ -68,14 +67,14 @@
     text-align: center;
 }
 
-.closeButton:hover {
+.closeButtonAjustes:hover {
     background-color: #1d9bb8;
     color: #81BFCD;
     border-color: #81BFCD;
     cursor: pointer;
 }
   
-.popup-sala .error-message {
+.popup-ajustes .error-messageAjustes {
     color: red;
     font-size: 100%;
     font-weight: bold;
@@ -83,26 +82,21 @@
     margin-bottom: 1%;
 }
 
-.popup-sala .elButton{
+.popup-ajustes .elButtonAjustes{
     color: white;
     font-family: 'Chivo', sans-serif;
     border-radius: 35px;
     font-size: 130%;
-    background-color: #24AECD;
+    background-color: #F64C4C;
     border-style: solid;
     height: 50px;
     width: 30%;
     border: 4px solid white;
 }
 
-.popup-sala .elButton:hover {
-    background-color: #1d9bb8;
-    color: #81BFCD;
-    border-color: #81BFCD;
+.popup-ajustes .elButtonAjustes:hover {
+    background-color: #FF6262;
+    color: #FAABAB;
+    border-color: #FF8181;
     cursor: pointer;
-}
-
-.popup-sala .barraDespegable {
-    font-size: 100%;
-    color: #1C6473;
 }

@@ -1,26 +1,26 @@
 async function Login(email,password) {
 
-    let headersList = {
-        "Content-Type": "application/json"
-    }
-   
-    let bodyContent = JSON.stringify({
-        "email": email,
-        "password": password
-    });
+  let headersList = {
+      "Content-Type": "application/json"
+  }
+  
+  let bodyContent = JSON.stringify({
+      "email": email,
+      "password": password
+  });
 
-    const options = {
-        method: "POST",
-        body: bodyContent,
-        headers: headersList
-    }
-    
-    let response = await fetch("https://backendps.vercel.app/users/login", options);
-    
-    let data = await response.json();
-        console.log(data);
+  const options = {
+      method: "POST",
+      body: bodyContent,
+      headers: headersList
+  }
+  
+  let response = await fetch("http://localhost:4000/users/login", options);
+  
+  let data = await response.json();
+      console.log(data);
 
-   return data;
+  return data;
 }
 
 export default Login;
