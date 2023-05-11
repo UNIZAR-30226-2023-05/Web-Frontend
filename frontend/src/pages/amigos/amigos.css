@@ -154,13 +154,14 @@ img .a {
     margin-top: -0.7%;
 }
 
-.eliminarIconoAmigos {
-    cursor: pointer;
+.userIconoAmigos {
     border: none;
     position: fixed;
     right: 4%;
     width: 30px;
     margin-top: -0.5%;
+    border-radius: 50%;
+    border: 2px solid #555;
 }
 
 .anadirIconoSolicitudes {
@@ -179,4 +180,3 @@ img .a {
     position: center;
     font-family: 'Chivo', sans-serif;
 }
-

@@ -6,10 +6,9 @@ import '../../components/RestoPantallas.css';
 import '../../components/PopupAmigos.css';
 
 import home from '../../assets/feather/home.svg';
-import trash_2 from '../../assets/feather/trash_2.svg'
-import plus from '../../assets/feather/plus.svg';
 import userMas from '../../assets/feather/user_plus.svg';
 import userMenos from '../../assets/feather/user_minus.svg';
+import user from '../../assets/feather/user.svg';
 
 import Modal from 'react-modal';
 import GetID from '../../services/getID_log.js';
@@ -88,19 +87,19 @@ function Amigos() {
         }
     }*/
 
-     /***************************************************************************
-     * FUNCION OBTENER ID USUARIO
-     ***************************************************************************/
-     const IDUsuario = async () => {
+    /***************************************************************************
+    * FUNCION OBTENER ID USUARIO
+    ***************************************************************************/
+    const IDUsuario = async () => {
         console.log(`Estoy en IDUsuario con email: ${nicknameUsuario}`);
-        
+
         // Llama funcion moficicar contraseña en backend
         let dataId = await GetIDNickname(nicknameUsuario);
         //console.log(dataId);
         if (dataId.ok === true) {
             return dataId.id_usuario;
         }
-        else{
+        else {
             console.log(dataId.msg);
             return null;
         }
@@ -118,7 +117,7 @@ function Amigos() {
         if (dataId.ok === true) {
             return dataId.id_usuario;
         }
-        else{
+        else {
             console.log(dataId.msg);
             return null;
         }
@@ -143,7 +142,7 @@ function Amigos() {
             closeModal();
             setError("");
         }
-        else{
+        else {
             setError(data.msg);
         }
 
@@ -166,7 +165,7 @@ function Amigos() {
      ***************************************************************************/
     const rechazarSolicitud = async (nicknameAmigo) => {
         // Se espera hasta que se obtengan ambos ids
-        let id = await IDUsuario(); 
+        let id = await IDUsuario();
         let idAmigo = await IDAmigo(nicknameAmigo);
 
         console.log(`id: ${id}, idAmigo: ${idAmigo}`);
@@ -179,7 +178,7 @@ function Amigos() {
             obtenerSolicitudes();
             setError("");
         }
-        else{
+        else {
             setError(data.msg);
         }
 
@@ -202,7 +201,7 @@ function Amigos() {
             console.log(`estoy en obtenerSolicitudes y los nicknames es: ${nicknames}`);
             setError("");
         }
-        else{
+        else {
             console.log(data.msg);
         }
 
@@ -230,7 +229,7 @@ function Amigos() {
     useEffect(() => {
         console.log('Estamos en useEffect de amigos');
         obtenerAmigos();
-      }, [contador]);
+    }, [contador]);
 
     const obtenerAmigos = async () => {
         // Se espera hasta que se obtenga el id del usuario
@@ -244,7 +243,7 @@ function Amigos() {
             console.log(`estoy en obtenerAmigos y el data.amigos es: ${data.amigos}`);
             setListaAmigos(data.amigos);
         }
-        else{
+        else {
             setError(data.msg);
         }
     }
@@ -253,13 +252,13 @@ function Amigos() {
     /***************************************************************************
      * FUNCION IMAGENES LINK
      ***************************************************************************/
-     function ImagenesLink() {
+    function ImagenesLink() {
         return (
-        <div className="imagenes">
-            <a href="/principal">
-            <img src={home} alt="Home" />
-            </a>
-        </div>
+            <div className="imagenes">
+                <a href="/principal">
+                    <img src={home} alt="Home" />
+                </a>
+            </div>
         );
     }
 
@@ -281,7 +280,7 @@ function Amigos() {
     const handleClick = () => {
         setContador(contador + 1);
     };
-    
+
     return (
 
         <div className="Ajustes">
@@ -294,18 +293,19 @@ function Amigos() {
             </div>
 
             <button className="botonNuevoAmigo" onClick={() => setNuevoAmigoModalIsOpen(true)}>Añadir amigo</button>
-            <button className="botonSolicitudes" onClick={() => {obtenerSolicitudes();setSolicitudesModalIsOpen(true)}}>Solicitudes pendientes</button>
+            <button className="botonSolicitudes" onClick={() => { obtenerSolicitudes(); setSolicitudesModalIsOpen(true) }}>Solicitudes pendientes</button>
             <button className="botonAmigos" onClick={handleClick}>Refresca</button>
 
             <div className="contenedorAmigos">
                 <div className="lista-amigos">
                     {listaAmigos.length > 0 ? (
                         <ul>
-                        {listaAmigos.map((amigo, index) => (
-                            <div key={index} className="amigosSolicitudes">
-                                {amigo}
-                            </div>
-                        ))}
+                            {listaAmigos.map((amigo, index) => (
+                                <div key={index} className="amigosSolicitudes">
+                                    <img className='userIconoAmigos' src={user} alt='' />
+                                    {amigo}
+                                </div>
+                            ))}
                         </ul>
                     ) : (
                         <p className='mensaje'>Busca amigos con los que compartir esta experiencia</p>
@@ -314,40 +314,40 @@ function Amigos() {
             </div>
 
             <Modal className="popup" isOpen={nuevoAmigoModalIsOpen} onRequestClose={() => setNuevoAmigoModalIsOpen(false)}>
-            <div className="popup-amigos">
-                <div className="tituloAmigos">AÑADIR AMIGO</div>
-                <p className="textoAmigos">Añade nuevos amigos mediante el nombre de usuario</p>
-                <p className="textoAmigos">Nombre de usuario</p>
-                <input className="barraEscribirAmigos" type="text" placeholder="Nombre de usuario" value={nicknameAmigo} onChange={(e) => setNicknameAmigo(e.target.value)}/>
-               
-                <button className='closeButtonAmigos' onClick={() => closeModal()}>X</button>
-                {error && <p className="error-messageAmigos">{error}</p>}
-                <button className='elButtonAmigos' onClick={() => anadirAmigo(nicknameAmigo)}>Añadir amigo</button>
-                
-            </div>
+                <div className="popup-amigos">
+                    <div className="tituloAmigos">AÑADIR AMIGO</div>
+                    <p className="textoAmigos">Añade nuevos amigos mediante el nombre de usuario</p>
+                    <p className="textoAmigos">Nombre de usuario</p>
+                    <input className="barraEscribirAmigos" type="text" placeholder="Nombre de usuario" value={nicknameAmigo} onChange={(e) => setNicknameAmigo(e.target.value)} />
+
+                    <button className='closeButtonAmigos' onClick={() => closeModal()}>X</button>
+                    {error && <p className="error-messageAmigos">{error}</p>}
+                    <button className='elButtonAmigos' onClick={() => anadirAmigo(nicknameAmigo)}>Añadir amigo</button>
+
+                </div>
             </Modal>
 
             <Modal className="popup" isOpen={solicitudesModalIsOpen} onRequestClose={() => setSolicitudesModalIsOpen(false)}>
-            <div className="popup-amigos">
-                <div className="tituloAmigos">SOLICITUDES PENDIENTES</div>
+                <div className="popup-amigos">
+                    <div className="tituloAmigos">SOLICITUDES PENDIENTES</div>
 
-                {listaSolicitudes.map((solicitudNickname, index) => (
-                    <div key={index} className="amigosSolicitudes">
-                        {solicitudNickname}
-                        <img className='anadirIconoSolicitudes' src={userMas} alt='Añadir' onClick={() => anadirAmigo(solicitudNickname)} />
-                        <img className='eliminarIconoSolicitudes' src={userMenos} alt='Eliminar' onClick={() => rechazarSolicitud(solicitudNickname)} />
-                    </div>
-                ))}
+                    {listaSolicitudes.map((solicitudNickname, index) => (
+                        <div key={index} className="amigosSolicitudes">
+                            {solicitudNickname}
+                            <img className='anadirIconoSolicitudes' src={userMas} alt='Añadir' onClick={() => anadirAmigo(solicitudNickname)} />
+                            <img className='eliminarIconoSolicitudes' src={userMenos} alt='Eliminar' onClick={() => rechazarSolicitud(solicitudNickname)} />
+                        </div>
+                    ))}
 
-                <button className='closeButtonAmigos' onClick={() => closeModal()}>X</button>
-                {error && <p className="error-messageAmigos">{error}</p>}
-                
-            </div>
+                    <button className='closeButtonAmigos' onClick={() => closeModal()}>X</button>
+                    {error && <p className="error-messageAmigos">{error}</p>}
+
+                </div>
             </Modal>
-            
-            
+
+
         </div>
-    
+
     );
 
 }

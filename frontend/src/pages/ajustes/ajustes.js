@@ -151,7 +151,7 @@ function Ajustes() {
                 
             }
             else{
-                setError(data.msg);
+                console.log(data.msg);
             }
         }
         else{
