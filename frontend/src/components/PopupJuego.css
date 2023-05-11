@@ -1,0 +1,75 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(24,83,96,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+  
+.popup-juego{
+    position: absolute;
+    top: 25%;
+    padding: 2%;
+    width: 70%;
+    max-width: 50%;
+    background-color: #C3FAFE;
+    border-radius: 5px;
+    text-align: center;
+    border: 10px solid white;
+}
+
+.popup-juego .tituloJuego {
+    margin-top: 0%;
+    margin-bottom: 0%;
+    font-family: 'Trocchi', serif;
+    font-size: 240%;
+    color: #1C6473;
+}
+
+.popup-juego .textoJuego {
+    font-size: 130%;
+}
+
+.popup-juego .closeButtonJuego{
+    position: absolute;
+    top: 6%;
+    right: 3%;
+    cursor: pointer;
+    border-radius: 10px;
+    transform: scale(2);
+    background-color: #81BFCD;
+    font-weight: bold;
+    color: white;
+    border: 2px solid white;
+    text-align: center;
+}
+
+.closeButtonJuego:hover {
+    background-color: #1d9bb8;
+    color: #81BFCD;
+    border-color: #81BFCD;
+    cursor: pointer;
+}
+
+
+.dadoTam  {
+    width: 30%;
+    height: auto;
+    
+}
+
+.dadoTam:hover {
+    background-color: #1d9bb8;
+    color: #81BFCD;
+    border-color: #81BFCD;
+    cursor: pointer;
+}
+
+.textoDado {
+    font-size: 150%;
+}

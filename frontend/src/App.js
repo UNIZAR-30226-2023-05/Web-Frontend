@@ -23,15 +23,11 @@ function App() {
           component={Principal}
           path="/principal"
         />
-<<<<<<< HEAD
 
         <Route
           component={Juego}
           path="/juego"
         />
-=======
-        
->>>>>>> origin/devSala
       </header>
     </div>
   );
