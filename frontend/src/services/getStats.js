@@ -7,7 +7,7 @@ async function GetStats(id_usuario) {
   let response = await fetch(
     `http://localhost:4000/users/estadisticas/${id_usuario}`,
     {
-      method: "DELETE",
+      method: "GET",
       headers: headersList,
     }
   );
