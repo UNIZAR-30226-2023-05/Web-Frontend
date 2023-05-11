@@ -1,10 +1,11 @@
-async function DeleteUser(id_usuario) {
+// Obtener las estadísticas de los usuario
+async function GetStats(id_usuario) {
   let headersList = {
     "Content-Type": "application/json",
   };
 
   let response = await fetch(
-    `http://localhost:4000/users/register/${id_usuario}`,
+    `http://localhost:4000/users/estadisticas/${id_usuario}`,
     {
       method: "DELETE",
       headers: headersList,
@@ -14,7 +15,7 @@ async function DeleteUser(id_usuario) {
   let data = await response.json();
   console.log(data);
 
-  return data; //devuelve el .json con los datos del registro
+  return data;
 }
 
-export default DeleteUser;
+export default GetStats;
