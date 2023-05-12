@@ -185,6 +185,36 @@ function Sala() {
       });
   };
 
+  /***
+   * FUNCION INICIAR PARTIDA
+   **/
+  const inicioPartida = () => {
+    socket.emit("startGame", idRoom, 200, (data) => {
+      console.log("Inicio de partida")
+      if (data.status !== 'ok') {
+        setError(data.message);
+      } else {
+        console.log(data.message);
+      }
+    });
+  };
+
+  /***
+   * ORDEN JUGADORES
+   ***/
+  socket.on('ordenTurnos', (jugadores) => {
+    console.log('Estoy dentro de ordenTurnos sala');
+    console.log(jugadores);
+    if(jugadores.ok === false){
+      setError(jugadores.message);
+    } else {
+
+      const ordenTurnos = jugadores.ordenTurnos;
+      const tiempo = jugadores.tiempo.ordenTurnos;
+      navigation("/juego");
+    }
+  });
+
 
 
   return (
@@ -211,7 +241,7 @@ function Sala() {
             <img className='copiadoIcono' src={check} alt='Copiar' />
           }
         </div>
-        {lider === 'true' && <button className='comenzarPartida' >Comenzar partida</button>}
+        {lider === 'true' && <button className='comenzarPartida' onClick={() => inicioPartida()} >Comenzar partida</button>}
         {lider === 'true' && <button className='eliminarSala' onClick={EliminarSala}>Eliminar sala</button>}
         <div className="players-container">
           <div className="texto-participante">Participantes: {numPlayers}</div>
