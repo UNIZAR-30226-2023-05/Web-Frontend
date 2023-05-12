@@ -17,13 +17,11 @@ import GetAmigos from '../../services/getAmigos_log.js';
 // Librería de chat
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
-  MainContainer,
-  ChatContainer,
-  MessageList,
-  Message,
-  MessageInput,
-  ConversationHeader,
+    MainContainer, Sidebar, ConversationList, Conversation, Avatar, MessageGroup, Message,
+    ChatContainer, ConversationHeader, MessageList, MessageInput
 } from "@chatscope/chat-ui-kit-react";
+
+import { useChat, ChatMessage, MessageContentType, MessageDirection, MessageStatus } from "@chatscope/use-chat";
 
 function Chat() {
     /***************************************************************************
@@ -105,13 +103,40 @@ function Chat() {
         setChatWith(amigoSeleccionado);
     }
 
-    const ENDPOINT = "http://localhost:5000"; // dirección del servidor socket.io
+    const [messageList, setMessageList] = useState([]);
+    const [chatWith, setChatWith] = useState("");
 
+    const handleSend = text => {
+        console.log("Mensaje enviado:", text);
+        // Logger user (sender)
+        const currentUserId = "123";
+    
+       /* const message = new ChatMessage({
+          id: "",
+          content: text,
+          contentType: MessageContentType.TextHtml,
+          direction: MessageDirection.Outgoing,
+          status: MessageStatus.Sent
+        });*/
 
-    function handleEnviarMensaje(mensaje) {
-        console.log("Aqui emitiria mensaje:", mensaje);
-        //socket.emit("mensaje", { mensaje, remitente: "yo" });
-    }
+        const message = {
+            message: text,
+            sentTime: "just now",
+            sender: "Yo",
+            direction: "outgoing",
+          };    
+
+        setMessageList([...messageList, message]); // Agrega el mensaje a la lista
+        //setValue("");
+    
+        /*sendMessage({
+          message,
+          conversationId: activeConversation.id,
+          senderId: currentUserId,
+        });*/
+        // Enviar evento mensaje
+    
+    };
 
 
 
@@ -122,9 +147,7 @@ function Chat() {
         setContador(contador + 1);
     };
 
-    const [chatWith, setChatWith] = useState("");
-    const [value, setValue] = useState("");
-
+    
     return (
         <div className="Principal">
             <header className="header">
@@ -160,8 +183,11 @@ function Chat() {
                             <ConversationHeader.Content userName={chatWith} />
                         </ConversationHeader>
                         <MessageList>
+                            {messageList.map(message => (
+                                <Message model={message} />
+                            ))}
                         </MessageList>
-                        <MessageInput value={value} onSend={() => { handleEnviarMensaje(value); setValue(''); }} placeholder="Escribe tu mensaje..." />
+                        <MessageInput onSend={handleSend} placeholder="Escribe tu mensaje..." />
                         </ChatContainer>
                     </MainContainer>
                 </div>
