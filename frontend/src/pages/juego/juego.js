@@ -25,7 +25,13 @@ function Juego() {
   /***************************************************************************
    * TURNO PRIMERA JUGADA
    ***************************************************************************/
-  const turno = true//localStorage.getItem('turno'); // booleano
+  socket.on("ordenTurnos", (data) => {
+    console.log('El orden de los turnos es: ' + data.ordenTurnos);
+    const ordenTurnos = data.ordenTurnos;
+    const tiempo = data.tiempo;
+  });
+
+  const turno = localStorage.getItem('turno'); // booleano
 
   /***************************************************************************
    * FUNCIONES SOCKET
@@ -185,7 +191,7 @@ function Juego() {
       console.log('el id de la sala es: ' + idRoom);
       
       //Mando a backen turn con parametro el id de sala
-      socket.emit("turn", idRoom, (data) => {
+      socket.emit("turn", parseInt(idRoom), (data) => {
         console.log("Mando turn");
         if (data.status !== 'ok') {
           setError(data.message);
