@@ -22,6 +22,7 @@ import {
   MessageList,
   Message,
   MessageInput,
+  ConversationHeader,
 } from "@chatscope/chat-ui-kit-react";
 
 function Chat() {
@@ -99,12 +100,30 @@ function Chat() {
         );
     }
 
+    function handleAmigoSeleccionado(amigoSeleccionado) {
+        console.log("Amigo seleccionado:", amigoSeleccionado);
+        setChatWith(amigoSeleccionado);
+    }
+
+    const ENDPOINT = "http://localhost:5000"; // dirección del servidor socket.io
+
+
+    function handleEnviarMensaje(mensaje) {
+        console.log("Aqui emitiria mensaje:", mensaje);
+        //socket.emit("mensaje", { mensaje, remitente: "yo" });
+    }
+
+
+
     /***************************************************************************
      * RENDERIZADO
      ***************************************************************************/
     const handleClick = () => {
         setContador(contador + 1);
     };
+
+    const [chatWith, setChatWith] = useState("");
+    const [value, setValue] = useState("");
 
     return (
         <div className="Principal">
@@ -118,34 +137,31 @@ function Chat() {
 
             <div className="contenedorPrincipal">
                 <div className="contenedorAmigos">
-                <div className="lista-amigos">
-                    {listaAmigos.length > 0 ? (
-                    <ul>
-                        {listaAmigos.map((amigo, index) => (
-                        <div key={index} className="amigosSolicitudes">
-                            <img className='userIconoAmigos' src={user} alt='' />
-                            {amigo}
-                        </div>
-                        ))}
-                    </ul>
-                    ) : (
-                    <p className='mensaje'>Busca amigos con los que compartir esta experiencia</p>
-                    )}
-                </div>
+                    <div className="lista-amigos">
+                        {listaAmigos.length > 0 ? (
+                        <ul>
+                            {listaAmigos.map((amigo, index) => (
+                            <div key={index} className="amigosSolicitudes" onClick={() => {handleAmigoSeleccionado(amigo);}}>
+                                <img className='userIconoAmigos' src={user} alt='' />
+                                {amigo}
+                            </div>
+                            ))}
+                        </ul>
+                        ) : (
+                        <p className='mensaje'>Busca amigos con los que compartir esta experiencia</p>
+                        )}
+                    </div>
                 </div>
                 <div className="contenedorChat">
                     <MainContainer>
                         <ChatContainer>
+                        <ConversationHeader>
+                            {"https://i.postimg.cc/rwgky4HC/oca1.png"}
+                            <ConversationHeader.Content userName={chatWith} />
+                        </ConversationHeader>
                         <MessageList>
-                            <Message
-                            model={{
-                                message: "Hello my friend",
-                                sentTime: "just now",
-                                sender: "Joe",
-                            }}
-                            />
                         </MessageList>
-                        <MessageInput placeholder="Type message here" />
+                        <MessageInput value={value} onSend={() => { handleEnviarMensaje(value); setValue(''); }} placeholder="Escribe tu mensaje..." />
                         </ChatContainer>
                     </MainContainer>
                 </div>

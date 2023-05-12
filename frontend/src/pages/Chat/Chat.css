@@ -85,6 +85,21 @@ img .a {
     border: 2px solid #555;
 }
 
+.amigosSolicitudes {
+    background-color: whitesmoke;
+    padding: 10px;
+    border: 1px solid #1C6473;
+    font-family: 'Chivo', sans-serif;
+    font-size: 120%;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .amigosSolicitudes:hover {
+    background-color: #2598af;
+    color: white;
+  }
 
 
 .mensaje {
