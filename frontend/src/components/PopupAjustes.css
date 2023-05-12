@@ -1,102 +1,101 @@
 .popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(24,83,96,0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(24, 83, 96, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-  
-.popup-ajustes{
-    position: absolute;
-    top: 25%;
-    padding: 2%;
-    width: 70%;
-    max-width: 50%;
-    background-color: #C3FAFE;
-    border-radius: 5px;
-    text-align: center;
-    border: 10px solid white;
+
+.popup-ajustes {
+  position: absolute;
+  top: 25%;
+  padding: 2%;
+  width: 70%;
+  max-width: 50%;
+  background-color: #c3fafe;
+  border-radius: 5px;
+  text-align: center;
+  border: 10px solid white;
 }
 
 .popup-ajustes .tituloAjustes {
-    margin-top: 0%;
-    margin-bottom: 0%;
-    font-family: 'Trocchi', serif;
-    font-size: 240%;
-    color: #1C6473;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  font-family: "Trocchi", serif;
+  font-size: 240%;
+  color: #1c6473;
 }
 
 .popup-ajustes .textoAjustes {
-    font-size: 130%;
+  font-size: 130%;
 }
 
 .popup-ajustes .textoEspecificoAjustes {
-    font-size: 130%;
-    text-decoration: underline;
-    color: #337A8A; 
-    margin-bottom: 0%;
+  font-size: 130%;
+  text-decoration: underline;
+  color: #337a8a;
+  margin-bottom: 0%;
 }
 
 .popup-ajustes .textoEspecificoAjustes:hover {
-    color: #24AECD; 
+  color: #24aecd;
 }
 
 .popup-ajustes .barraEscribirAjustes {
-    font-size: 120%;
-    width: 80%;
-    border-radius: 5px;
-    border: 2.5px solid black;
+  font-size: 120%;
+  width: 80%;
+  border-radius: 5px;
+  border: 2.5px solid black;
 }
 
-.popup-ajustes .closeButtonAjustes{
-    position: absolute;
-    top: 6%;
-    right: 3%;
-    cursor: pointer;
-    border-radius: 10px;
-    transform: scale(2);
-    background-color: #81BFCD;
-    font-weight: bold;
-    color: white;
-    border: 2px solid white;
-    text-align: center;
+.popup-ajustes .closeButtonAjustes {
+  position: absolute;
+  top: 6%;
+  right: 3%;
+  cursor: pointer;
+  border-radius: 10px;
+  transform: scale(2);
+  background-color: #81bfcd;
+  font-weight: bold;
+  color: white;
+  border: 2px solid white;
+  text-align: center;
 }
 
 .closeButtonAjustes:hover {
-    background-color: #1d9bb8;
-    color: #81BFCD;
-    border-color: #81BFCD;
-    cursor: pointer;
-}
-  
-.popup-ajustes .error-messageAjustes {
-    color: red;
-    font-size: 100%;
-    font-weight: bold;
-    margin-top: 1%;
-    margin-bottom: 1%;
+  background-color: #1d9bb8;
+  color: #81bfcd;
+  border-color: #81bfcd;
+  cursor: pointer;
 }
 
-.popup-ajustes .elButtonAjustes{
-    color: white;
-    font-family: 'Chivo', sans-serif;
-    border-radius: 35px;
-    font-size: 130%;
-    background-color: #F64C4C;
-    border-style: solid;
-    height: 50px;
-    width: 30%;
-    border: 4px solid white;
+.popup-ajustes .error-messageAjustes {
+  color: red;
+  font-size: 100%;
+  font-weight: bold;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.popup-ajustes .elButtonAjustes {
+  color: white;
+  font-family: "Chivo", sans-serif;
+  border-radius: 35px;
+  font-size: 130%;
+  background-color: #f64c4c;
+  border-style: solid;
+  height: 50px;
+  width: 30%;
+  border: 4px solid white;
 }
 
 .popup-ajustes .elButtonAjustes:hover {
-    background-color: #FF6262;
-    color: #FAABAB;
-    border-color: #FF8181;
-    cursor: pointer;
+  background-color: #ff6262;
+  color: #faabab;
+  border-color: #ff8181;
+  cursor: pointer;
 }

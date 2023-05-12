@@ -38,13 +38,41 @@ function Stats() {
     <div className="align-items-center">
       <header className="header">Estadísticas</header>
       <div className="card-container">
-        {prueba.map((item) => (
+        <div className="card">
           <Card
-            key={item.title}
-            title={item.title}
-            data={item.estadisticas ? item.estadisticas : 0}
+            key={data.id_usuario}
+            title="Ocas"
+            data={data.estadisticas ? data.estadisticas : 0}
           />
-        ))}
+        </div>
+        <div className="card">
+          <Card
+            key={data.id_usuario}
+            title="Seis"
+            data={data.estadisticas ? data.estadisticas : 0}
+          />
+        </div>
+        <div className="card">
+          <Card
+            key={data.id_usuario}
+            title="Partidas jugadas"
+            data={data.estadisticas ? data.estadisticas : 0}
+          />
+        </div>
+        <div className="card">
+          <Card
+            key={data.id_usuario}
+            title="Partidas ganadas"
+            data={data.estadisticas ? data.estadisticas : 0}
+          />
+        </div>
+        <div className="card">
+          <Card
+            key={data.id_usuario}
+            title="Calaveras"
+            data={data.estadisticas ? data.estadisticas : 0}
+          />
+        </div>
       </div>
     </div>
   );
