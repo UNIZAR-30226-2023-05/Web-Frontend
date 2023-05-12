@@ -7,6 +7,7 @@ import Principal from './pages/principal/principal';
 import Juego from './pages/juego/juego'
 import Sala from './pages/sala/sala';
 import Ajustes from './pages/ajustes/ajustes';
+import Amigos from './pages/amigos/amigos';
 
 
 //path por defecto /
@@ -38,6 +39,10 @@ function App() {
         <Route
           component={Ajustes}
           path="/ajustes"
+        />
+        <Route
+          component={Amigos}
+          path="/amigos"
         />
         
       </header>

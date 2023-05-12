@@ -51,7 +51,6 @@ function Ajustes() {
 
     // Modal eliminar cuenta
     const [eliminarModalIsOpen, setEliminarModalIsOpen] = useState(false);
-    const [codigoSala, setCodigoSala] = useState('');
 
     const [error, setError] = useState(null);
     const [path,navigation] = useLocation();
@@ -286,7 +285,7 @@ function Ajustes() {
      ***************************************************************************/
     const cancelarCambios = () => {
         setNickname(nickname);
-        setNewNickname("");
+        setNewNickname(nickname);
         setNewContrasena("");
         setNewContrasenaRep("");
     }
