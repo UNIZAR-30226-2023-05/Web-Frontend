@@ -96,7 +96,7 @@ function Principal() {
   function ImagenesLink(){
     return (
       <div className="imagenes">
-        <a href="/">
+        <a href="/chat">
           <img src={chat} alt="Chat" />
         </a>
         <a href="/amigos">

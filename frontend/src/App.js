@@ -7,6 +7,7 @@ import Principal from './pages/principal/principal';
 import Sala from './pages/sala/sala';
 import Ajustes from './pages/ajustes/ajustes';
 import Amigos from './pages/amigos/amigos';
+import Chat from './pages/Chat/Chat';
 
 
 //path por defecto /
@@ -36,6 +37,10 @@ function App() {
         <Route
           component={Amigos}
           path="/amigos"
+        />
+        <Route
+          component={Chat}
+          path="/chat"
         />
         
       </header>
