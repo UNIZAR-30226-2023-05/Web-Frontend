@@ -42,6 +42,23 @@ function Chat() {
     const [error, setError] = useState(null);
     const [path, navigation] = useLocation();
 
+    
+    const [messageList, setMessageList] = useState([]);
+    const [chatWith, setChatWith] = useState("");
+
+    const [amigoChatActivo, setAmigoChatActivo] = useState('');
+
+    /***************************************************************************
+     * FUNCIONES SOCKET
+     ***************************************************************************/
+    socket.on('connect', () => {
+        console.log('Conectado al servidor de websockets');
+    });
+
+    socket.on('disconnect', (reason) => {
+        console.log(`Se ha perdido la conexión con el servidor de websockets: ${reason}`);
+    });
+
     /***************************************************************************
     * FUNCION OBTENER ID USUARIO
     ***************************************************************************/
@@ -98,13 +115,60 @@ function Chat() {
         );
     }
 
-    function handleAmigoSeleccionado(amigoSeleccionado) {
+    async function handleAmigoSeleccionado(amigoSeleccionado) {
+        // Si ya está seleccionado, no lo volvemos a seleccionar
+        if (amigoSeleccionado === amigoChatActivo) {
+            return;
+        }
         console.log("Amigo seleccionado:", amigoSeleccionado);
         setChatWith(amigoSeleccionado);
-    }
+        setAmigoChatActivo(amigoSeleccionado);
+        // Obtenemos usuarios para quedarnos con los IDs
+        const sender = await GetIDNickname(nicknameUsuario);
+        const receiver = await GetIDNickname(amigoSeleccionado);
 
-    const [messageList, setMessageList] = useState([]);
-    const [chatWith, setChatWith] = useState("");
+        // Vaciamos messageList
+        setMessageList([]);
+        // Recuperamos chat con amigo
+        console.log("Recuperamos chat con amigo");
+        socket.emit('getPrivMessage', sender.id_usuario, receiver.id_usuario, (data) => {
+            if (data.status !== 'ok') {
+              console.log("Ha habido un error");
+              console.log(data.status)
+              setError(data.message);
+            } else {
+              console.log("Mensajes recibidos");
+              console.log(data.messages);
+              // Cargamos el chat
+              for (let i = 0; i < data.messages.length; i++) {
+                console.log(data.messages[i]);
+                if(data.messages[i].emisor === sender.id_usuario){
+                    const message = {
+                        message: data.messages[i].contenido,
+                        sentTime: data.messages[i].sentTime,
+                        sender: "Yo",
+                        direction: MessageDirection.Outgoing,
+                    };
+                    //setMessageList([...messageList, message]);
+                    messageList.push(message);
+                    
+                }
+                else{
+                    const message = {
+                        message: data.messages[i].contenido,
+                        sentTime: data.messages[i].sentTime,
+                        sender: data.messages[i].sender,
+                        direction: MessageDirection.Incoming,
+                    };
+                    //setMessageList([...messageList, message]);
+                    messageList.push(message);
+                }
+                setMessageList([...messageList]);
+              }
+
+            }
+          });
+    }
 
     const handleSend = text => {
         console.log("Mensaje enviado:", text);
@@ -123,7 +187,7 @@ function Chat() {
             message: text,
             sentTime: "just now",
             sender: "Yo",
-            direction: "outgoing",
+            direction: MessageDirection.Outgoing,
           };    
 
         setMessageList([...messageList, message]); // Agrega el mensaje a la lista
@@ -135,6 +199,14 @@ function Chat() {
           senderId: currentUserId,
         });*/
         // Enviar evento mensaje
+        console.log('El receaver es ' + amigoChatActivo)
+        socket.emit('sendPrivMessage', nicknameUsuario, amigoChatActivo, text, (data) => {
+                if (data.status !== 'ok') {
+                  setError(data.message);
+                } else {
+                  console.log(data.msg);
+                }
+              });
     
     };
 
