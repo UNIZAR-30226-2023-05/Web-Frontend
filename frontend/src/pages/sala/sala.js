@@ -15,7 +15,7 @@ function Sala() {
   const nombreSala = localStorage.getItem('nombreSala');
   const idRoom = localStorage.getItem('idRoom');
   const liderNickname = localStorage.getItem('liderNickname');
-  //const nickname = localStorage.getItem('nickname');
+  const nickname = localStorage.getItem('nickname');
 
   let interval;
 
@@ -208,8 +208,13 @@ function Sala() {
     if(jugadores.ok === false){
       setError(jugadores.message);
     } else {
-
       const ordenTurnos = jugadores.ordenTurnos;
+      console.log(ordenTurnos[0]);
+      console.log(nickname)
+      if(ordenTurnos[0] === nickname){
+        console.log('soy primero');
+        localStorage.setItem('turno', true);
+      }
       const tiempo = jugadores.tiempo.ordenTurnos;
       navigation("/juego");
     }

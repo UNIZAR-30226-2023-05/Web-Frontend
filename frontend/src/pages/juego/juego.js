@@ -32,6 +32,7 @@ function Juego() {
   });
 
   const turno = localStorage.getItem('turno'); // booleano
+  console.log(turno);
 
   /***************************************************************************
    * FUNCIONES SOCKET
@@ -346,7 +347,7 @@ function Juego() {
 
             {/* MODAL DADO */}
             {/*Cuando sea turno true se mostrara el modal de dado*/}
-            {turno === true && <button className='botonJugar' onClick={() => setModalDado(true)}>Tirar Dado</button>}
+            {turno === 'true' && <button className='botonJugar' onClick={() => setModalDado(true)}>Tirar Dado</button>}
             <Modal className="popup" isOpen={modalDado} onRequestClose={() => setModalDado(false)}>
             <div className="popup-juego">
                 <div className="tituloJuego">TIRA EL DADO</div>
@@ -364,7 +365,7 @@ function Juego() {
             </Modal>
 
             {/*Cuando sea turno false se mostrara un modal de no poder tirar aun.*/}
-            {turno !== true && <button className='botonJugar' onClick={() => setModalNoTurno(true)}>Tirar Dado</button>}
+            {turno !== 'true' && <button className='botonJugar' onClick={() => setModalNoTurno(true)}>Tirar Dado</button>}
             <Modal className="popup" isOpen={modalNoTurno} onRequestClose={() => setModalNoTurno(false)}>
             <div className="popup-juego">
                 <div className="tituloJuego">NO TIRAR</div>
