@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import socket from '../../utils/socket.js';
-import './Chat.css';
+import './chat.css';
 import '../../components/RestoPantallas.css';
 import home from '../../assets/feather/home.svg';
-import userMas from '../../assets/feather/user_plus.svg';
-import userMenos from '../../assets/feather/user_minus.svg';
-import user from '../../assets/feather/user.svg';
+import amigos from '../../assets/feather/users.svg'
 
 import Modal from 'react-modal';
 import GetID from '../../services/getID_log.js';
@@ -108,6 +106,9 @@ function Chat() {
     function ImagenesLink() {
         return (
             <div className="imagenes">
+                <a href="/amigos">
+                    <img src={amigos} alt="Amigos" />
+                </a>
                 <a href="/principal">
                     <img src={home} alt="Home" />
                 </a>
@@ -222,31 +223,33 @@ function Chat() {
     
     return (
         <div className="Principal">
+            
             <header className="header">
                 CHAT
             </header>
             <div className='barraTitulo'></div>
-            <div className='imagenes-link'>
-                <ImagenesLink />
+            <div className='contenderImagenes'>
+                <div className='imagenesParaChat'>
+                    <ImagenesLink />
+                </div>
             </div>
-
-            <div className="contenedorPrincipal">
-                <div className="contenedorAmigos">
-                    <div className="lista-amigos">
+            <div className="contenedorPrincipalChat">
+                <div className="contenedorAmigosChat">
+                    <div className="lista-amigosChat">
                         {listaAmigos.length > 0 ? (
                         <ul>
                             {listaAmigos.map((amigo, index) => (
-                            <div key={index} className="amigosSolicitudes" onClick={() => {handleAmigoSeleccionado(amigo);}}>
-                                <img className='userIconoAmigos' src={user} alt='' />
+                            <div key={index} className="amigosSolicitudesChat" onClick={() => {handleAmigoSeleccionado(amigo);}}>
                                 {amigo}
                             </div>
                             ))}
                         </ul>
                         ) : (
-                        <p className='mensaje'>Busca amigos con los que compartir esta experiencia</p>
+                        <p className='mensajeChat'>Busca amigos con los que compartir esta experiencia</p>
                         )}
                     </div>
                 </div>
+
                 <div className="contenedorChat">
                     <MainContainer>
                         <ChatContainer>

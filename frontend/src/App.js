@@ -7,7 +7,7 @@ import Principal from './pages/principal/principal';
 import Sala from './pages/sala/sala';
 import Ajustes from './pages/ajustes/ajustes';
 import Amigos from './pages/amigos/amigos';
-import Chat from './pages/Chat/Chat';
+import Chat from './pages/chat/chat';
 
 
 //path por defecto /

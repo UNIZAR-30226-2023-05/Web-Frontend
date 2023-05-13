@@ -1,4 +1,4 @@
-.Amigos {
+.Chat {
     background-image: url('../../assets/img/fondo.jpg');
     background-size: 100%;
     background-color: #1C6473;
@@ -16,66 +16,54 @@ img .a {
     margin-right: 4%;
 }
 
-
-.contenedorPrincipal {
-    width: 100%;
-    height: 58%;
-    position: absolute;
+.imagenesParaChat {
+    position: relative;   
 }
-  
-.contenedorAmigos {
+
+.contenderImagenes {
+    left: 0;
+    margin-right: 70%;
+    position: fixed;
+    left: 0;
     width: 30%;
-    height: 100%;
+    height: 7vh;
+    border: 2px solid black;
+    box-shadow: 0 0 0 10px whitesmoke;
+}
+
+.contenedorPrincipalChat {
+    position: relative;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+
+.contenedorAmigosChat {
+    margin-top: 5%;
+    position: fixed;
+    left: 0;
+    width: 30%;
+    height: 65vh;
     background-color: #C3FAFE;
     border: 2px solid black;
     box-shadow: 0 0 0 10px whitesmoke;
-    float: left;
-    margin-left: 30%;
-    left: 0;
 }
-  
+
 .contenedorChat {
-    width: 30%;
-    height: 100%;
+    position: fixed;
+    flex: 0 0 70%;
+    width: 68%;
+    height: 75vh;
     background-color: #C3FAFE;
     border: 2px solid black;
     box-shadow: 0 0 0 10px whitesmoke;
     float: right;
-    margin-right: 2%;
     right: 0;
 }
-  
-
-.lista-amigos {
-    overflow: scroll;
-    overflow-x: hidden;
-    /* Oculta la barra de desplazamiento horizontal */
-}
 
 
-.lista-amigos::-webkit-scrollbar {
-    width: 16px;
-    /* Ancho de la barra de desplazamiento */
-}
-
-.lista-amigos::-webkit-scrollbar-track {
-    background: #CDCDCD;
-    /* Color de fondo de la barra de desplazamiento */
-}
-
-.lista-amigos::-webkit-scrollbar-thumb {
-    background-color: #888;
-    /* Color del pulgar de la barra de desplazamiento */
-    border-radius: 6px;
-    /* Radio de la esquina del pulgar de la barra de desplazamiento */
-}
-
-.lista-amigos::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-    /* Color del pulgar de la barra de desplazamiento al pasar el cursor */
-}
-
-.userIconoAmigos {
+.userIconoAmigosChat {
     border: none;
     position: fixed;
     right: 4%;
@@ -85,7 +73,7 @@ img .a {
     border: 2px solid #555;
 }
 
-.amigosSolicitudes {
+.amigosSolicitudesChat {
     background-color: whitesmoke;
     padding: 10px;
     border: 1px solid #1C6473;
@@ -94,15 +82,15 @@ img .a {
     margin-bottom: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-  }
-  
-  .amigosSolicitudes:hover {
+}
+
+.amigosSolicitudesChat:hover {
     background-color: #2598af;
     color: white;
-  }
+}
 
 
-.mensaje {
+.mensajeChat {
     position: center;
     font-family: 'Chivo', sans-serif;
 }

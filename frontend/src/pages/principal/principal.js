@@ -102,7 +102,7 @@ function Principal() {
         <a href="/amigos">
           <img src={amigos} alt="Amigos" />
         </a>
-        <a href="/">
+        <a href="/chatAmigos">
           <img src={tienda} alt="Tienda" />
         </a>
         <a href="/ajustes">

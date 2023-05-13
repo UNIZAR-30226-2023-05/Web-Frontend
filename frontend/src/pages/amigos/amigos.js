@@ -6,6 +6,7 @@ import '../../components/RestoPantallas.css';
 import '../../components/PopupAmigos.css';
 
 import home from '../../assets/feather/home.svg';
+import chat from '../../assets/feather/message-square.svg'
 import userMas from '../../assets/feather/user_plus.svg';
 import userMenos from '../../assets/feather/user_minus.svg';
 import user from '../../assets/feather/user.svg';
@@ -255,6 +256,9 @@ function Amigos() {
     function ImagenesLink() {
         return (
             <div className="imagenes">
+                <a href="/chat">
+                    <img src={chat} alt="Chat" />
+                </a>
                 <a href="/principal">
                     <img src={home} alt="Home" />
                 </a>
