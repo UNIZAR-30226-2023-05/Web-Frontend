@@ -68,6 +68,7 @@ function Principal() {
     console.log(nicknames);
     localStorage.setItem('jugadores', JSON.stringify(nicknames));
     console.log(JSON.stringify(nicknames));
+    socket.off("updatePlayers");
   });
 
 

@@ -11,12 +11,13 @@ import Modal from 'react-modal';
 
 function Sala() {
   const [contador, setContador] = useState(0);
+  const tiempo = 200;
 
   // Coger el nombre e id de la sala
   const nombreSala = localStorage.getItem('nombreSala');
   const idRoom = localStorage.getItem('idRoom');
   const liderNickname = localStorage.getItem('liderNickname');
-  //const nickname = localStorage.getItem('nickname');
+  const nickname = localStorage.getItem('nickname');
 
 
   // Controlar si el usuario es el lider o no
@@ -31,6 +32,8 @@ function Sala() {
 
   const [error, setError] = useState(null);
   const [path, navigation] = useLocation();
+
+  const [eliminadoJugador, setEliminadoJugador] = useState(false);
 
   /***************************************************************************
    * FUNCIONES SOCKET
@@ -58,11 +61,17 @@ function Sala() {
 
   useEffect(() => {
     console.log('Estamos en useEffect de sala');
-    const players = JSON.parse(localStorage.getItem('jugadores'));
-    if (players) {
-      //console.log(`Estamos en useEffect de sala dentro del if y jugadoresLocalStorage= ${players}`);
-      setJugadores(players);
-    }
+    console.log(localStorage.getItem('jugadores'));
+
+    
+    console.log('Estamos en useEffect de sala dentro del else');
+    let players = localStorage.getItem('jugadores');
+    const listaJUgadores = players.replace(/[\[\]\s"]/g, "").split(",");
+    console.log(listaJUgadores);
+    console.log(`players = ${listaJUgadores} `);
+    setJugadores(listaJUgadores);
+    
+
   }, [contador]);
 
   /***************************************************************************
@@ -92,9 +101,10 @@ function Sala() {
    * FUNCION ACTUALIZAR JUGADORES
    ***************************************************************************/
   socket.on("updatePlayers", (nicknames) => {
-    //console.log('Estoy dentro de updatePlayers sala');
-    //console.log(nicknames);
+    console.log('Estoy dentro de updatePlayers sala');
+    console.log(nicknames);
     localStorage.setItem('jugadores', JSON.stringify(nicknames));
+    socket.off("updatePlayers");
   });
 
 
@@ -102,11 +112,13 @@ function Sala() {
    * FUNCION AVISAR JUGADOR ELIMINADO
    ***************************************************************************/
   socket.on("serverRoomMessage", (message) => {
-    console.log('Recibido mensaje del servidor')
+    console.log('Estoy dentro de serverRoomMessage sala');
+    console.log(message);
     if (message === 'Has sido eliminado de la sala') {
       console.log("Mensaje del servidor:", message);
       navigation("/principal");
     }
+    socket.off("serverRoomMessage");
   });
   
 
@@ -159,18 +171,52 @@ function Sala() {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {
-        
+        setEliminadoJugador(true);
         // Resetear num jugadores
         localStorage.setItem('jugadores', players);
       }
     });
   }
 
+  /***************************************************************************
+   * FUNCION INICIO JUEGO
+   **************************************************************************/
+  const inicioPartida = () => {
+    socket.emit("startGame", idRoom, tiempo, (data) => {
+      console.log("Inicio de partida")
+      if (data.status !== 'ok') {
+        setError(data.message);
+      } else {
+        console.log(data.message);
+      }
+    });
+  };
+
+  /***************************************************************************
+   * FUNCION ESCUCHA INICIAR PARTIDA Y TURNOS
+   ***************************************************************************/
+  socket.on('ordenTurnos', (jugadores) => {
+    console.log('Estoy dentro de ordenTurnos sala');
+    console.log(jugadores);
+    if(jugadores.ok === false){
+      setError(jugadores.message);
+    } else {
+      const ordenTurnos = jugadores.ordenTurnos;
+      console.log(ordenTurnos[0]);
+      console.log(nickname)
+      if(ordenTurnos[0] === nickname){
+        console.log('soy primero');
+        localStorage.setItem('turno', true);
+      }
+      const tiempo = jugadores.tiempo.ordenTurnos;
+      //navigation("/juego");
+    }
+  });
 
 
   /***************************************************************************
-    * FUNCION IMAGENES LINK
-    ***************************************************************************/
+   * FUNCION IMAGENES LINK
+   ***************************************************************************/
   function ImagenesLink() {
     return (
       <div className="imagenes">
@@ -202,8 +248,7 @@ function Sala() {
       });
   };
 
-  /********************************
-webpack compiled with 1 warning*******************************************
+  /***************************************************************************
    * RENDERIZADO
    ***************************************************************************/
   const handleClick = () => {
@@ -236,9 +281,11 @@ webpack compiled with 1 warning*******************************************
             <img className='copiadoIcono' src={check} alt='Copiar' />
           }
         </div>
-        <button  onClick={handleClick}>Refrescar</button>
+
+        <button className='refrescarBoton' onClick={handleClick}>Refrescar</button>
+
         {lider === 'true' && <button className='comenzarPartida' >Comenzar partida</button>}
-        {lider === 'true' && <button className='eliminarSala' onClick={EliminarSala}>Eliminar sala</button>}
+        {lider === 'true' && <button className='eliminarSala' onClick={() => EliminarSala()}>Eliminar sala</button>}
         <div className="players-container">
           <div className="texto-participante">Participantes: {numPlayers}</div>
           {players.map((player, index) => (
