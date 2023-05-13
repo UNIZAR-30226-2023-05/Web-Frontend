@@ -124,13 +124,25 @@ img .a {
     cursor: pointer;
 }
 
-.refrescar {
-    
+.refrescarBoton {
+    position: absolute;
+    left: 0;
+    top: 25%;
+    margin-left: 2%;
+    color: white ;
+    font-family: 'Caveat', sans-serif;
+    border-radius: 35px;
+    font-size: 200%;
+    background-color: #81BFCD !important;
+    border-style: solid;
+    height: auto;
+    width: 12%;
+    border: 4px solid white;
     
 }
 
 
-.refrescar:hover {
+.refrescarBoton:hover {
     background-color: #1d9bb8;
     color: #81BFCD;
     border-color: #81BFCD;
