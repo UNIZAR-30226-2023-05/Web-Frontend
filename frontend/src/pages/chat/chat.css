@@ -17,19 +17,39 @@ img .a {
 }
 
 .imagenesParaChat {
-    position: relative;   
+    position: absolute;
+    right: 0;
 }
 
-.contenderImagenes {
+
+.contenedorImagenes {
     left: 0;
     margin-right: 70%;
-    position: fixed;
-    left: 0;
+    position: relative;
     width: 30%;
     height: 7vh;
     border: 2px solid black;
     box-shadow: 0 0 0 10px whitesmoke;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
+
+  
+.searchContainer input {
+    position: relative;
+    width: 100%;
+    margin-left: 1%;
+    padding: 8px;
+    border: 3px solid #ccc;
+    border-radius: 6px;
+    font-size: 100%;
+}
+  
+.searchContainer input::placeholder {
+    color: gray;
+    }
+  
 
 .contenedorPrincipalChat {
     position: relative;
@@ -40,7 +60,7 @@ img .a {
 
 
 .contenedorAmigosChat {
-    margin-top: 5%;
+    margin-top: 1.1%;
     position: fixed;
     left: 0;
     width: 30%;
@@ -48,10 +68,12 @@ img .a {
     background-color: #C3FAFE;
     border: 2px solid black;
     box-shadow: 0 0 0 10px whitesmoke;
+    overflow-y: scroll;
 }
 
+
 .contenedorChat {
-    position: fixed;
+    position: relative;
     flex: 0 0 70%;
     width: 68%;
     height: 75vh;
@@ -60,6 +82,7 @@ img .a {
     box-shadow: 0 0 0 10px whitesmoke;
     float: right;
     right: 0;
+    margin-top: -3.7%;
 }
 
 
@@ -93,4 +116,9 @@ img .a {
 .mensajeChat {
     position: center;
     font-family: 'Chivo', sans-serif;
+}
+
+.cs-main-container .cs-conversation-header {
+    z-index: 1;
+    font-size: 140%;
 }

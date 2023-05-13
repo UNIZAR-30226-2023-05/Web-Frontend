@@ -33,9 +33,9 @@ function Chat() {
     // Lista de amigos
     const [listaAmigos, setListaAmigos] = useState([]);
 
-    // Booleano para renderizar
-    const [render, setRender] = useState(true);
-    //console.log(`Render: ${render}`);
+    // Para el buscador
+    const [searchText, setSearchText] = useState("");
+
 
     const [error, setError] = useState(null);
     const [path, navigation] = useLocation();
@@ -105,7 +105,7 @@ function Chat() {
      ***************************************************************************/
     function ImagenesLink() {
         return (
-            <div className="imagenes">
+            <div className="imagenesParaChat">
                 <a href="/amigos">
                     <img src={amigos} alt="Amigos" />
                 </a>
@@ -220,6 +220,29 @@ function Chat() {
         setContador(contador + 1);
     };
 
+    /***************************************************************************
+     * BUSCADOR
+     ***************************************************************************/
+    function SearchBar({ searchText, setSearchText }) {
+        const handleChange = (event) => {
+          setSearchText(event.target.value);
+        };
+
+        return (
+            <input
+              type="text"
+              value={searchText}
+              onChange={handleChange}
+              placeholder="Buscar amigo..."
+            />
+        );
+    }
+
+    // Filtrar la lista de amigos en función del texto de búsqueda
+    const filteredAmigos = listaAmigos.filter((amigo) =>
+        amigo.toLowerCase().includes(searchText.toLowerCase())
+    );
+
     
     return (
         <div className="Principal">
@@ -228,17 +251,30 @@ function Chat() {
                 CHAT
             </header>
             <div className='barraTitulo'></div>
-            <div className='contenderImagenes'>
-                <div className='imagenesParaChat'>
-                    <ImagenesLink />
+            <div className='contenedorImagenes'>
+                <div className="searchContainer">
+                    <input
+                        type="text"
+                        placeholder="Buscar amigo"
+                        value={searchText}
+                        onChange={(event) => setSearchText(event.target.value)}
+                    />
+                </div>
+                <div className="imagenesParaChat">
+                    <a href="/amigos">
+                        <img src={amigos} alt="Amigos" />
+                    </a>
+                    <a href="/principal">
+                        <img src={home} alt="Home" />
+                    </a>
                 </div>
             </div>
             <div className="contenedorPrincipalChat">
                 <div className="contenedorAmigosChat">
                     <div className="lista-amigosChat">
-                        {listaAmigos.length > 0 ? (
+                        {filteredAmigos.length > 0 ? (
                         <ul>
-                            {listaAmigos.map((amigo, index) => (
+                            {filteredAmigos.map((amigo, index) => (
                             <div key={index} className="amigosSolicitudesChat" onClick={() => {handleAmigoSeleccionado(amigo);}}>
                                 {amigo}
                             </div>
