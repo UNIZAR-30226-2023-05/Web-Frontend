@@ -70,8 +70,10 @@ function Sala() {
    ***************************************************************************/
   socket.on("destroyingRoom", (roomId) => {
     console.log('Estoy dentro de destroyingRoom sala');
-    if (idRoom === roomId) {
-      
+    console.log("idRoom: ", idRoom);
+    console.log("roomId: ", roomId);
+    if (idRoom == roomId) {
+      console.log("Los ids coinciden");
       // ELiminar la base de datos de react
       localStorage.removeItem('idRoom');
       localStorage.removeItem('lider');
@@ -79,6 +81,9 @@ function Sala() {
       localStorage.removeItem('nombreSala');
       
       navigation("/principal");
+    }
+    else{
+      console.log("Los ids no coinciden");
     }
   });
 
@@ -97,6 +102,7 @@ function Sala() {
    * FUNCION AVISAR JUGADOR ELIMINADO
    ***************************************************************************/
   socket.on("serverRoomMessage", (message) => {
+    console.log('Recibido mensaje del servidor')
     if (message === 'Has sido eliminado de la sala') {
       console.log("Mensaje del servidor:", message);
       navigation("/principal");
