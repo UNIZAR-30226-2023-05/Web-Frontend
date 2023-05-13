@@ -102,13 +102,13 @@ function Principal() {
   function ImagenesLink() {
     return (
       <div className="imagenes">
-        <a href="/">
+        <a href="/chat">
           <img src={chat} alt="Chat" />
         </a>
-        <a href="/">
+        <a href="/amigos">
           <img src={amigos} alt="Amigos" />
         </a>
-        <a href="/">
+        <a href="/chatAmigos">
           <img src={tienda} alt="Tienda" />
         </a>
         <a href="/ajustes">

@@ -10,6 +10,7 @@ import { useLocation } from 'wouter';
 import Modal from 'react-modal';
 
 function Sala() {
+  const [contador, setContador] = useState(0);
 
   // Coger el nombre e id de la sala
   const nombreSala = localStorage.getItem('nombreSala');
@@ -17,7 +18,6 @@ function Sala() {
   const liderNickname = localStorage.getItem('liderNickname');
   //const nickname = localStorage.getItem('nickname');
 
-  let interval;
 
   // Controlar si el usuario es el lider o no
   const lider = localStorage.getItem('lider'); // booleano
@@ -46,7 +46,7 @@ function Sala() {
   /***************************************************************************
    * FUNCION ACTUALIZAR JUGADORES
    ***************************************************************************/
-  const nomInterval = setInterval(() => {
+  /*const nomInterval = setInterval(() => {
     //console.log('Estamos en useEffect de sala');
     const players = JSON.parse(localStorage.getItem('jugadores'));
     if (players) {
@@ -54,21 +54,32 @@ function Sala() {
       setJugadores(players);
     }
     clearInterval(interval);
-  }, 2000);
+  }, 2000);*/
 
+  useEffect(() => {
+    console.log('Estamos en useEffect de sala');
+    const players = JSON.parse(localStorage.getItem('jugadores'));
+    if (players) {
+      //console.log(`Estamos en useEffect de sala dentro del if y jugadoresLocalStorage= ${players}`);
+      setJugadores(players);
+    }
+  }, [contador]);
 
   /***************************************************************************
    * FUNCION ELIMINAR SALA
    ***************************************************************************/
-  socket.on("destroyingRoom", (idRoom) => {
+  socket.on("destroyingRoom", (roomId) => {
     console.log('Estoy dentro de destroyingRoom sala');
-    // ELiminar la base de datos de react
-    localStorage.removeItem('idRoom');
-    localStorage.removeItem('lider');
-    localStorage.removeItem('players');
-    localStorage.removeItem('nombreSala');
-    clearInterval(nomInterval);
-    navigation("/principal");
+    if (idRoom === roomId) {
+      
+      // ELiminar la base de datos de react
+      localStorage.removeItem('idRoom');
+      localStorage.removeItem('lider');
+      localStorage.removeItem('players');
+      localStorage.removeItem('nombreSala');
+      
+      navigation("/principal");
+    }
   });
 
   
@@ -103,12 +114,12 @@ function Sala() {
         setError(data.message);
       } else {
         console.log(data.message);
-        // ELiminar la base de datos de react
+        /* ELiminar la base de datos de react
         localStorage.removeItem('idRoom');
         localStorage.removeItem('lider');
         localStorage.removeItem('players');
-        localStorage.removeItem('nombreSala');
-        clearInterval(nomInterval);
+        localStorage.removeItem('nombreSala');*/
+        
         navigation("/principal");
       }
     });
@@ -127,7 +138,7 @@ function Sala() {
         localStorage.removeItem('idRoom');
         localStorage.removeItem('lider');
         localStorage.removeItem('nombreSala');
-        clearInterval(nomInterval);
+        
         navigation("/principal");
       }
     });
@@ -142,7 +153,7 @@ function Sala() {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {
-        clearInterval(nomInterval);
+        
         // Resetear num jugadores
         localStorage.setItem('jugadores', players);
       }
@@ -185,6 +196,14 @@ function Sala() {
       });
   };
 
+  /********************************
+webpack compiled with 1 warning*******************************************
+   * RENDERIZADO
+   ***************************************************************************/
+  const handleClick = () => {
+    setContador(contador + 1);
+  };
+
 
 
   return (
@@ -211,6 +230,7 @@ function Sala() {
             <img className='copiadoIcono' src={check} alt='Copiar' />
           }
         </div>
+        <button  onClick={handleClick}>Refrescar</button>
         {lider === 'true' && <button className='comenzarPartida' >Comenzar partida</button>}
         {lider === 'true' && <button className='eliminarSala' onClick={EliminarSala}>Eliminar sala</button>}
         <div className="players-container">
@@ -224,7 +244,7 @@ function Sala() {
           ))}
         </div>
         {lider !== 'true' && <button className='abandonarSala' onClick={SalirSala}>Abandonar sala</button>}
-
+        
       </div>
     </>
   );
