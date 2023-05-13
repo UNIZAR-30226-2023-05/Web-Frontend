@@ -35,6 +35,7 @@ function Principal() {
    ***************************************************************************/
   socket.on('connect', () => {
     console.log('Conectado al servidor de websockets');
+    socket.off('connect');
   });
   
   socket.on('disconnect', (reason) => {

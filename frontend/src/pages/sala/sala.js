@@ -49,16 +49,6 @@ function Sala() {
   /***************************************************************************
    * FUNCION ACTUALIZAR JUGADORES
    ***************************************************************************/
-  /*const nomInterval = setInterval(() => {
-    //console.log('Estamos en useEffect de sala');
-    const players = JSON.parse(localStorage.getItem('jugadores'));
-    if (players) {
-      //console.log(`Estamos en useEffect de sala dentro del if y jugadoresLocalStorage= ${players}`);
-      setJugadores(players);
-    }
-    clearInterval(interval);
-  }, 2000);*/
-
   useEffect(() => {
     console.log('Estamos en useEffect de sala');
     console.log(localStorage.getItem('jugadores'));
@@ -78,9 +68,6 @@ function Sala() {
    * FUNCION ELIMINAR SALA
    ***************************************************************************/
   socket.on("destroyingRoom", (roomId) => {
-    console.log('Estoy dentro de destroyingRoom sala');
-    console.log("idRoom: ", idRoom);
-    console.log("roomId: ", roomId);
     if (idRoom == roomId) {
       console.log("Los ids coinciden");
       // ELiminar la base de datos de react
@@ -112,8 +99,6 @@ function Sala() {
    * FUNCION AVISAR JUGADOR ELIMINADO
    ***************************************************************************/
   socket.on("serverRoomMessage", (message) => {
-    console.log('Estoy dentro de serverRoomMessage sala');
-    console.log(message);
     if (message === 'Has sido eliminado de la sala') {
       console.log("Mensaje del servidor:", message);
       navigation("/principal");
