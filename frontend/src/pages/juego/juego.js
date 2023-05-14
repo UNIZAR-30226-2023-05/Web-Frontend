@@ -18,6 +18,7 @@ Modal.setAppElement('#root'); // para asegurarnos de que react-modal funcione co
 function Juego() {
 
   const posIni = 0;
+  const [turno, setTurno] = useState(null);
   const [posicion, setPosicion] = useState([]);
   //Coger id de la sala
   const nickname = localStorage.getItem('nickname');
@@ -25,17 +26,19 @@ function Juego() {
   const nombreSala = localStorage.getItem('nombreSala');
   const listaNombres = JSON.parse(localStorage.getItem('ordenTurnos'));
 
-  /***************************************************************************
-   * TURNO PRIMERA JUGADA
-   ***************************************************************************/
-  socket.on("ordenTurnos", (data) => {
-    console.log('El orden de los turnos es: ' + data.ordenTurnos);
-    const ordenTurnos = data.ordenTurnos;
-    const tiempo = data.tiempo;
-  });
+  const listaFichas = ['ficha1', 'ficha2', 'ficha3', 'ficha4', 'ficha5', 'ficha6'];
 
-  let turno = localStorage.getItem('turno'); // booleano
-  console.log(turno);
+  //  Emparejamiento de cada jugador con su ficha.
+  const parejas = listaNombres.map((nombre, index) => [nombre, listaFichas[index]]);
+
+  useEffect(() => {
+    //const turnoAlmacenado = localStorage.getItem('turno');
+    if (listaNombres[0] === nickname) {
+      setTurno('true');
+    } else {
+      setTurno('false');
+    }
+  }, []);
 
   /***************************************************************************
    * FUNCIONES SOCKET
@@ -133,6 +136,8 @@ function Juego() {
   // Modal calavera
   const [calaveraModal, setCalaveraModal] = useState(false);
 
+  // Modal ganador
+  const [ganadorModal, setGanadorModal] = useState(false);
 
 
   /***************************************************************************
@@ -194,6 +199,8 @@ function Juego() {
    * FUNCION COMIENZO DE LA JUGADA
    ***************************************************************************/
   const comenzarJugada = () => {
+
+
     if (turno === 'true'){
       console.log("Estoy en la funcion comenzar jugada");
       console.log('el id de la sala es: ' + idRoom);
@@ -215,31 +222,69 @@ function Juego() {
 
           // Se inicializa el valor del dado con el valor que llega del backend
           setDado(dice);
+          
+          // Funcion para cerrar el modal del dado despues de 500ms
           setTimeout(() => {
             setModalDado(false);
           }, 500);
           
 
-          //Se inicializa la casilla con el valor de la casilla que llega del backend 
-          setIdFicha1(afterDice);
+          //Se inicializa la ficha que corresponde con el valor de la casilla que llega del backend
+          //setIdFicha1(afterDice);
+          inicializarFicha(afterDice);
+
 
           //Si rollAgain es true, turno sigue siendo true
           if(rollAgain === true){
-            turno = 'true';
+            setTurno('true');
             setIdFicha1(finalCell);
+            console.log('Turno' + turno);
 
           } else {
-            turno = 'false';
+            setTurno('false');
+            console.log('Turno: ' + turno);
           }
 
           //Se comprueba si es una casilla especial
-          comprobarCasilla(dice);
+          comprobarCasilla(afterDice);
 
                    
         }
       });
       
-    }}
+    }
+  }
+  
+  const inicializarFicha = (casilla) => {
+    console.log("Estoy en la funcion inicializar ficha");
+    const indi = listaNombres.indexOf(nickname);
+
+      switch(indi){
+        case 0:
+          setIdFicha1(casilla);
+          break;
+
+        case 1:
+          setIdFicha2(casilla);
+          break;
+
+        case 2:
+          setIdFicha3(casilla);
+          break;
+
+        case 3:
+          setIdFicha4(casilla);
+          break;
+
+        case 4:
+          setIdFicha5(casilla);
+          break;
+
+        case 5:
+          setIdFicha6(casilla);
+          break;
+      }
+  }
   
   //Si es una casilla especial se abre el modal correspondiente
   const comprobarCasilla = (casilla) => { 
@@ -282,7 +327,7 @@ function Juego() {
     } else if (casilla === 62){
       console.log("GANASTE")
       //Mando a backend que he ganado****************************************************** MIRAR
-      socket.emit("ganar", parseInt(idRoom), (data) => {
+    /*  socket.emit("ganar", parseInt(idRoom), (data) => {
         console.log("Mando ganar");
         if (data.status !== 'ok') {
           setError(data.message);
@@ -292,7 +337,7 @@ function Juego() {
           console.log('GANASTE');
           setModalGanar(true);
         }
-      });
+      });*/
     }
 
   }
@@ -474,7 +519,7 @@ function Juego() {
             </Modal>
 
             {/*Cuando sea turno false se mostrara un modal de no poder tirar aun.*/}
-            {turno !== 'true' && <button className='botonJugar' onClick={() => setModalNoTurno(true)}>Tirar Dado</button>}
+            {/* {turno !== 'true' && <button className='botonJugar' onClick={() => setModalDado(true)}>Tirar Dado</button>}
             <Modal className="popup" isOpen={modalNoTurno} onRequestClose={() => setModalNoTurno(false)}>
             <div className="popup-juego">
                 <div className="tituloJuego">NO TIRAR</div>
@@ -486,7 +531,7 @@ function Juego() {
                 <button className='closeButtonJuego' onClick={() => closeModalDado()}>X</button>
                 
             </div>
-            </Modal>
+            </Modal> */}
             
             {/* MODAL OCA */}
             
