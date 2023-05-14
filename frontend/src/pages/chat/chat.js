@@ -51,6 +51,9 @@ function Chat() {
 
     const [amigoChatActivo, setAmigoChatActivo] = useState('');
 
+    // Hacer que se muestre el chat cuando se clique en un amigo
+    const [isVisible, setIsVisible] = useState(false);
+
     /***************************************************************************
      * FUNCIONES SOCKET
      ***************************************************************************/
@@ -122,6 +125,8 @@ function Chat() {
     }
 
     async function handleAmigoSeleccionado(amigoSeleccionado) {
+        // Hacemos visible el chat
+        setIsVisible(true);
         // Si ya está seleccionado, no lo volvemos a seleccionar
         if (amigoSeleccionado === amigoChatActivo) {
             return;
@@ -288,7 +293,7 @@ function Chat() {
                     </div>
                 </div>
 
-                <div className="contenedorChat">
+                <div className="contenedorChat" style={{ display: isVisible ? 'block' : 'none' }}>
                     <MainContainer>
                         <ChatContainer>
                         <ConversationHeader>
