@@ -3,7 +3,7 @@ async function GetSolicitudes(id_usuario) {
       "Content-Type": "application/json"
   }
 
-  let response = await fetch(`http://169.51.206.12:32021/social/friends/${id_usuario}`, { 
+  let response = await fetch(`http://localhost:4000/social/friends/${id_usuario}`, { 
     method: "PUT",
     headers: headersList
   });

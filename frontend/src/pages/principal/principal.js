@@ -105,7 +105,9 @@ function Principal() {
     console.log("Estoy dentro de updatePlayers principal");
     console.log(nicknames);
     localStorage.setItem("jugadores", JSON.stringify(nicknames));
+    localStorage.setItem("jugadores", nicknames);
     console.log(JSON.stringify(nicknames));
+    socket.off("updatePlayers");
   });
 
   /***************************************************************************

@@ -5,7 +5,7 @@ async function GetStats(id_usuario) {
   };
 
   let response = await fetch(
-    `http://169.51.206.12:32021/users/estadisticas/${id_usuario}`,
+    `http://localhost:4000/users/estadisticas/${id_usuario}`,
     {
       method: "GET",
       headers: headersList,

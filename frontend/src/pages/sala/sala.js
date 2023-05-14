@@ -22,7 +22,7 @@ function Sala() {
   // Controlar si el usuario es el lider o no
   const lider = localStorage.getItem('lider'); // booleano
   const [players, setJugadores] = useState([]);
-  //console.log(`los jugadores en sala son ${players}`);
+  console.log(`los jugadores en sala son ${players}`);
   const numPlayers = players ? players.length : 0; // Numero de jugadores en la sala
 
   // Declaracion de variables
@@ -49,8 +49,10 @@ function Sala() {
   useEffect(() => {
     console.log('Estamos en useEffect de sala');
     const players = localStorage.getItem('jugadores');
+    console.log(`los jugadores en useEffect son ${players}`);
     const lista = players.replace(/[\[\]\s"]/g, "").split(",");
     setJugadores(lista);
+    console.log(`los jugadores en useEffect son ${lista}`);
   }, [contador]);
 
   /***************************************************************************
@@ -68,6 +70,7 @@ function Sala() {
       
       navigation("/principal");
     }
+    socket.off("destroyingRoom");
   });
 
   
@@ -75,9 +78,11 @@ function Sala() {
    * FUNCION ACTUALIZAR JUGADORES
    ***************************************************************************/
   socket.on("updatePlayers", (nicknames) => {
-    //console.log('Estoy dentro de updatePlayers sala');
-    //console.log(nicknames);
+    console.log('Estoy dentro de updatePlayers sala');
+    console.log(nicknames);
     localStorage.setItem('jugadores', JSON.stringify(nicknames));
+    setJugadores(nicknames);
+    socket.off("updatePlayers");
   });
 
 
@@ -89,6 +94,7 @@ function Sala() {
       console.log("Mensaje del servidor:", message);
       navigation("/principal");
     }
+    socket.off("serverRoomMessage");
   });
   
 
@@ -176,7 +182,7 @@ function Sala() {
         setTimeout(() => {
           setIsCopied(false);
           setError('');
-        }, 2000);
+        }, 1000);
       })
       .catch((err) => {
         console.error('Error copiando el código', err);

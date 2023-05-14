@@ -7,7 +7,7 @@ async function GetIDNickname(nickname) {
          "nickname": nickname
        });
        
-       let response = await fetch("http://169.51.206.12:32021/users/userid", { 
+       let response = await fetch("http://localhost:4000/users/userid", { 
          method: "PUT",
          body: bodyContent,
          headers: headersList
