@@ -164,14 +164,14 @@ img .a {
   cursor: pointer;
 }
 
-.opcionesStats {
+.opcionesDespegable {
   position: absolute;
   font-size: 100%;
   left: 0;
-  top: 0;
-  margin-top: 12%;
+  top: 5%;
+  margin-top: 11%;
   font-family: "Trocchi", sans-serif;
-  width: 20%;
+  width: 17%;
   color: #1c6473;
   background-color: whitesmoke;
   letter-spacing: 1px;
@@ -179,14 +179,14 @@ img .a {
   border-radius: 0 15px 15px 0;
 }
 
-.opcionesDespegable {
+.opcionesDespegableLogros {
   position: absolute;
   font-size: 100%;
   left: 0;
-  top: 15%;
-  margin-top: 12%;
+  top: 5%;
+  margin-top: 23%;
   font-family: "Trocchi", sans-serif;
-  width: 20%;
+  width: 17%;
   color: #1c6473;
   background-color: whitesmoke;
   letter-spacing: 1px;

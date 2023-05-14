@@ -44,6 +44,37 @@ function Principal() {
   });
 
   /***************************************************************************
+   * FUNCION OBTENER MONEDAS
+   ***************************************************************************/
+  /*const obtenerMonedas = async () => {
+    // Coger id del usuario
+    console.log(email);
+
+    let dataId = await GetID(email);
+    console.log(dataId);
+
+    if (dataId.ok === true) {
+    
+        let data = await GetInfo(dataId.id_usuario);
+    
+        if(data.ok === true){
+            // Se guardan los datos del usuario
+            setNickname(data.datos[0].nickname);
+            setNewNickname(data.datos[0].nickname);
+            setMonedas(data.datos[0].monedas);
+            setFotoPerfil(data.datos[0].profilephoto);
+            
+        }
+        else{
+            console.log(data.msg);
+        }
+    }
+    else{
+        console.log(dataId.msg);
+    }
+}*/
+
+  /***************************************************************************
    * FUNCION UNIR SALA
    ***************************************************************************/
   const unirSalaSocket = () => {

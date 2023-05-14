@@ -8,7 +8,7 @@ import Sala from './pages/sala/sala';
 import Ajustes from './pages/ajustes/ajustes';
 import Amigos from './pages/amigos/amigos';
 import Chat from './pages/chat/chat';
-
+import Estadisticas from './pages/estadisticas/estadisticas';
 
 //path por defecto /
 
@@ -41,6 +41,10 @@ function App() {
         <Route
           component={Chat}
           path="/chat"
+        />
+        <Route
+          component={Estadisticas}
+          path="/estadisticas"
         />
         
       </header>
