@@ -10,11 +10,14 @@ import GetID from '../../services/getID_log.js';
 import GetInfo from '../../services/getInfo_log.js';
 import GetLogros from '../../services/getLogros_log.js';
 import GetRankingPartidas from '../../services/getRankingPartidas.js';
+import GetRankingOcas from '../../services/getRankingOcas_log.js';
+import GetMisEstadisticas from '../../services/getMisEstadisticas_log.js';
 
 import ocaFondo from '../../assets/ocas/ocas_fondo.JPG';
 import imagen1 from '../../assets/medallas/imagen1.jpg';
 import imagen2 from '../../assets/medallas/imagen2.jpg';
 import imagen3 from '../../assets/medallas/imagen3.jpg';
+import blanco from '../../assets/medallas/blanco.jpg';
 
 
 function Ajustes() {
@@ -46,13 +49,30 @@ function Ajustes() {
     const [caerEnDiezOcas, setCaerEnDiezOcas] = useState(false);
     const [caerEnSeisSeises, setCaerEnSeisSeises] = useState(false);
 
+
     /***************************
      * RANKING PARTIDAS
      **************************/
     let rankingList = [];
     const [rankingGlobal, setRankingGlobal] = useState(rankingList);
 
-    
+
+    /***************************
+     * RANKING OCAS
+     **************************/
+    let rankingListOcas = [];
+    const [rankingGlobalOcas, setRankingGlobalOcas] = useState(rankingListOcas);
+    console.log(rankingGlobalOcas);
+
+
+    /***************************
+     * MIS ESTADISTICAS
+     **************************/
+    const [partidasJugadas, setPartidasJugadas] = useState(0);
+    const [partidasGanadas, setPartidasGanadas] = useState(0);
+    const [vecesOca, setVecesOca] = useState(0);
+    const [vecesSeis, setVecesSeis] = useState(0);
+    const [vecesCalavera, setVecesCalavera] = useState(0);
 
 
     // Desplegable barra lateral
@@ -82,6 +102,8 @@ function Ajustes() {
         console.log('useEffect');
         obtenerLogros();
         obtenerRankingPartidas();
+        obtenerRankingOcas();
+        obtenerMisEstadisticas();
     }, [cont]);
 
 
@@ -171,22 +193,59 @@ function Ajustes() {
             console.log(data.msg);
         }
     }
-    /*
-    {
-        "ok": true,
-        "message": "Ranking de los 10 jugadores que han ganado más partidas.",
-        "ranking": [
-            {
-            "usuario": "lala",
-            "partidasganadas": 5
-            },
-            {
-            "usuario": "nana",
-            "partidasganadas": 1
-            }
-        ]
+
+    /***************************************************************************
+     * FUNCION ONTENER RANKING PARTIDAS
+     ***************************************************************************/
+     const obtenerRankingOcas = async () => {
+            
+        let data = await GetRankingOcas();
+        console.log(data);
+
+        if (data.ok === true) {
+            let rankingListaOcas = data.ranking.map(item => ({
+                usuario: item.usuario,
+                vecesoca: item.vecesoca
+            }));
+
+            setRankingGlobalOcas(rankingListaOcas);
+              
         }
-    */
+        else {
+            console.log(data.msg);
+        }
+    }
+
+    /***************************************************************************
+     * FUNCION ONTENER RANKING PARTIDAS
+     ***************************************************************************/
+    const obtenerMisEstadisticas = async () => {
+            
+        let dataId = await GetID(email);
+        console.log(dataId);
+
+        if (dataId.ok === true) {
+            let data = await GetMisEstadisticas(dataId.id_usuario);
+            console.log(data);
+
+            if (data.ok === true) {
+                setPartidasJugadas(data.estadisticas.partidasjugadas);
+                setPartidasGanadas(data.estadisticas.partidasganadas);
+                setVecesOca(data.estadisticas.vecesoca);
+                setVecesSeis(data.estadisticas.vecesseis);
+                setVecesCalavera(data.estadisticas.vecescalavera);
+                
+            }
+            else {
+                console.log(data.msg);
+            }
+        }
+        else{
+            console.log(dataId.msg);
+        }
+    }
+    
+
 
     /***************************************************************************
     * FUNCION IMAGENES LINK
@@ -259,13 +318,41 @@ function Ajustes() {
                 </div>
             </div>
 
+
+            <div className="stats-interface-mis-estadisticas">
+                <div className="tituloMisEstadisticas">MIS ESTADÍSTICAS</div>
+                <div className="stats-container">
+                    <div className="stat">
+                    <h2>Partidas jugadas</h2>
+                    <p>{partidasJugadas}</p>
+                    </div>
+                    <div className="stat">
+                    <h2>Partidas ganadas</h2>
+                    <p>{partidasGanadas}</p>
+                    </div>
+                    <div className="stat">
+                    <h2>Veces caídas en la oca</h2>
+                    <p>{vecesOca}</p>
+                    </div>
+                    <div className="stat">
+                    <h2>Veces caídas en el 6</h2>
+                    <p>{vecesSeis}</p>
+                    </div>
+                    <div className="stat">
+                    <h2>Veces caídas en la calavera</h2>
+                    <p>{vecesCalavera}</p>
+                    </div>
+                </div>
+            </div>
+
+
             <div className="ranking-container">
                 <h2>RANKING DE PARTIDAS GANADAS</h2>
                 <ul className="ranking-list">
                     {rankingGlobal.map((jugador, index) => (
                     <li key={index} className={`ranking-item ${index < 3 ? 'top-ranking' : 'resto'}`}>
                         <span className="ranking-position">{index + 1}º</span>
-                        <img src={index === 0 ? imagen1 : index === 1 ? imagen2 : index === 2 ? imagen3 : 'null'} alt="Avatar" className="ranking-avatar" />
+                        <img src={index === 0 ? imagen1 : index === 1 ? imagen2 : index === 2 ? imagen3 : blanco} alt="Avatar" className="ranking-avatar" />
                         <span className="ranking-username">{jugador.usuario}</span>
                         <span className="ranking-score">{jugador.partidasGanadas} partidas ganadas</span>
                     </li>
@@ -273,10 +360,19 @@ function Ajustes() {
                 </ul>
             </div>
 
-
-
-            
-            
+            <div className="ranking-container-ocas">
+                <h2>RANKING DE OCAS</h2>
+                <ul className="ranking-list-ocas">
+                    {rankingGlobalOcas.map((jugadorOca, index) => (
+                    <li key={index} className={`ranking-item ${index < 3 ? 'top-ranking-ocas' : 'resto'}`}>
+                        <span className="ranking-position">{index + 1}º</span>
+                        <img src={index === 0 ? imagen1 : index === 1 ? imagen2 : index === 2 ? imagen3 : blanco} alt="Avatar" className="ranking-avatar" />
+                        <span className="ranking-username">{jugadorOca.usuario}</span>
+                        <span className="ranking-score">{jugadorOca.vecesoca} veces caidas en la oca</span>
+                    </li>
+                    ))}
+                </ul>
+            </div>
             
             <div className='opcionesDespegableJunto'>
                 <div className='opcionesDespegable'>
@@ -300,10 +396,10 @@ function Ajustes() {
                     </div>
                     {menuDesplegadoLogros && (
                         <ul>
+                        <li>Mis estadísticas</li>
                         <li>Logros</li>
                         <li>Ranking partidas</li>
                         <li>Ranking de ocas</li>
-                        <li>Estadísticas personales</li>
                         </ul>
                     )}
                 </div>

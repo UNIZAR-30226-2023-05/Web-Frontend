@@ -49,7 +49,7 @@
   margin-left: 19%;
   margin-right: 7%;
   background-color: #f1f1f1;
-
+  margin-bottom: 2%;
 }
 
 .stats-container {
@@ -108,7 +108,25 @@
   border-radius: 0 15px 15px 0;
 }
 
+/* Mis estadisticas */
+.tituloMisEstadisticas {
+  font-size: 130%;
+  font-family: "Trocchi", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  color: rgb(250, 92, 118);
+}
 
+.stats-interface-mis-estadisticas {
+  background-image: url('../../assets/ocas/ocas_fondo4.JPG');
+  padding: 1%;
+  border-radius: 10px;
+  text-align: center;
+  margin-left: 19%;
+  margin-right: 7%;
+  background-color: #f1f1f1;
+
+}
 
 /* Ranking de partidas ganadas */
 .ranking-container {
@@ -177,5 +195,34 @@
 
 .resto {
   background-color: whitesmoke;
+  /* Cambia el color de fondo para los demas jugadores */
+}
+
+/* Ranking ocas */
+.ranking-container-ocas {
+  background-image: url('../../assets/ocas/ocas_fondo3.JPG');
+  padding: 1%;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 2%;
+  margin-left: 19%;
+  margin-right: 7%;
+  background-color: #f1f1f1;
+  margin-bottom: 1%;
+}
+
+.ranking-container-ocas h2 {
+  font-size: 130%;
+  font-family: "Trocchi", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  color: rgb(2, 75, 2);
+}
+
+
+.top-ranking-ocas {
+  background-color: #c9ff8c;
   /* Cambia el color de fondo para los primeros tres jugadores */
 }
+
+

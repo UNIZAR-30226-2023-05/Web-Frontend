@@ -426,9 +426,10 @@ function Ajustes() {
                     </div>
                     {menuDesplegadoLogros && (
                         <ul>
-                        <li>Nombre de usuario</li>
-                        <li>Contraseña</li>
-                        <li>Foto de perfil</li>
+                        <li>Mis estadísticas</li>
+                        <li>Logros</li>
+                        <li>Ranking partidas</li>
+                        <li>Ranking de ocas</li>
                         </ul>
                     )}
                 </div>
