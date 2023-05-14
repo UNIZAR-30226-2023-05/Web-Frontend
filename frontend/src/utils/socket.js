@@ -3,8 +3,8 @@ import io from 'socket.io-client';
 const token = localStorage.getItem('token');
 console.log('token de socket.js');
 console.log(token);
-const port = process.env.PORT || 4000;
-const url = 'http://localhost:' + port;
+const port = process.env.PORT || 32021;
+const url = 'http://169.51.206.12:' + port;
 
 const socket = io.connect(url, { auth: { token } });
 

@@ -13,6 +13,16 @@ import image5 from '../../assets/img/Skin_roja.png'
 import image6 from '../../assets/img/Skin_negra.png'
 import dadoImg from '../../assets/img/dado.png'
 import calcularPosicion from '../../data/coordTablero';
+
+// Librería de chat
+import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
+import {
+    MainContainer, Sidebar, ConversationList, Conversation, Avatar, MessageGroup, Message,
+    ChatContainer, ConversationHeader, MessageList, MessageInput
+} from "@chatscope/chat-ui-kit-react";
+
+import { useChat, ChatMessage, MessageContentType, MessageDirection, MessageStatus } from "@chatscope/use-chat";
+
 Modal.setAppElement('#root'); // para asegurarnos de que react-modal funcione correctamente
 
 function Juego() {
@@ -27,6 +37,9 @@ function Juego() {
   const listaNombres = JSON.parse(localStorage.getItem('ordenTurnos'));
 
   const listaFichas = ['ficha1', 'ficha2', 'ficha3', 'ficha4', 'ficha5', 'ficha6'];
+
+  // Lista de mensajes para el chat de la sala
+  const [messageList, setMessageList] = useState([]);
 
   //  Emparejamiento de cada jugador con su ficha.
   const parejas = listaNombres.map((nombre, index) => [nombre, listaFichas[index]]);
@@ -459,6 +472,58 @@ function Juego() {
 
   }, [idFicha6])
 
+  /***************************************************************************
+   * FUNCIONES PARA ACTUALIZAR CHAT
+   ***************************************************************************/
+  const handleSend = text => {
+    console.log("Mensaje enviado:", text);
+
+    const message = {
+        message: text,
+        sentTime: "just now",
+        sender: "Yo",
+        direction: MessageDirection.Outgoing,
+      };    
+
+    setMessageList([...messageList, message]); // Agrega el mensaje a la lista
+
+    // Enviar evento mensaje
+    socket.emit('sendMessage', idRoom, text, (data) => {
+            if (data.status !== 'ok') {
+              setError(data.message);
+            } else {
+              console.log(data.msg);
+            }
+          });
+
+  };
+
+  socket.on('roomMessage', (data) => {
+    console.log("Mensaje de otro usuario");
+    console.log(data);
+    const message = {
+        message: data.message,
+        sentTime: "just now",
+        sender: data.user,
+        direction: MessageDirection.Incoming,
+      };    
+
+    setMessageList([...messageList, message]); // Agrega el mensaje a la lista
+  });
+
+  socket.on('serverRoomMessage', (data) => {
+    console.log("Mensaje de otro usuario");
+    console.log(data);
+    const message = {
+        message: data.message,
+        sentTime: "just now",
+        sender: "Servidor",
+        direction: MessageDirection.Incoming,
+      };    
+
+    setMessageList([...messageList, message]); // Agrega el mensaje a la lista
+  });
+
 
     
   return (
@@ -671,6 +736,33 @@ function Juego() {
             
           </div>
           <div className='chat'>
+            <MainContainer>
+              <ChatContainer>
+              <ConversationHeader>
+                {"https://i.postimg.cc/rwgky4HC/oca1.png"}
+                <ConversationHeader.Content userName={"Chat de partida"} />
+              </ConversationHeader>
+              <MessageList>
+                {messageList.map((message, index) => {
+                  const isFirstMessage = index === 0;
+                  const isDifferentUser = message.sender !== messageList[index - 1]?.sender;
+                  const shouldDisplayHeader = isFirstMessage || isDifferentUser;
+                  console.log(message);
+                  console.log(shouldDisplayHeader);
+                  console.log(message.sender);
+                  return (
+                    <Message model={message} key={index}>
+                      {shouldDisplayHeader && message.sender !== 'Yo' && (
+                        <Message.Header>{message.sender}</Message.Header>
+                      )}
+                    </Message>
+                  );
+                })}
+              </MessageList>
+              <MessageInput onSend={handleSend} placeholder="Escribe tu mensaje..." />
+              </ChatContainer>
+            </MainContainer>
+
               {/* <button onClick={() => setIdFicha1(/*valorBackend*/ /*(idFicha1 + 1) % 63)}>saltar1</button> 
               <button onClick={() => setIdFicha2(idFicha2+1)}>saltar2</button>
               <button onClick={() => setIdFicha3(idFicha3+1)}>saltar3</button>
