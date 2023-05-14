@@ -217,7 +217,7 @@ function Inicio() {
               {error && <p className="error-message">{error}</p>}
             </div>
             <button className="iniButton" onClick={crearUsuario}>
-              CREAR USUARIO
+              CREAR USUARIO 
             </button>
           </div>
         </Modal>
