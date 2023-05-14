@@ -1,10 +1,10 @@
 .Sala {
-    background-image: url('../../assets/img/fondo.jpg');
+    /*background-image: url('../../assets/img/fondo.jpg');
     background-size: 100% 100%;
     background-size: cover;
-    background-color: #1C6473;
     background-repeat: no-repeat;
     background-position: center center;
+    background-color: #1C6473;*/
 }
 
 .imagenes {
@@ -124,13 +124,22 @@ img .a {
     cursor: pointer;
 }
 
-.refrescar {
-    
-    
+.botonAmigos {
+    position: inline-block;
+    color: white;
+    font-family: 'Chivo', sans-serif;
+    border-radius: 35px;
+    font-size: 120%;
+    background-color: #24AECD;
+    border-style: solid;
+    height: 40px;
+    width: 17%;
+    margin-left: 2%;
+    border: 4px solid white;
 }
 
 
-.refrescar:hover {
+.botonAmigos:hover {
     background-color: #1d9bb8;
     color: #81BFCD;
     border-color: #81BFCD;

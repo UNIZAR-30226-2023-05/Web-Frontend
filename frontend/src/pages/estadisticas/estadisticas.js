@@ -20,7 +20,7 @@ import imagen3 from '../../assets/medallas/imagen3.jpg';
 import blanco from '../../assets/medallas/blanco.jpg';
 
 
-function Ajustes() {
+function Estadisicas() {
 
     /***************************************************************************
      * DECLARACION DE VARIABLES
@@ -280,7 +280,7 @@ function Ajustes() {
 
         <div className="Ajustes">
             <header className="header">
-                ESTADISTICAS
+                ESTADÍSTICAS
             </header>
             <div className='barraTitulo'></div>
             <div className='imagenes-link'>
@@ -411,4 +411,4 @@ function Ajustes() {
 
 }
 
-export default Ajustes;
+export default Estadisicas;

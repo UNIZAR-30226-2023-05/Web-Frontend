@@ -3,10 +3,16 @@ import socket from "../../utils/socket.js";
 import "./principal.css";
 import "../../components/RestoPantallas.css";
 import "../../components/PopupCrearSala.css";
+
 import chat from "../../assets/feather/message-square.svg";
 import amigos from "../../assets/feather/users.svg";
 import ajustes from "../../assets/feather/settings.svg";
 import tienda from "../../assets/feather/shopping-cart.svg";
+import estrella from "../../assets/feather/star.svg";
+
+import GetIDNickname from "../../services/getID_nickname_log.js";
+import GetInfo from "../../services/getInfo_log.js";
+
 import { Link, useLocation } from "wouter";
 import Modal from "react-modal";
 
@@ -21,7 +27,6 @@ function Principal() {
   const [estiloJuego, setEstiloJuego] = useState("");
 
   const nickname = localStorage.getItem("nickname");
-  console.log(nickname);
 
   // Modal unirse a sala
   const [unirseModalIsOpen, setUnirseModalIsOpen] = useState(false);
@@ -29,6 +34,10 @@ function Principal() {
 
   const [error, setError] = useState(null);
   const [path, navigation] = useLocation();
+
+  // Guardar las monedas
+  const [monedas, setMonedas] = useState(0);
+  const [cont, setCont] = useState(0);
 
   /***************************************************************************
    * FUNCIONES SOCKET
@@ -46,11 +55,11 @@ function Principal() {
   /***************************************************************************
    * FUNCION OBTENER MONEDAS
    ***************************************************************************/
-  /*const obtenerMonedas = async () => {
+  const obtenerMonedas = async () => {
     // Coger id del usuario
-    console.log(email);
+    console.log(nickname);
 
-    let dataId = await GetID(email);
+    let dataId = await GetIDNickname(nickname);
     console.log(dataId);
 
     if (dataId.ok === true) {
@@ -59,10 +68,7 @@ function Principal() {
     
         if(data.ok === true){
             // Se guardan los datos del usuario
-            setNickname(data.datos[0].nickname);
-            setNewNickname(data.datos[0].nickname);
             setMonedas(data.datos[0].monedas);
-            setFotoPerfil(data.datos[0].profilephoto);
             
         }
         else{
@@ -72,7 +78,7 @@ function Principal() {
     else{
         console.log(dataId.msg);
     }
-}*/
+  };
 
   /***************************************************************************
    * FUNCION UNIR SALA
@@ -106,13 +112,7 @@ function Principal() {
    * FUNCION CREAR SALA
    ***************************************************************************/
   const crearSalaSockets = () => {
-    socket.emit(
-      "createRoom",
-      { nickname: nickname },
-      nombreSala,
-      numJugadores,
-      estiloJuego,
-      (data) => {
+    socket.emit("createRoom", { nickname: nickname }, nombreSala, numJugadores, estiloJuego, (data) => {
         if (data.status !== "ok") {
           setError(data.message);
         } else {
@@ -186,6 +186,18 @@ function Principal() {
     }
   };
 
+
+  /***************************************************************************
+   * FUNCION COGER MONEDAS NADA MAS RENDERIZAR
+   **************************************************************************/
+  // Función para obtener la información de la cuenta al entrar en la pantalla
+  useEffect(() => {
+    console.log('useEffect');
+    obtenerMonedas();
+  }, [cont]);
+
+
+
   return (
     <div className="Principal">
       <header className="header">PRINCIPAL</header>
@@ -194,30 +206,25 @@ function Principal() {
         <ImagenesLink />
       </div>
 
+      <div className="container">
+        <img className="estrella" src={estrella} alt="Estrella" />
+        <p className="monedas">Monedas: {monedas}</p>
+      </div>
+            
       <div className="mismaLinea">
         <div className="recuadro">
           <div className="titulo">CREA TU PROPIA SALA</div>
           <div className="subtitulo">
             Crea una sala y compartela con quien quieras
           </div>
-          <button
-            className="buttonSala"
-            onClick={() => setCrearModalIsOpen(true)}
-          >
-            Crear
-          </button>
+          <button className="buttonSala" onClick={() => setCrearModalIsOpen(true)}>Crear</button>
         </div>
         <div className="recuadro">
           <div className="titulo">ÚNETE A UNA SALA</div>
           <div className="subtitulo">
             Comparte la experiencia con tus amigos
           </div>
-          <button
-            className="buttonSala"
-            onClick={() => setUnirseModalIsOpen(true)}
-          >
-            Unirse
-          </button>
+          <button className="buttonSala" onClick={() => setUnirseModalIsOpen(true)}> Unirse </button>
         </div>
       </div>
 
@@ -230,20 +237,10 @@ function Principal() {
           <p className="titulo">CREAR SALA</p>
           <p className="texto">¿Desea crear una sala?</p>
           <p className="texto">Nombre de la sala*</p>
-          <input
-            className="barraEscribirSala"
-            type="text"
-            placeholder="Nombre de la sala"
-            value={nombreSala}
-            onChange={(e) => setNombreSala(e.target.value)}
-          />
+          <input className="barraEscribirSala" type="text" placeholder="Nombre de la sala" value={nombreSala} onChange={(e) => setNombreSala(e.target.value)}/>
 
           <p className="texto">Número de jugadores*</p>
-          <select
-            className="barraDespegable"
-            value={numJugadores}
-            onChange={(e) => setNumJugadores(e.target.value)}
-          >
+          <select className="barraDespegable" value={numJugadores} onChange={(e) => setNumJugadores(e.target.value)}>
             <option value="">Número de jugadores</option>
             {[2, 3, 4, 5, 6].map((num) => (
               <option key={num} value={num}>
@@ -252,11 +249,7 @@ function Principal() {
             ))}
           </select>
           <p className="texto">Estilo de juego*</p>
-          <select
-            className="barraDespegable"
-            value={estiloJuego}
-            onChange={(e) => setEstiloJuego(e.target.value)}
-          >
+          <select className="barraDespegable" value={estiloJuego} onChange={(e) => setEstiloJuego(e.target.value)}>
             <option value="">Estilo de juego</option>
             {["clásico"].map((option) => (
               <option key={option} value={option}>

@@ -46,23 +46,11 @@ function Sala() {
   /***************************************************************************
    * FUNCION ACTUALIZAR JUGADORES
    ***************************************************************************/
-  /*const nomInterval = setInterval(() => {
-    //console.log('Estamos en useEffect de sala');
-    const players = JSON.parse(localStorage.getItem('jugadores'));
-    if (players) {
-      //console.log(`Estamos en useEffect de sala dentro del if y jugadoresLocalStorage= ${players}`);
-      setJugadores(players);
-    }
-    clearInterval(interval);
-  }, 2000);*/
-
   useEffect(() => {
     console.log('Estamos en useEffect de sala');
-    const players = JSON.parse(localStorage.getItem('jugadores'));
-    if (players) {
-      //console.log(`Estamos en useEffect de sala dentro del if y jugadoresLocalStorage= ${players}`);
-      setJugadores(players);
-    }
+    const players = localStorage.getItem('jugadores');
+    const lista = players.replace(/[\[\]\s"]/g, "").split(",");
+    setJugadores(lista);
   }, [contador]);
 
   /***************************************************************************
@@ -230,7 +218,7 @@ webpack compiled with 1 warning*******************************************
             <img className='copiadoIcono' src={check} alt='Copiar' />
           }
         </div>
-        <button  onClick={handleClick}>Refrescar</button>
+        <button className="botonAmigos" onClick={handleClick}>Refresca</button>
         {lider === 'true' && <button className='comenzarPartida' >Comenzar partida</button>}
         {lider === 'true' && <button className='eliminarSala' onClick={EliminarSala}>Eliminar sala</button>}
         <div className="players-container">

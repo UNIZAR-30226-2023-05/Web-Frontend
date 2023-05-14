@@ -1,9 +1,10 @@
 .Ajustes {
-  background-image: url("../../assets/img/fondo.jpg");
-  background-size: 100%;
-  background-color: #1c6473;
-  background-repeat: no-repeat;
-  background-position: center center;
+ /*background-image: url('../../assets/img/fondo.jpg');
+    background-size: 100% 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #1C6473;*/
 }
 
 .imagenes {
@@ -29,6 +30,8 @@ img .a {
   font-size: 130%;
   margin-top: 20%;
   color: white;
+  background-color: #1c6473;
+  border: 1px solid white;
 }
 
 .contenedorInfo .barraEscribirAjustes {
@@ -142,6 +145,7 @@ img .a {
 .contenedorImagen .imagenAjustes {
   width: 100%;
   height: auto;
+  border-radius: 40%;
 }
 
 .contenedorImagen .botonAjustes {

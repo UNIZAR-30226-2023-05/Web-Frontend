@@ -55,8 +55,8 @@ function Inicio() {
       } else {
         // Guardar la contaseña en la base de datos de react
         localStorage.setItem("contrasena", password);
-        console.log(`La contrasena del usuario es ${password}`);
         localStorage.setItem("email", email);
+        localStorage.setItem("nickname", nickname);
         navigation("/principal");
       }
     });
@@ -137,10 +137,7 @@ function Inicio() {
       let data = await GetInfo(dataID.id_usuario);
 
       if (data.ok === true) {
-        // Se guardan los datos del usuario
-        //console.log(data.datos[0].nickname);
-        localStorage.setItem("nickname", data.datos[0].nickname);
-        //setNickname(data.datos[0].nickname);
+        
         return data.datos[0].nickname;
       } else {
         setError(data.msg);
@@ -170,13 +167,7 @@ function Inicio() {
   return (
     <>
       <div className="Inicio">
-        <button
-          className="buttonCrear"
-          onClick={() => {
-            localStorage.clear();
-            setModalIsOpen(true);
-          }}
-        >
+        <button className="buttonCrear" onClick={() => {localStorage.clear(); setModalIsOpen(true);}}>
           Crear cuenta
         </button>
         <Modal
