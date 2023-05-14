@@ -18,9 +18,12 @@ Modal.setAppElement('#root'); // para asegurarnos de que react-modal funcione co
 function Juego() {
 
   const posIni = 0;
+  const [posicion, setPosicion] = useState([]);
   //Coger id de la sala
   const nickname = localStorage.getItem('nickname');
   const idRoom = localStorage.getItem('idRoom');
+  const nombreSala = localStorage.getItem('nombreSala');
+  const listaNombres = JSON.parse(localStorage.getItem('ordenTurnos'));
 
   /***************************************************************************
    * TURNO PRIMERA JUGADA
@@ -31,7 +34,7 @@ function Juego() {
     const tiempo = data.tiempo;
   });
 
-  const turno = localStorage.getItem('turno'); // booleano
+  let turno = localStorage.getItem('turno'); // booleano
   console.log(turno);
 
   /***************************************************************************
@@ -135,7 +138,7 @@ function Juego() {
   /***************************************************************************
    * FUNCIÓN PARA ESCUCHAR EL TURNO
    ***************************************************************************/
-   socket.on("sigTurno", (data) => {
+   /*socket.on("sigTurno", (data) => {
     console.log("Estoy dentro de la funcion SIG TURN escuchar backend");
     if (data.status !== 'ok') {
       setError(data.message);
@@ -152,42 +155,46 @@ function Juego() {
       }
     }
      
-  });
-
-  /***************************************************************************
-   * FUNCION MODAL OCA
-   ***************************************************************************/
-  const casillaOca = async () => {
-  
-    //Comprobar que ha caido en oca
-
-    //Si ha caido en oca mostrar modal
-    setOcaModal(true);
-
-  }
+  });*/
 
   /***************************************************************************
    * FUNCION CERRAR MODALES
    ***************************************************************************/
   const closeModal = () => {
-    setModalDado(false);
-    setDado(null);
+    
     setModalNoTurno(false);
+
     setOcaModal(false);
+
     setPuenteModal(false);
+
     setPosadaModal(false);
+
     setPozoModal(false);
+
     setLaberintoModal(false);
+
     setCarcelModal(false);
+
     setDadosModal(false);
+
     setCalaveraModal(false);
+
+    //Abre el modal del dado
+    setModalDado(true);
+  };
+
+  const closeModalDado = () => {
+    setModalDado(false);
+
+    setDado(null);
   };
 
   /***************************************************************************
    * FUNCION COMIENZO DE LA JUGADA
    ***************************************************************************/
   const comenzarJugada = () => {
-    if (turno === true){
+    if (turno === 'true'){
       console.log("Estoy en la funcion comenzar jugada");
       console.log('el id de la sala es: ' + idRoom);
       
@@ -198,50 +205,149 @@ function Juego() {
           setError(data.message);
 
         } else {
+
+          // Datos recibidos correctamente, hacer algo con ellos
+          const { dice, afterDice, rollAgain, finalCell } = data.res;
+          console.log('Dice:', dice);
+          console.log('AfterDice:', afterDice);
+          console.log('RollAgain:', rollAgain);
+          console.log('FinalCell:', finalCell)
+
           // Se inicializa el valor del dado con el valor que llega del backend
-          setDado(data.dice);
-          console.log("El valor del dado es: " + data.dice);
+          setDado(dice);
+          setTimeout(() => {
+            setModalDado(false);
+          }, 500);
+          
 
-          //Se inicializa la casilla con el valor que llega del backend
-          setIdFicha1(data.casilla);
+          //Se inicializa la casilla con el valor de la casilla que llega del backend 
+          setIdFicha1(afterDice);
 
+          //Si rollAgain es true, turno sigue siendo true
+          if(rollAgain === true){
+            turno = 'true';
+            setIdFicha1(finalCell);
+
+          } else {
+            turno = 'false';
+          }
+
+          //Se comprueba si es una casilla especial
+          comprobarCasilla(dice);
 
                    
         }
       });
       
-
     }}
+  
+  //Si es una casilla especial se abre el modal correspondiente
+  const comprobarCasilla = (casilla) => { 
+    //Si es una casilla de oca se abre el modal de oca
+    if (casilla === 5 || casilla === 9 || casilla === 14 || casilla === 18 || 
+      casilla === 23 || casilla === 27 || casilla === 32 || casilla === 36 || 
+      casilla === 41 || casilla === 45 || casilla === 50 || casilla === 54 || 
+      casilla === 59){
+      setOcaModal(true);
+      console.log("OCA")
 
-  /***************************************************************************
-   * FUNCIÓN RECIBE LA INFORMACIÓN DEL DADO
-   ***************************************************************************/
-  /*socket.on("tirarDados", (data) => {
-    console.log("Estoy dentro de la funcion escuchar backend");
-    if (estoyJugando === true){
-      if (data.status !== 'ok') {
-        setError(data.message);
-      } else {
-        console.log('Estas en la funcion tirarDado');
-        
-        //Hasta que no tire el dado no puede mover la animacion
-        setDadoHab(true);
+    } else if (casilla === 6){ //Si es una casilla de puente se abre el modal de puente
+      setPuenteModal(true);
+      console.log("PUENTE")
 
-        //Valor del dado recibido del backend
-        setDado(data.valor);
-        
-        //Posicion de la ficha
-        //data.nuevaCelda
-      }
+    } else if (casilla === 19){ //Si es una casilla de posada se abre el modal de posada
+      setPosadaModal(true);
+      console.log("POSADA")
+
+    } else if (casilla === 31){ //Si es una casilla de pozo se abre el modal de pozo
+      setPozoModal(true);
+      console.log("POZO")
+      
+    } else if (casilla === 42){ //Si es una casilla de laberinto se abre el modal de laberinto
+      setLaberintoModal(true);
+      console.log("LABERINTO")
+
+    } else if (casilla === 56){ //Si es una casilla de carcel se abre el modal de carcel
+      setCarcelModal(true);
+      console.log("CARCEL")
+
+    } else if (casilla === 26){ //Si es una casilla de dados se abre el modal de dados
+      setDadosModal(true);
+      console.log("DADOS")
+
+    } else if (casilla === 58){ //Si es una casilla de calavera se abre el modal de calaveras
+      setCalaveraModal(true);setDadosModal(true);
+      console.log("CALAVERA")
+      
+    } else if (casilla === 62){
+      console.log("GANASTE")
+      //Mando a backend que he ganado****************************************************** MIRAR
+      socket.emit("ganar", parseInt(idRoom), (data) => {
+        console.log("Mando ganar");
+        if (data.status !== 'ok') {
+          setError(data.message);
+
+        } else {
+          // Datos recibidos correctamente, hacer algo con ellos
+          console.log('GANASTE');
+          setModalGanar(true);
+        }
+      });
     }
-    
-     
-  });*/
-
-  //Funcion para hacer todo lo visual que tenga que ver con el dado
-  const tirarDado = () => {
 
   }
+
+
+  /***************************************************************************
+   * FUNCIÓN RECIBE LA INFORMACIÓN DEL LOS DEMÁS JUGADORES
+   ***************************************************************************/
+  socket.on("estadoPartida", (data) => {
+    console.log("Estoy dentro de la funcion escuchar backend");
+    
+    if (data.status !== 'ok') {
+      setError(data.message);
+    } else {
+      console.log('Estas en la funcion estadoParetida');
+      
+      setPosicion(data.posicion);
+      console.log("posicion: " + posicion);
+
+      let nombre = posicion['nickname'];
+      console.log("nombre: " + nombre);
+      
+      let celda = posicion['celda'];
+      console.log("celda: " + celda);
+
+      const posicion = listaNombres.indexOf(nickname);
+
+      switch(posicion){
+        case 0:
+          setIdFicha1(celda);
+          break;
+
+        case 1:
+          setIdFicha2(celda);
+          break;
+
+        case 2:
+          setIdFicha3(celda);
+          break;
+
+        case 3:
+          setIdFicha4(celda);
+          break;
+
+        case 4:
+          setIdFicha5(celda);
+          break;
+
+        case 5:
+          setIdFicha6(celda);
+          break;
+      }
+    }
+  });
+
   
   /***************************************************************************
    * FUNCIÓN PARA MOVER LAS FICHAS
@@ -320,7 +426,7 @@ function Juego() {
           <button className='botonAbandonar'>Abandonar</button>
         </Link>
        
-        <div className='barraTitulo'></div>
+        <div className='barraTitulo'>{nombreSala}</div>
       </div>
       
       <div className='contenedor'>  
@@ -343,12 +449,15 @@ function Juego() {
             <div className='ficha6' style={ {top:`${myTop6}%`,left:`${myLeft6}%`}}>
               <img className='fichaTam' src={image6} />
             </div>
-            
 
-            {/* MODAL DADO */}
+           
+            
+            {/* MODAL TIRAR DADO */}
             {/*Cuando sea turno true se mostrara el modal de dado*/}
             {turno === 'true' && <button className='botonJugar' onClick={() => setModalDado(true)}>Tirar Dado</button>}
-            <Modal className="popup" isOpen={modalDado} onRequestClose={() => setModalDado(false)}>
+            <Modal className="popup" isOpen={modalDado} onRequestClose={() => setModalDado(false)}> <div className='valorDado' style={{top:'70%', left:'35%'}}>
+              <p>{dado}</p>
+            </div>
             <div className="popup-juego">
                 <div className="tituloJuego">TIRA EL DADO</div>
                 <div className='dado'>
@@ -359,7 +468,7 @@ function Juego() {
                 
                 </div>
 
-                <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
+                <button className='closeButtonJuego' onClick={() => closeModalDado()}>X</button>
                 
             </div>
             </Modal>
@@ -374,13 +483,13 @@ function Juego() {
                     
                 </div>
 
-                <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
+                <button className='closeButtonJuego' onClick={() => closeModalDado()}>X</button>
                 
             </div>
             </Modal>
             
             {/* MODAL OCA */}
-            <button className='botonPeligro' onClick={() => setOcaModal(true)}>OCa</button>
+            
             <Modal className="popup" isOpen={ocaModal} onRequestClose={() => setOcaModal(false)}>
             <div className="popup-juego">
                 <div className="tituloJuego">OCA</div>
@@ -395,7 +504,7 @@ function Juego() {
             </Modal>
 
             {/* MODAL PUENTE */}
-            <button className='botonPeligro' onClick={() => setPuenteModal(true)}>Puente</button>
+            
             <Modal className="popup" isOpen={puenteModal} onRequestClose={() => setPuenteModal(false)}>
             <div className="popup-juego">
                 <div className="tituloJuego">PUENTE</div>
@@ -410,7 +519,7 @@ function Juego() {
             </Modal>
 
             {/* MODAL POSADA */}
-            <button className='botonPeligro' onClick={() => setPosadaModal(true)}>Posada</button>
+            {/* <button className='botonPeligro' onClick={() => setPosadaModal(true)}>Posada</button> */}
             <Modal className="popup" isOpen={posadaModal} onRequestClose={() => setPosadaModal(false)}>
             <div className="popup-juego">
                 <div className="tituloJuego">POSADA</div>
@@ -425,7 +534,7 @@ function Juego() {
             </Modal>
 
             {/* MODAL POZO */}
-            <button className='botonPeligro' onClick={() => setPozoModal(true)}>POZO</button>
+            {/* <button className='botonPeligro' onClick={() => setPozoModal(true)}>POZO</button> */}
             <Modal className="popup" isOpen={pozoModal} onRequestClose={() => setPozoModal(false)}>
             <div className="popup-juego">
                 <div className="tituloJuego">POZO</div>
@@ -440,7 +549,7 @@ function Juego() {
             </Modal>
 
             {/* MODAL LABERINTO */}
-            <button className='botonPeligro' onClick={() => setLaberintoModal(true)}>Laberinto</button>
+            {/* <button className='botonPeligro' onClick={() => setLaberintoModal(true)}>Laberinto</button> */}
             <Modal className="popup" isOpen={laberintoModal} onRequestClose={() => setLaberintoModal(false)}>
             <div className="popup-juego">
                 <div className="tituloJuego">LABERINTO</div>
@@ -455,7 +564,7 @@ function Juego() {
             </Modal>
 
             {/* MODAL CARCEL */}
-            <button className='botonPeligro' onClick={() => setCarcelModal(true)}>carcel</button>
+            {/* <button className='botonPeligro' onClick={() => setCarcelModal(true)}>carcel</button> */}
             <Modal className="popup" isOpen={carcelModal} onRequestClose={() => setCarcelModal(false)}>
             <div className="popup-juego">
                 <div className="tituloJuego">CARCEL</div>
@@ -470,7 +579,7 @@ function Juego() {
             </Modal>
 
             {/* MODAL DADOS */}
-            <button className='botonPeligro' onClick={() => setDadosModal(true)}>DADOS</button>
+            {/* <button className='botonPeligro' onClick={() => setDadosModal(true)}>DADOS</button> */}
             <Modal className="popup" isOpen={dadosModal} onRequestClose={() => setDadosModal(false)}>
             <div className="popup-juego">
                 <div className="tituloJuego">DADOS</div>
@@ -485,7 +594,7 @@ function Juego() {
             </Modal>
 
             {/* MODAL CALAVERA */}
-            <button className='botonPeligro' onClick={() => setCalaveraModal(true)}>CALAVERA</button>
+            {/* <button className='botonPeligro' onClick={() => setCalaveraModal(true)}>CALAVERA</button> */}
             <Modal className="popup" isOpen={calaveraModal} onRequestClose={() => setCalaveraModal(false)}>
             <div className="popup-juego">
                 <div className="tituloJuego">CALAVERA</div>
@@ -498,6 +607,20 @@ function Juego() {
                 
             </div>
             </Modal>
+
+            {/*  MODAL GANADOR */}
+            <Modal className="popup" isOpen={ganadorModal} onRequestClose={() => setGanadorModal(false)}>
+            <div className="popup-juego">
+                <div className="tituloJuego">¡¡¡GANADOR!!!</div>
+                <div className="textoJuego">
+                    <p>¡¡¡ENHORABUENA!!!</p>
+                </div>
+                
+                <button className='closeButtonJuego' onClick={() => closeModalDado()}>X</button>
+                
+              </div>
+              </Modal>
+
             
 
             

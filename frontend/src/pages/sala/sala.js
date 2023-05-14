@@ -209,6 +209,8 @@ function Sala() {
       setError(jugadores.message);
     } else {
       const ordenTurnos = jugadores.ordenTurnos;
+      localStorage.setItem("ordenTurnos", JSON.stringify(ordenTurnos));
+      
       console.log(ordenTurnos[0]);
       console.log(nickname)
       if(ordenTurnos[0] === nickname){
