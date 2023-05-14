@@ -598,20 +598,7 @@ function Juego() {
             </div>
             </Modal> */}
             
-            {/* MODAL OCA */}
             
-            <Modal className="popup" isOpen={ocaModal} onRequestClose={() => setOcaModal(false)}>
-            <div className="popup-juego">
-                <div className="tituloJuego">OCA</div>
-                <div className="textoJuego">
-                    <p>De oca a oca y tiro porque me toca. ¡Vuelve a tirar!</p>
-                    
-                </div>
-
-                <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
-                
-            </div>
-            </Modal>
 
             {/* MODAL PUENTE */}
             
@@ -721,27 +708,26 @@ function Juego() {
             {/*  MODAL GANADOR */}
             <Modal className="popup" isOpen={ganadorModal} onRequestClose={() => setGanadorModal(false)}>
             <div className="popup-juego">
-                <div className="tituloJuego">¡¡¡GANADOR!!!</div>
-                <div className="textoJuego">
-                    <p>¡¡¡ENHORABUENA!!!</p>
-                </div>
-                
-                <button className='closeButtonJuego' onClick={() => closeModalDado()}>X</button>
-                
+              <div className="tituloJuego">¡¡¡GANADOR!!!</div>
+              <div className="textoJuego">
+                  <p>¡¡¡ENHORABUENA!!!</p>
               </div>
-              </Modal>
+              
+              <button className='closeButtonJuego' onClick={() => closeModalDado()}>X</button>
+              
+            </div>
+            </Modal>
 
-            
-
-            
           </div>
+
           <div className='chat'>
             <MainContainer>
               <ChatContainer>
               <ConversationHeader>
-                {"https://i.postimg.cc/rwgky4HC/oca1.png"}
+                <Avatar src={"https://i.postimg.cc/rwgky4HC/oca1.png"} />
                 <ConversationHeader.Content userName={"Chat de partida"} />
               </ConversationHeader>
+
               <MessageList>
                 {messageList.map((message, index) => {
                   const isFirstMessage = index === 0;
@@ -770,6 +756,8 @@ function Juego() {
               <button onClick={() => setIdFicha5(idFicha5 + 1)}>saltar5</button>
               <button onClick={() => setIdFicha6(idFicha6+1)}>saltar6</button>*/}
           </div>
+
+          
       </div> 
     </>
   );

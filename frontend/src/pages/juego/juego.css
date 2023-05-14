@@ -62,7 +62,9 @@ html {
     border-color: antiquewhite;
     border-width: 5px;
     border-style: solid;
-    width: 40%;
+    width: 25%;
+    z-index: 1;
+    margin-left: 20%;
 }
 
 .tablero .ficha1 {
@@ -93,7 +95,7 @@ html {
     transition: all 2s;
 }
 
-.ficha5 {
+.tablero .ficha5 {
     position: relative;
     top: "90%";
     bottom: "30%";
@@ -127,7 +129,7 @@ html {
     border-width: 3px;
     border-style: solid;
     margin-top: 35%;
-    margin-left: 80%;
+    margin-left: 83%;
 }
 
 .botonJugar:hover {
