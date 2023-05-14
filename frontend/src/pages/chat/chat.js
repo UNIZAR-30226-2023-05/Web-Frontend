@@ -42,6 +42,11 @@ function Chat() {
 
     
     const [messageList, setMessageList] = useState([]);
+    useEffect(() => {
+        console.log("messageList: " + messageList);
+      }, [messageList]);
+
+
     const [chatWith, setChatWith] = useState("");
 
     const [amigoChatActivo, setAmigoChatActivo] = useState('');
@@ -130,6 +135,8 @@ function Chat() {
 
         // Vaciamos messageList
         setMessageList([]);
+
+        console.log("messageList dentro de funcion = " + messageList);
         // Recuperamos chat con amigo
         console.log("Recuperamos chat con amigo");
         socket.emit('getPrivMessage', sender.id_usuario, receiver.id_usuario, (data) => {
@@ -138,6 +145,7 @@ function Chat() {
               console.log(data.status)
               setError(data.message);
             } else {
+              let messageList2 = [];
               console.log("Mensajes recibidos");
               console.log(data.messages);
               // Cargamos el chat
@@ -151,7 +159,7 @@ function Chat() {
                         direction: MessageDirection.Outgoing,
                     };
                     //setMessageList([...messageList, message]);
-                    messageList.push(message);
+                    messageList2.push(message);
                     
                 }
                 else{
@@ -162,9 +170,9 @@ function Chat() {
                         direction: MessageDirection.Incoming,
                     };
                     //setMessageList([...messageList, message]);
-                    messageList.push(message);
+                    messageList2.push(message);
                 }
-                setMessageList([...messageList]);
+                setMessageList([...messageList2]);
               }
 
             }
@@ -192,13 +200,7 @@ function Chat() {
           };    
 
         setMessageList([...messageList, message]); // Agrega el mensaje a la lista
-        //setValue("");
     
-        /*sendMessage({
-          message,
-          conversationId: activeConversation.id,
-          senderId: currentUserId,
-        });*/
         // Enviar evento mensaje
         console.log('El receaver es ' + amigoChatActivo)
         socket.emit('sendPrivMessage', nicknameUsuario, amigoChatActivo, text, (data) => {
