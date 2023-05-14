@@ -65,6 +65,43 @@ function Chat() {
         console.log(`Se ha perdido la conexión con el servidor de websockets: ${reason}`);
     });
 
+
+    // Cerramos sesión
+    socket.emit('closeSession', { nickname: nicknameUsuario }, (data) => {
+        if (data.ok == false) {
+            console.log(data.message);
+        }
+        else {
+            console.log("Sesión cerrada correctamente");
+        }
+    });
+
+    // Abrimos sesión
+    socket.emit('openSession', { nickname: nicknameUsuario }, (data) => {
+        if (data.ok == false) {
+            console.log(data.message);
+        }
+        else {
+            console.log("Sesión abierta correctamente");
+        }
+    });
+
+    socket.on('privMessage', (data) => {
+        console.log("Mensaje privado recibido");
+        console.log(data);
+        if (data.sender === chatWith) {
+            const message = {
+                message: data.message,
+                sentTime: "just now",
+                sender: data.sender,
+                direction: MessageDirection.Incoming,
+              };    
+    
+            setMessageList([...messageList, message]); // Agrega el mensaje a la lista
+        }
+    });
+
+
     /***************************************************************************
     * FUNCION OBTENER ID USUARIO
     ***************************************************************************/
@@ -186,8 +223,6 @@ function Chat() {
 
     const handleSend = text => {
         console.log("Mensaje enviado:", text);
-        // Logger user (sender)
-        const currentUserId = "123";
     
        /* const message = new ChatMessage({
           id: "",
