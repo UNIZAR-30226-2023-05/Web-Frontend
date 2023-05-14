@@ -26,7 +26,7 @@ body {
     font-size: 750%;
     color: white;
     font-family: 'Trocchi', serif;
-    text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+    text-shadow: -4px -4px 0 black, 4px -4px 0 black, -4px 4px 0 black, 4px 4px 0 black;
   }
   
   .body {
@@ -35,6 +35,8 @@ body {
     font-family: 'Caveat', cursive;
     margin-right: 5%;
     text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+    background-color: #1C6473;
+    border-radius: 15px;
   }
 
 
