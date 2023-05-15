@@ -17,7 +17,7 @@ function Sala() {
   const nombreSala = localStorage.getItem('nombreSala');
   const idRoom = localStorage.getItem('idRoom');
   const liderNickname = localStorage.getItem('liderNickname');
-  //const nickname = localStorage.getItem('nickname');
+  const nickname = localStorage.getItem('nickname');
 
 
   // Controlar si el usuario es el lider o no
@@ -208,14 +208,51 @@ function Sala() {
       });
   };
 
-  /********************************
-webpack compiled with 1 warning*******************************************
+  /***************************************************************************
    * RENDERIZADO
    ***************************************************************************/
   const handleClick = () => {
     setContador(contador + 1);
   };
 
+
+  /***************************************************************************
+   * FUNCION INICIAR PARTIDA
+   ***************************************************************************/
+  const inicioPartida = () => {
+    socket.emit("startGame", idRoom, 200, (data) => {
+      console.log("Inicio de partida")
+      if (data.status !== 'ok') {
+        setError(data.message);
+      } else {
+        console.log(data.message);
+      }
+    });
+  };
+
+
+  /***************************************************************************
+   * FUNCION ORDEN JUGADORES
+   ***************************************************************************/
+  socket.on('ordenTurnos', (jugadores) => {
+    console.log('Estoy dentro de ordenTurnos sala');
+    console.log(jugadores);
+    if(jugadores.ok === false){
+      setError(jugadores.message);
+    } else {
+      const ordenTurnos = jugadores.ordenTurnos;
+      localStorage.setItem("ordenTurnos", JSON.stringify(ordenTurnos));
+      
+      console.log(ordenTurnos[0]);
+      console.log(nickname)
+      if(ordenTurnos[0] === nickname){
+        console.log('soy primero');
+        localStorage.setItem('turno', true);
+      }
+      const tiempo = jugadores.tiempo.ordenTurnos;
+      navigation("/juego");
+    }
+  });
 
 
   return (
@@ -243,7 +280,7 @@ webpack compiled with 1 warning*******************************************
           }
         </div>
         <button className="botonAmigos" onClick={handleClick}>Refresca</button>
-        {lider === 'true' && <button className='comenzarPartida' >Comenzar partida</button>}
+        {lider === 'true' && <button className='comenzarPartida' onClick={() => inicioPartida()} >Comenzar partida</button>}
         {lider === 'true' && <button className='eliminarSala' onClick={EliminarSala}>Eliminar sala</button>}
         <div className="players-container">
           <div className="texto-participante">Participantes: {numPlayers}</div>
