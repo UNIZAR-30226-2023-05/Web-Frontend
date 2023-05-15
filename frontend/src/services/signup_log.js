@@ -15,7 +15,7 @@ async function SignUp(nickname, email, password){
         body: bodyContent
     };
 
-    let response = await fetch("http://169.51.206.12:32021/users/register", options);
+    let response = await fetch("http://localhost:4000/users/register", options);
 
     let data = await response.json();
         console.log(data);

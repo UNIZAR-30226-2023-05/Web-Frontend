@@ -3,6 +3,7 @@ import { tab } from "@testing-library/user-event/dist/tab";
 //Array con las posiciones
 const tabCoord = [
     [90, 30],
+    [90, 30],
     [90, 41],
     [90, 46],
     [90, 51],
@@ -81,209 +82,209 @@ function calcularPosicion(idJugador, posicion) {
             return tabCoord[posicion];
 
         case 2: //jugador 2 posiciones
-            if (posicion <= 7){
+            if (posicion <= 8){
                 return [tabCoord[posicion][0], tabCoord[posicion][1] + 2];
             }
-            else if (posicion <= 17){
+            else if (posicion <= 18){
                 return [tabCoord[posicion][0] - 6, tabCoord[posicion][1] + 2];
             }
-            else if (posicion < 27){
+            else if (posicion < 28){
                 return [tabCoord[posicion][0] + 5, tabCoord[posicion][1]];
             }
-            else if (posicion == 27){
+            else if (posicion == 28){
                 return [tabCoord[posicion][0] - 4, tabCoord[posicion][1] - 2];
             }
-            else if (posicion <= 35){
+            else if (posicion <= 36){
                 return [tabCoord[posicion][0] - 4, tabCoord[posicion][1] - 2];
             }
-            else if (posicion == 36) {
+            else if (posicion == 37) {
                 return [tabCoord[posicion][0] - 5, tabCoord[posicion][1] + 3];
             }
-            else if (posicion <= 43){
+            else if (posicion <= 44){
                 return [tabCoord[posicion][0] - 13, tabCoord[posicion][1]];
             }
-            else if (posicion <= 49){
+            else if (posicion <= 50){
                 return [tabCoord[posicion][0] - 4, tabCoord[posicion][1] - 6];
             }
-            else if (posicion < 55){
-                return [tabCoord[posicion][0] + 4, tabCoord[posicion][1]];
+            else if (posicion < 56){
+                return [tabCoord[posicion][0] + 4, tabCoord[posicion][1] + 0.5];
             }
-            else if (posicion == 55){
+            else if (posicion == 56){
                 return [tabCoord[posicion][0] - 4, tabCoord[posicion][1] - 3];
             }
-            else if (posicion <= 59){
+            else if (posicion <= 60){
                 return [tabCoord[posicion][0] - 3.5, tabCoord[posicion][1] + 2.5];
             }
-            else if (posicion < 62){
+            else if (posicion < 63){
                 return [tabCoord[posicion][0] + 5, tabCoord[posicion][1]];
             }
-            else if (posicion == 62){
+            else if (posicion == 63){
                 return [tabCoord[posicion][0] - 9, tabCoord[posicion][1] + 4];
             }
 
             break;
 
         case 3: //jugador 3 posiciones
-            if (posicion <= 7){
+            if (posicion <= 8){
                 return [tabCoord[posicion][0] - 4, tabCoord[posicion][1]];
             }
-            else if (posicion <= 17){
+            else if (posicion <= 18){
                 return [tabCoord[posicion][0] - 7, tabCoord[posicion][1] - 2];
             }
-            else if (posicion <= 27){
+            else if (posicion <= 28){
                 return [tabCoord[posicion][0] - 3, tabCoord[posicion][1]];
             }
-            else if (posicion <= 35){
+            else if (posicion <= 36){
                 return [tabCoord[posicion][0] - 8, tabCoord[posicion][1] - 4];
             }
-            else if (posicion <= 43){
+            else if (posicion <= 44){
                 return [tabCoord[posicion][0] - 12, tabCoord[posicion][1]];
             }
-            else if (posicion == 44){
+            else if (posicion == 45){
                 return [tabCoord[posicion][0] - 3, tabCoord[posicion][1]];
             }
-            else if (posicion <= 49){
+            else if (posicion <= 50){
                 return [tabCoord[posicion][0] - 11, tabCoord[posicion][1]];
             }
-            else if (posicion <= 55){
+            else if (posicion <= 56){
                 return [tabCoord[posicion][0] - 4, tabCoord[posicion][1]];
             }
-            else if (posicion < 59){
+            else if (posicion < 60){
                 return [tabCoord[posicion][0] - 7.5, tabCoord[posicion][1] + 5];
             }
-            else if (posicion == 59){
+            else if (posicion == 60){
                 return [tabCoord[posicion][0] - 4, tabCoord[posicion][1]];
             }
-            else if (posicion <= 62){
+            else if (posicion <= 63){
                 return [tabCoord[posicion][0] - 3, tabCoord[posicion][1]];
             }
             break;
 
         case 4: //jugador 4 posiciones
-            if (posicion <= 7){
+            if (posicion <= 8){
                 return [tabCoord[posicion][0] - 12, tabCoord[posicion][1] + 2];
             }
-            else if (posicion <= 17){
+            else if (posicion <= 18){
                 return [tabCoord[posicion][0] - 11, tabCoord[posicion][1] + 2];
             }
-            else if (posicion == 18){
+            else if (posicion == 19){
                 return [tabCoord[posicion][0] - 11.5, tabCoord[posicion][1] + 5];
             }
-            else if (posicion <= 27){
+            else if (posicion <= 28){
                 return [tabCoord[posicion][0] - 3, tabCoord[posicion][1] + 2.5];
             }
-            else if (posicion <= 35){
+            else if (posicion <= 36){
                 return [tabCoord[posicion][0] - 15, tabCoord[posicion][1] - 4];
             }
-            else if (posicion <= 43){
+            else if (posicion <= 44){
                 return [tabCoord[posicion][0] - 16, tabCoord[posicion][1] + 2.5];
             }
-            else if (posicion <= 49){
+            else if (posicion <= 50){
                 return [tabCoord[posicion][0] - 11.5, tabCoord[posicion][1] - 3];
             }
-            else if (posicion <= 55){
+            else if (posicion <= 56){
                 return [tabCoord[posicion][0] - 12.5, tabCoord[posicion][1] + 2.5];
             }
-            else if (posicion == 56){
+            else if (posicion == 57){
                 return [tabCoord[posicion][0] - 20, tabCoord[posicion][1]];
             }
-            else if (posicion <= 59){
+            else if (posicion <= 60){
                 return [tabCoord[posicion][0] - 16, tabCoord[posicion][1] + 5];
             }
-            else if (posicion < 62){
+            else if (posicion < 63){
                 return [tabCoord[posicion][0] - 3, tabCoord[posicion][1] - 3];
             }
-            else if (posicion == 62){
+            else if (posicion == 63){
                 return [tabCoord[posicion][0] - 12, tabCoord[posicion][1] + 4];
             }
             break;
 
         case 5: //jugador 5 posiciones
-            if (posicion <= 7){
+            if (posicion <= 8){
                 return [tabCoord[posicion][0] - 19, tabCoord[posicion][1]];
             }
-            else if (posicion <= 17){
+            else if (posicion <= 18){
                 return [tabCoord[posicion][0] - 18, tabCoord[posicion][1] - 2];
             }
-            else if (posicion <= 27){
+            else if (posicion <= 28){
                 return [tabCoord[posicion][0] - 15.5, tabCoord[posicion][1] + 2.5];
             }
-            else if (posicion == 28){
+            else if (posicion == 29){
                 return [tabCoord[posicion][0] - 23, tabCoord[posicion][1] - 4];
             }
-            else if (posicion <= 35){
+            else if (posicion <= 36){
                 return [tabCoord[posicion][0] - 19, tabCoord[posicion][1] + 1];
             }
-            else if (posicion < 43){
+            else if (posicion < 44){
                 return [tabCoord[posicion][0] - 24.5, tabCoord[posicion][1] + 2.5];
             }
-            else if (posicion == 43){
+            else if (posicion == 44){
                 return [tabCoord[posicion][0] - 16, tabCoord[posicion][1] + 6];
             }
-            else if (posicion == 44){
+            else if (posicion == 45){
                 return [tabCoord[posicion][0] - 11, tabCoord[posicion][1] - 2.5];
             }
-            else if (posicion <= 49){
+            else if (posicion <= 50){
                 return [tabCoord[posicion][0] - 19, tabCoord[posicion][1] - 3];
             }
-            else if (posicion <= 55){
+            else if (posicion <= 56){
                 return [tabCoord[posicion][0] - 12, tabCoord[posicion][1] + 2.5];
             }
-            else if (posicion <= 59){
+            else if (posicion <= 60){
                 return [tabCoord[posicion][0] - 20, tabCoord[posicion][1] + 2.5];
             }
-            else if (posicion < 62){
+            else if (posicion < 63){
                 return [tabCoord[posicion][0] - 11, tabCoord[posicion][1] - 3];
             }
-            else if (posicion == 62){
+            else if (posicion == 63){
                 return [tabCoord[posicion][0] - 11, tabCoord[posicion][1] + 4];
             }
             break;
 
         case 6: //jugador 6 posiciones
-            if (posicion <= 7){
+            if (posicion <= 8){
                 return [tabCoord[posicion][0] - 23, tabCoord[posicion][1] + 2];
             }
-            else if (posicion <= 17){
+            else if (posicion <= 18){
                 return [tabCoord[posicion][0] - 22, tabCoord[posicion][1] + 0.2];
             }
-            else if (posicion <= 27){
+            else if (posicion <= 28){
                 return [tabCoord[posicion][0] - 15, tabCoord[posicion][1] + 2.5];
             }
-            else if (posicion <= 35){
+            else if (posicion <= 36){
                 return [tabCoord[posicion][0] - 23, tabCoord[posicion][1] - 1.5];
             }
-            else if(posicion == 36){
+            else if(posicion == 37){
                 return [tabCoord[posicion][0] - 19, tabCoord[posicion][1] - 3];
             }
-            else if (posicion <= 43){
+            else if (posicion <= 44){
                 return [tabCoord[posicion][0] - 19, tabCoord[posicion][1] + 2.5];
             }
-            else if (posicion == 44){
+            else if (posicion == 45){
                 return [tabCoord[posicion][0] - 11, tabCoord[posicion][1]];
             }
-            else if (posicion < 49){
+            else if (posicion < 50){
                 return [tabCoord[posicion][0] - 23, tabCoord[posicion][1] - 6];
             }
-            else if (posicion == 49){
+            else if (posicion == 50){
                 return [tabCoord[posicion][0] - 28, tabCoord[posicion][1]]
             }
-            else if (posicion == 50){
+            else if (posicion == 51){
                 return [tabCoord[posicion][0] - 20.5, tabCoord[posicion][1] + 5];
             }
-            else if (posicion <= 55){
+            else if (posicion <= 56){
                 return [tabCoord[posicion][0] - 12, tabCoord[posicion][1] + 2.5];
             }
-            else if (posicion <= 59){
+            else if (posicion <= 60){
                 return [tabCoord[posicion][0] - 24, tabCoord[posicion][1]];
             }
-            else if (posicion == 60){
+            else if (posicion == 61){
                 return [tabCoord[posicion][0] - 11, tabCoord[posicion][1] - 6];
             }
-            else if (posicion < 62){
+            else if (posicion < 63){
                 return [tabCoord[posicion][0] - 20, tabCoord[posicion][1] - 3];
             }
-            else if (posicion == 62){
+            else if (posicion == 63){
                 return [tabCoord[posicion][0] - 25, tabCoord[posicion][1]];
             }
             break;

@@ -27,9 +27,8 @@ Modal.setAppElement('#root'); // para asegurarnos de que react-modal funcione co
 
 function Juego() {
 
-  const posIni = 0;
+  const posIni = 1;
   const [turno, setTurno] = useState(null);
-  const [posicion, setPosicion] = useState([]);
   //Coger id de la sala
   const nickname = localStorage.getItem('nickname');
   const idRoom = localStorage.getItem('idRoom');
@@ -115,6 +114,8 @@ function Juego() {
   const [error, setError] = useState(null);
 
   const [casilla, setCasilla] = useState(0);
+  
+  const [ganador, setGanador] = useState(null);
 
   /***************************************************************************
    * INICIO CASILLAS ESPECIALES
@@ -123,7 +124,7 @@ function Juego() {
   const [modalDado, setModalDado] = useState(false);
 
   //Modal no turno
-  const [modalNoTurno, setModalNoTurno] = useState(false);
+  //const [modalNoTurno, setModalNoTurno] = useState(false);
 
   // Modal oca
   const [ocaModal, setOcaModal] = useState(false);
@@ -156,35 +157,38 @@ function Juego() {
   /***************************************************************************
    * FUNCIÓN PARA ESCUCHAR EL TURNO
    ***************************************************************************/
-   /*socket.on("sigTurno", (data) => {
+   socket.on("sigTurno", (data) => {
     console.log("Estoy dentro de la funcion SIG TURN escuchar backend");
-    if (data.status !== 'ok') {
-      setError(data.message);
+    
+    console.log(data);
+    //Si es mi turno
+    if (data.turno === nickname){
+      console.log("Es mi turno");
+      setTurno('true');
     }
-    else {
-      console.log('Estas en la funcion SIG TURN');
-      console.log(data);
-      //Si es mi turno
-      if (data.turno === nickname){
-        console.log("Es mi turno");
-      }
-      else{
-        console.log("No es mi turno");
-      }
+    else{
+      console.log("No es mi turno");
+      setTurno('false');
     }
-     
-  });*/
+  });
 
   /***************************************************************************
    * FUNCION CERRAR MODALES
    ***************************************************************************/
-  const closeModal = () => {
+  /*const closeModalOca = () => {
     
-    setModalNoTurno(false);
+    //setModalNoTurno(false);
 
     setOcaModal(false);
-
     setPuenteModal(false);
+    setDadosModal(false);
+
+    //Abre el modal del dado
+    setModalDado(true);
+  };*/
+
+  const closeModal = () => {
+    setModalDado(false);
 
     setPosadaModal(false);
 
@@ -194,16 +198,11 @@ function Juego() {
 
     setCarcelModal(false);
 
+    setCalaveraModal(false);
+    setOcaModal(false);
+    setPuenteModal(false);
     setDadosModal(false);
 
-    setCalaveraModal(false);
-
-    //Abre el modal del dado
-    setModalDado(true);
-  };
-
-  const closeModalDado = () => {
-    setModalDado(false);
 
     setDado(null);
   };
@@ -212,7 +211,6 @@ function Juego() {
    * FUNCION COMIENZO DE LA JUGADA
    ***************************************************************************/
   const comenzarJugada = () => {
-
 
     if (turno === 'true'){
       console.log("Estoy en la funcion comenzar jugada");
@@ -259,12 +257,9 @@ function Juego() {
           }
 
           //Se comprueba si es una casilla especial
-          comprobarCasilla(afterDice);
-
-                   
+          comprobarCasilla(afterDice, finalCell);
         }
       });
-      
     }
   }
   
@@ -300,7 +295,7 @@ function Juego() {
   }
   
   //Si es una casilla especial se abre el modal correspondiente
-  const comprobarCasilla = (casilla) => { 
+  const comprobarCasilla = (casilla, finalCell) => { 
     //Si es una casilla de oca se abre el modal de oca
     if (casilla === 5 || casilla === 9 || casilla === 14 || casilla === 18 || 
       casilla === 23 || casilla === 27 || casilla === 32 || casilla === 36 || 
@@ -308,10 +303,12 @@ function Juego() {
       casilla === 59){
       setOcaModal(true);
       console.log("OCA")
+      inicializarFicha(finalCell);
 
-    } else if (casilla === 6){ //Si es una casilla de puente se abre el modal de puente
+    } else if (casilla === 6 || casilla === 12){ //Si es una casilla de puente se abre el modal de puente
       setPuenteModal(true);
       console.log("PUENTE")
+      inicializarFicha(finalCell);
 
     } else if (casilla === 19){ //Si es una casilla de posada se abre el modal de posada
       setPosadaModal(true);
@@ -329,9 +326,10 @@ function Juego() {
       setCarcelModal(true);
       console.log("CARCEL")
 
-    } else if (casilla === 26){ //Si es una casilla de dados se abre el modal de dados
+    } else if (casilla === 26 || casilla === 53){ //Si es una casilla de dados se abre el modal de dados
       setDadosModal(true);
       console.log("DADOS")
+      inicializarFicha(finalCell);
 
     } else if (casilla === 58){ //Si es una casilla de calavera se abre el modal de calaveras
       setCalaveraModal(true);setDadosModal(true);
@@ -360,52 +358,42 @@ function Juego() {
    * FUNCIÓN RECIBE LA INFORMACIÓN DEL LOS DEMÁS JUGADORES
    ***************************************************************************/
   socket.on("estadoPartida", (data) => {
-    console.log("Estoy dentro de la funcion escuchar backend");
+    console.log('Estas en la funcion estadoPartida');
+    console.log("posicion: " + data.posiciones);
     
-    if (data.status !== 'ok') {
-      setError(data.message);
-    } else {
-      console.log('Estas en la funcion estadoParetida');
-      
-      setPosicion(data.posicion);
-      console.log("posicion: " + posicion);
+    let nickname = data.posiciones.nickname;
+    console.log("nickname: " + data.posiciones.nickname)
+    let celda = data.posiciones.celda;
+    console.log("celda: " + data.posiciones.celda)
+    const posicion = listaNombres.indexOf(data.posiciones.nickname);
 
-      let nombre = posicion['nickname'];
-      console.log("nombre: " + nombre);
-      
-      let celda = posicion['celda'];
-      console.log("celda: " + celda);
+    switch(posicion){
+      case 0:
+        setIdFicha1(data.posiciones.celda);
+        break;
 
-      const posicion = listaNombres.indexOf(nickname);
+      case 1:
+        setIdFicha2(data.posiciones.celda);
+        break;
 
-      switch(posicion){
-        case 0:
-          setIdFicha1(celda);
-          break;
+      case 2:
+        setIdFicha3(data.posiciones.celda);
+        break;
 
-        case 1:
-          setIdFicha2(celda);
-          break;
+      case 3:
+        setIdFicha4(data.posiciones.celda);
+        break;
 
-        case 2:
-          setIdFicha3(celda);
-          break;
+      case 4:
+        setIdFicha5(data.posiciones.celda);
+        break;
 
-        case 3:
-          setIdFicha4(celda);
-          break;
-
-        case 4:
-          setIdFicha5(celda);
-          break;
-
-        case 5:
-          setIdFicha6(celda);
-          break;
-      }
+      case 5:
+        setIdFicha6(data.posiciones.celda);
+        break;
     }
+    
   });
-
   
   /***************************************************************************
    * FUNCIÓN PARA MOVER LAS FICHAS
@@ -427,6 +415,7 @@ function Juego() {
     
     const [nuevoTop2, nuevoLeft2] = calcularPosicion(2, idFicha2);
     console.log(nuevoTop2, nuevoLeft2)
+    console.log(idFicha2)
     setMyTop2(nuevoTop2);
     setMyLeft2(nuevoLeft2);
     
@@ -471,6 +460,15 @@ function Juego() {
     
 
   }, [idFicha6])
+
+  /***************************************************************************
+   * FUNCIONES GANAR JUEGO
+   ***************************************************************************/
+  socket.on('finPartida', (data) => {
+    console.log("FIN PARTIDA");
+    setGanador(data.ganador);
+    setGanadorModal(true);
+  });
 
   /***************************************************************************
    * FUNCIONES PARA ACTUALIZAR CHAT
@@ -541,24 +539,38 @@ function Juego() {
       
       <div className='contenedor'>  
           <div className='tablero'>
+            {/* Dependiendo del numeor del tamaño de la listaNombres se inicaran tantas fichas como la longitud*/}
+
+            {listaNombres.length >= 1 && (
             <div className='ficha1' style={ {top:`${myTop1}%`,left:`${myLeft1}%`}}>
               <img className='fichaTam' src={image1} />
             </div>
+            )}
+            {listaNombres.length >= 2 && (
             <div className='ficha2' style={ {top:`${myTop2}%`,left:`${myLeft2}%`}}>
               <img className='fichaTam' src={image2} />
             </div>
+            )}
+            {listaNombres.length >= 3 && (
             <div className='ficha3' style={ {top:`${myTop3}%`,left:`${myLeft3}%`}}>
               <img className='fichaTam' src={image3} />
             </div>
+            )}
+            {listaNombres.length >= 4 && (
             <div className='ficha4' style={ {top:`${myTop4}%`,left:`${myLeft4}%`}}>
               <img className='fichaTam' src={image4} />
             </div>
+            )}
+            {listaNombres.length >= 5 && (
             <div className='ficha5' style={ {top:`${myTop5}%`,left:`${myLeft5}%`}}>
               <img className='fichaTam' src={image5} />
             </div> 
+            )}
+            {listaNombres.length >= 6 && (
             <div className='ficha6' style={ {top:`${myTop6}%`,left:`${myLeft6}%`}}>
               <img className='fichaTam' src={image6} />
             </div>
+            )}
 
            
             
@@ -569,84 +581,82 @@ function Juego() {
               <p>{dado}</p>
             </div>
             <div className="popup-juego">
-                <div className="tituloJuego">TIRA EL DADO</div>
-                <div className='dado'>
-                  <img className='dadoTam' src={dadoImg} onClick={() => comenzarJugada()} />
-                  <div className='textoDado'>
-                    <p>{dado}</p>
-                  </div>
-                
+              <div className="tituloJuego">TIRA EL DADO</div>
+              <div className='dado'>
+                <img className='dadoTam' src={dadoImg} onClick={() => comenzarJugada()} />
+                <div className='textoDado'>
+                  <p>{dado}</p>
                 </div>
+              
+              </div>
 
-                <button className='closeButtonJuego' onClick={() => closeModalDado()}>X</button>
+              <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
+                
+            </div>
+            </Modal>         
+            
+            {/* MODAL OCA */}
+            
+            <Modal className="popup" isOpen={ocaModal} onRequestClose={() => setOcaModal(false)}>
+            <div className="popup-juego">
+              <div className="tituloJuego">OCA</div>
+              <div className="textoJuego">
+                  <p>De oca a oca y tiro porque me toca. ¡Vuelve a tirar!</p>
+                  
+              </div>
+
+              <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
                 
             </div>
             </Modal>
-
-            {/*Cuando sea turno false se mostrara un modal de no poder tirar aun.*/}
-            {/* {turno !== 'true' && <button className='botonJugar' onClick={() => setModalDado(true)}>Tirar Dado</button>}
-            <Modal className="popup" isOpen={modalNoTurno} onRequestClose={() => setModalNoTurno(false)}>
-            <div className="popup-juego">
-                <div className="tituloJuego">NO TIRAR</div>
-                <div className="textoJuego">
-                    <p>No es tu turno, no puedes tirar aún.</p>
-                    
-                </div>
-
-                <button className='closeButtonJuego' onClick={() => closeModalDado()}>X</button>
-                
-            </div>
-            </Modal> */}
-            
-            
 
             {/* MODAL PUENTE */}
             
             <Modal className="popup" isOpen={puenteModal} onRequestClose={() => setPuenteModal(false)}>
             <div className="popup-juego">
-                <div className="tituloJuego">PUENTE</div>
-                <div className="textoJuego">
-                    <p>De puente a puente y tiro porque pasa la corriente. ¡Vuelve a tirar!</p>
-                    
-                </div>
+              <div className="tituloJuego">PUENTE</div>
+              <div className="textoJuego">
+                  <p>De puente a puente y tiro porque pasa la corriente. ¡Vuelve a tirar!</p>
+                  
+              </div>
 
-                <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
+              <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
                 
             </div>
             </Modal>
 
             {/* MODAL POSADA */}
-            {/* <button className='botonPeligro' onClick={() => setPosadaModal(true)}>Posada</button> */}
+           
             <Modal className="popup" isOpen={posadaModal} onRequestClose={() => setPosadaModal(false)}>
             <div className="popup-juego">
-                <div className="tituloJuego">POSADA</div>
-                <div className="textoJuego">
-                    <p>!La POSADA¡ No puedes jugar durante 1 turno.</p>
-                    
-                </div>
+              <div className="tituloJuego">POSADA</div>
+              <div className="textoJuego">
+                  <p>!La POSADA¡ No puedes jugar durante 1 turno.</p>
+                  
+              </div>
 
-                <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
+              <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
                 
             </div>
             </Modal>
 
             {/* MODAL POZO */}
-            {/* <button className='botonPeligro' onClick={() => setPozoModal(true)}>POZO</button> */}
+      
             <Modal className="popup" isOpen={pozoModal} onRequestClose={() => setPozoModal(false)}>
             <div className="popup-juego">
-                <div className="tituloJuego">POZO</div>
-                <div className="textoJuego">
-                    <p>No puedes jugar 2 turnos.</p>
-                    
-                </div>
+              <div className="tituloJuego">POZO</div>
+              <div className="textoJuego">
+                  <p>No puedes jugar 2 turnos.</p>
+                  
+              </div>
 
-                <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
+              <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
                 
             </div>
             </Modal>
 
             {/* MODAL LABERINTO */}
-            {/* <button className='botonPeligro' onClick={() => setLaberintoModal(true)}>Laberinto</button> */}
+           
             <Modal className="popup" isOpen={laberintoModal} onRequestClose={() => setLaberintoModal(false)}>
             <div className="popup-juego">
                 <div className="tituloJuego">LABERINTO</div>
@@ -661,46 +671,46 @@ function Juego() {
             </Modal>
 
             {/* MODAL CARCEL */}
-            {/* <button className='botonPeligro' onClick={() => setCarcelModal(true)}>carcel</button> */}
+            
             <Modal className="popup" isOpen={carcelModal} onRequestClose={() => setCarcelModal(false)}>
             <div className="popup-juego">
-                <div className="tituloJuego">CARCEL</div>
-                <div className="textoJuego">
-                    <p>Encarcelado. No puedes jugar durante 4 turnos.</p>
-                    
-                </div>
+              <div className="tituloJuego">CARCEL</div>
+              <div className="textoJuego">
+                  <p>Encarcelado. No puedes jugar durante 4 turnos.</p>
+                  
+              </div>
 
-                <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
+              <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
                 
             </div>
             </Modal>
 
             {/* MODAL DADOS */}
-            {/* <button className='botonPeligro' onClick={() => setDadosModal(true)}>DADOS</button> */}
+            
             <Modal className="popup" isOpen={dadosModal} onRequestClose={() => setDadosModal(false)}>
             <div className="popup-juego">
-                <div className="tituloJuego">DADOS</div>
-                <div className="textoJuego">
-                    <p>De dado a dado y tiro porque son cuadrados.</p>
-                    
-                </div>
+              <div className="tituloJuego">DADOS</div>
+              <div className="textoJuego">
+                  <p>De dado a dado y tiro porque son cuadrados.</p>
+                  
+              </div>
 
-                <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
+              <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
                 
             </div> 
             </Modal>
 
             {/* MODAL CALAVERA */}
-            {/* <button className='botonPeligro' onClick={() => setCalaveraModal(true)}>CALAVERA</button> */}
+            
             <Modal className="popup" isOpen={calaveraModal} onRequestClose={() => setCalaveraModal(false)}>
             <div className="popup-juego">
-                <div className="tituloJuego">CALAVERA</div>
-                <div className="textoJuego">
-                    <p>¡¡Oh no!! Vuelves a la casilla incial.</p>
-                    
-                </div>
+              <div className="tituloJuego">CALAVERA</div>
+              <div className="textoJuego">
+                  <p>¡¡Oh no!! Vuelves a la casilla incial.</p>
+                  
+              </div>
 
-                <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
+              <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
                 
             </div>
             </Modal>
@@ -710,10 +720,10 @@ function Juego() {
             <div className="popup-juego">
               <div className="tituloJuego">¡¡¡GANADOR!!!</div>
               <div className="textoJuego">
-                  <p>¡¡¡ENHORABUENA!!!</p>
+                  <p>¡¡¡ENHORABUENA!!! {ganador} has ganado.</p>
               </div>
               
-              <button className='closeButtonJuego' onClick={() => closeModalDado()}>X</button>
+              <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
               
             </div>
             </Modal>
@@ -748,13 +758,6 @@ function Juego() {
               <MessageInput onSend={handleSend} placeholder="Escribe tu mensaje..." />
               </ChatContainer>
             </MainContainer>
-
-              {/* <button onClick={() => setIdFicha1(/*valorBackend*/ /*(idFicha1 + 1) % 63)}>saltar1</button> 
-              <button onClick={() => setIdFicha2(idFicha2+1)}>saltar2</button>
-              <button onClick={() => setIdFicha3(idFicha3+1)}>saltar3</button>
-              <button onClick={() => setIdFicha4(idFicha4+1)}>saltar4</button>
-              <button onClick={() => setIdFicha5(idFicha5 + 1)}>saltar5</button>
-              <button onClick={() => setIdFicha6(idFicha6+1)}>saltar6</button>*/}
           </div>
 
           
