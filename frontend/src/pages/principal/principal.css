@@ -11,7 +11,7 @@
 .imagenes {
     float: right;
     margin-right: 2%;
-
+    display: inline-flex;
 }
 
 img .a {

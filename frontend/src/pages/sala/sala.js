@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import socket from '../../utils/socket.js';
 import './sala.css';
 import '../../components/SalaJuego.css'
+import "../../components/PopupAyudaSala.css"
 import help from '../../assets/feather/help-circle.svg'
 import check from '../../assets/feather/check.svg'
 import copy from '../../assets/feather/copy.svg'
@@ -28,6 +29,10 @@ function Sala() {
   // Declaracion de variables
   const [isCopying, setIsCopying] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+
+  // Modal de ayuda
+  const [ayudaModalIsOpen, setAyudaModalIsOpen] = useState(false);
+  const [ayudaInvitadosModalIsOpen, setAyudaInvitadosModalIsOpen] = useState(false);
 
   const [error, setError] = useState(null);
   const [path, navigation] = useLocation();
@@ -61,19 +66,19 @@ function Sala() {
   socket.on("destroyingRoom", (roomId) => {
     console.log('Estoy dentro de destroyingRoom sala');
     if (idRoom === roomId) {
-      
+
       // ELiminar la base de datos de react
       localStorage.removeItem('idRoom');
       localStorage.removeItem('lider');
       localStorage.removeItem('players');
       localStorage.removeItem('nombreSala');
-      
+
       navigation("/principal");
     }
     socket.off("destroyingRoom");
   });
 
-  
+
   /***************************************************************************
    * FUNCION ACTUALIZAR JUGADORES
    ***************************************************************************/
@@ -96,7 +101,7 @@ function Sala() {
     }
     socket.off("serverRoomMessage");
   });
-  
+
 
   /***************************************************************************
    * FUNCION ELIMINAR SALA
@@ -113,7 +118,7 @@ function Sala() {
         localStorage.removeItem('lider');
         localStorage.removeItem('players');
         localStorage.removeItem('nombreSala');*/
-        
+
         navigation("/principal");
       }
     });
@@ -132,7 +137,7 @@ function Sala() {
         localStorage.removeItem('idRoom');
         localStorage.removeItem('lider');
         localStorage.removeItem('nombreSala');
-        
+
         navigation("/principal");
       }
     });
@@ -147,12 +152,27 @@ function Sala() {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {
-        
+
         // Resetear num jugadores
         localStorage.setItem('jugadores', players);
       }
     });
   }
+
+  /***************************************************************************
+   * FUNCION AYUDA MODALES
+   ***************************************************************************/
+  const AyudaModal = () => {
+    console.log(lider);
+    if (lider === "true") {
+      setAyudaModalIsOpen(true);
+    } 
+    else {
+      console.log('Estoy en el else');
+      setAyudaInvitadosModalIsOpen(true);
+    }
+  };
+
 
 
 
@@ -162,9 +182,7 @@ function Sala() {
   function ImagenesLink() {
     return (
       <div className="imagenes">
-        <a href="/">
-          <img src={help} alt="Ayuda" />
-        </a>
+        <img src={help} alt="Ayuda" onClick={AyudaModal} />
       </div>
     );
   }
@@ -238,7 +256,33 @@ webpack compiled with 1 warning*******************************************
           ))}
         </div>
         {lider !== 'true' && <button className='abandonarSala' onClick={SalirSala}>Abandonar sala</button>}
-        
+
+
+        <Modal className="popupAyuda" isOpen={ayudaModalIsOpen} onRequestClose={() => setAyudaModalIsOpen(false)}>
+          <div className="popup-ayuda">
+            <p className="tituloAyuda">AYUDA</p>
+            <p className="textoAyuda">Una vez se hayan unido todos los participantes pulse el botón</p>
+            <p className="textoEspecifico">“COMENZAR PARTIDA”</p>
+            <p className="textoAyuda">Transcurridos 2 minutos si no se han unido todos los participantes</p>
+            <p className="textoAyuda"> los huecos se rellenarán con bots.</p>
+
+            <button className="closeButton" onClick={() => setAyudaModalIsOpen(false)}>X</button>
+          </div>
+        </Modal>
+
+        <Modal className="popupAyuda" isOpen={ayudaInvitadosModalIsOpen} onRequestClose={() => setAyudaInvitadosModalIsOpen(false)}>
+          <div className="popup-ayuda">
+            <p className="tituloAyuda">AYUDA</p>
+            <p className="textoAyuda">Una vez el líder de la sala presione</p>
+            <p className="textoEspecifico">“COMENZAR PARTIDA”</p>
+            <p className="textoAyuda">dará comienzo la partida.</p>
+
+            <button className="closeButton" onClick={() => setAyudaInvitadosModalIsOpen(false)}>X</button>
+          </div>
+        </Modal>
+
+
+
       </div>
     </>
   );

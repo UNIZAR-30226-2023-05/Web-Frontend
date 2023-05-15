@@ -11,10 +11,12 @@
     position: absolute;
     right: 0;
     margin-right: 2%;
- }
 
-img .a {
+}
+
+img {
     margin-right: 4%;
+    cursor: pointer;
 }
 
 .botonSalir {
@@ -44,7 +46,7 @@ img .a {
     font-size: 130%;
     font-family: 'Chivo', sans-serif;
     color: black;
-    
+
 
 }
 
@@ -90,7 +92,7 @@ img .a {
 }
 
 .eliminarIcono {
-    
+
     border: none;
     font-size: 10%;
     cursor: pointer;
