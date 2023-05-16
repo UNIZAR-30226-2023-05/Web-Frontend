@@ -6,6 +6,12 @@ html {
     background-position: center center;
 }
 
+/* Scroller */
+/* Estilos personalizados para el scrollbar */
+::-webkit-scrollbar {
+    width: 0px; /* Ancho del scrollbar */
+  }
+
 .cont {
     display: flex;
     width: 100%;
