@@ -1,16 +1,9 @@
-html {
-    background-image: url('../../assets/img/fondo.jpg');
-    background-size: cover;
-    background-color: #1C6473;
-    background-repeat: no-repeat;
-    background-position: center center;
-}
 
 /* Scroller */
 /* Estilos personalizados para el scrollbar */
 ::-webkit-scrollbar {
     width: 0px; /* Ancho del scrollbar */
-  }
+}
 
 .cont {
     display: flex;
