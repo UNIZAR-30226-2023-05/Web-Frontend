@@ -712,7 +712,9 @@ function Juego() {
                   <p>¡¡¡ENHORABUENA!!! {ganador} has ganado.</p>
               </div>
               
-              <button className='closeButtonJuego' onClick={() => closeModal()}>X</button>
+              <Link to='/principal'>
+                <button className='closeButtonJuego'>X</button>
+              </Link>
               
             </div>
             </Modal>
