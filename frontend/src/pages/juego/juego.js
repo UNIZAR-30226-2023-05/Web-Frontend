@@ -352,10 +352,15 @@ function Juego() {
     posiciones.forEach(item1 => {
       const celda = item1.celda;
       console.log("celda: " + celda)
-      const index = item1.index;
-      console.log("index: " + index)
+      //const index = item1.index;
+      const name = item1.nickname;
+      //console.log("index: " + index)
       console.log("nickname: " + item1.nickname)
       
+      
+      const index = parejas.findIndex((pareja) => pareja.nickname === name);
+      console.log("index: " + index)
+
       switch(index){
         case 0:
           setIdFicha1(celda);
