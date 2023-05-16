@@ -295,11 +295,12 @@ function Amigos() {
             <div className='imagenes-link'>
                 <ImagenesLink />
             </div>
-
-            <button className="botonNuevoAmigo" onClick={() => setNuevoAmigoModalIsOpen(true)}>Añadir amigo</button>
-            <button className="botonSolicitudes" onClick={() => { obtenerSolicitudes(); setSolicitudesModalIsOpen(true) }}>Solicitudes pendientes</button>
-            <button className="botonAmigos" onClick={handleClick}>Refresca</button>
-
+            <div className='barraBotonesAmigos'>
+                <button className="botonNuevoAmigo" onClick={() => setNuevoAmigoModalIsOpen(true)}>Añadir amigo</button>
+                <button className="botonSolicitudes" onClick={() => { obtenerSolicitudes(); setSolicitudesModalIsOpen(true) }}>Solicitudes pendientes</button>
+                <button className="botonAmigos" onClick={handleClick}>Refresca</button>
+            </div>
+            
             <div className="contenedorAmigos">
                 <div className="lista-amigos">
                     {listaAmigos.length > 0 ? (

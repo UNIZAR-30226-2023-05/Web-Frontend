@@ -1,11 +1,3 @@
-.Amigos {
-    /*background-image: url('../../assets/img/fondo.jpg');
-    background-size: 100% 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-color: #1C6473;*/
-}
 
 .imagenes {
     position: absolute;
@@ -56,6 +48,10 @@ img .a {
     /* Color del pulgar de la barra de desplazamiento al pasar el cursor */
 }
 
+.barraBotonesAmigos {
+    display: inline-flex;
+    width: 108%;
+}
 
 .botonNuevoAmigo {
     position: inline-block;
