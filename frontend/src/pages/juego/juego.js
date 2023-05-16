@@ -153,6 +153,9 @@ function Juego() {
   // Modal ganador
   const [ganadorModal, setGanadorModal] = useState(false);
 
+  // Modal perdedor
+  const [perdedorModal, setPerdedorModal] = useState(false);
+
 
   /***************************************************************************
    * FUNCIÓN PARA ESCUCHAR EL TURNO
@@ -456,7 +459,11 @@ function Juego() {
   socket.on('finPartida', (data) => {
     console.log("FIN PARTIDA");
     setGanador(data.ganador);
-    setGanadorModal(true);
+    if(data.ganador === nickname){
+      setGanadorModal(true);
+    } else {
+      setPerdedorModal(true);
+    }
   });
 
   /***************************************************************************
@@ -705,11 +712,28 @@ function Juego() {
             </Modal>
 
             {/*  MODAL GANADOR */}
+            {ganador === nickname}
             <Modal className="popup" isOpen={ganadorModal} onRequestClose={() => setGanadorModal(false)}>
             <div className="popup-juego">
               <div className="tituloJuego">¡¡¡GANADOR!!!</div>
               <div className="textoJuego">
                   <p>¡¡¡ENHORABUENA!!! {ganador} has ganado.</p>
+              </div>
+              
+              <Link to='/principal'>
+                <button className='closeButtonJuego'>X</button>
+              </Link>
+              
+            </div>
+            </Modal>
+
+            {/*  MODAL GANADOR */}
+            {ganador !== nickname}
+            <Modal className="popup" isOpen={perdedorModal} onRequestClose={() => setPerdedorModal(false)}>
+            <div className="popup-juego">
+              <div className="tituloJuego">¡¡¡HAS PERDIDO!!!</div>
+              <div className="textoJuego">
+                  <p>Ha ganado {ganador}</p>
               </div>
               
               <Link to='/principal'>
