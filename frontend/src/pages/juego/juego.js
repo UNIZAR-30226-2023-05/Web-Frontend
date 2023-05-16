@@ -40,6 +40,8 @@ function Juego() {
   // Lista de mensajes para el chat de la sala
   const [messageList, setMessageList] = useState([]);
 
+  const [path, navigation] = useLocation();
+
   //  Emparejamiento de cada jugador con su ficha.
   const parejas = listaNombres.map((nombre, index) => [nombre, listaFichas[index]]);
 
@@ -173,6 +175,8 @@ function Juego() {
       console.log("No es mi turno");
       setTurno('false');
     }
+
+    //socket.off("sigTurno");
   });
 
   /***************************************************************************
@@ -351,17 +355,11 @@ function Juego() {
     
     posiciones.forEach(item1 => {
       const celda = item1.celda;
-      console.log("celda: " + celda)
-      //const index = item1.index;
       const name = item1.nickname;
-      //console.log("index: " + index)
-      console.log("nickname: " + item1.nickname)
-      
-      
-      const index = parejas.findIndex((pareja) => pareja.nickname === name);
-      console.log("index: " + index)
+      const indice = listaNombres.indexOf(name);
+      console.log(`indice es ${indice}, el name es ${name} y la lista es ${listaNombres}`);
 
-      switch(index){
+      switch(indice){
         case 0:
           setIdFicha1(celda);
           break;
@@ -388,7 +386,7 @@ function Juego() {
       }
     }); 
 
-    
+    //socket.off("estadoPartida");
     
   });
   
@@ -469,7 +467,29 @@ function Juego() {
     } else {
       setPerdedorModal(true);
     }
+
+    //socket.off('finPartida');
   });
+
+  /***************************************************************************
+   * FUNCION ABANDONAR SALA
+   ***************************************************************************/
+   const salirSala = () => {
+
+    socket.emit("leaveTheRoom", idRoom, (data) => {
+      if (data.status !== 'ok') {
+        setError(data.message);
+      } else {
+        // ELiminar la base de datos de react
+        localStorage.removeItem('idRoom');
+        localStorage.removeItem('lider');
+        localStorage.removeItem('nombreSala');
+        localStorage.removeItem('ordenTurnos');
+
+        navigation("/principal");
+      }
+    });
+  }
 
   /***************************************************************************
    * FUNCIONES PARA ACTUALIZAR CHAT
@@ -508,6 +528,8 @@ function Juego() {
       };    
 
     setMessageList([...messageList, message]); // Agrega el mensaje a la lista
+
+    //socket.off('roomMessage');
   });
 
   socket.on('serverRoomMessage', (data) => {
@@ -521,6 +543,7 @@ function Juego() {
       };    
 
     setMessageList([...messageList, message]); // Agrega el mensaje a la lista
+    //socket.off('serverRoomMessage');
   });
 
 
@@ -531,9 +554,9 @@ function Juego() {
         JUEGO
       </header>
       <div className='cont'>
-        <Link to='/principal'>
-          <button className='botonAbandonar'>Abandonar</button>
-        </Link>
+        
+        <button className='botonAbandonar' onClick={() => salirSala()}>Abandonar</button>
+        
        
         <div className='barraTitulo'>{nombreSala}</div>
       </div>
