@@ -4,7 +4,7 @@ async function GetRankingPartidas() {
        }
        
        
-       let response = await fetch("http://localhost:4000/users/ranking/partidas", { 
+       let response = await fetch("http://169.51.206.12:32021/users/ranking/partidas", { 
             method: "GET",
             headers: headersList
        });

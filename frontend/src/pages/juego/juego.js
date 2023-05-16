@@ -175,18 +175,6 @@ function Juego() {
   /***************************************************************************
    * FUNCION CERRAR MODALES
    ***************************************************************************/
-  /*const closeModalOca = () => {
-    
-    //setModalNoTurno(false);
-
-    setOcaModal(false);
-    setPuenteModal(false);
-    setDadosModal(false);
-
-    //Abre el modal del dado
-    setModalDado(true);
-  };*/
-
   const closeModal = () => {
     setModalDado(false);
 
@@ -332,23 +320,12 @@ function Juego() {
       inicializarFicha(finalCell);
 
     } else if (casilla === 58){ //Si es una casilla de calavera se abre el modal de calaveras
-      setCalaveraModal(true);setDadosModal(true);
+      setCalaveraModal(true);
       console.log("CALAVERA")
+      inicializarFicha(finalCell);
       
     } else if (casilla === 62){
       console.log("GANASTE")
-      //Mando a backend que he ganado****************************************************** MIRAR
-    /*  socket.emit("ganar", parseInt(idRoom), (data) => {
-        console.log("Mando ganar");
-        if (data.status !== 'ok') {
-          setError(data.message);
-
-        } else {
-          // Datos recibidos correctamente, hacer algo con ellos
-          console.log('GANASTE');
-          setModalGanar(true);
-        }
-      });*/
     }
 
   }
@@ -361,37 +338,49 @@ function Juego() {
     console.log('Estas en la funcion estadoPartida');
     console.log("posicion: " + data.posiciones);
     
-    let nickname = data.posiciones.nickname;
-    console.log("nickname: " + data.posiciones.nickname)
-    let celda = data.posiciones.celda;
-    console.log("celda: " + data.posiciones.celda)
-    const posicion = listaNombres.indexOf(data.posiciones.nickname);
+    let posiciones = data.posiciones.map((item, index) => ({
+      nickname: item.nickname,
+      celda: item.celda,
+      index: index
+    }));
 
-    switch(posicion){
-      case 0:
-        setIdFicha1(data.posiciones.celda);
-        break;
+    console.log("posiciones: " + posiciones)
+    
+    posiciones.forEach(item1 => {
+      const celda = item1.celda;
+      console.log("celda: " + celda)
+      const index = item1.index;
+      console.log("index: " + index)
+      console.log("nickname: " + item1.nickname)
+      
+      switch(index){
+        case 0:
+          setIdFicha1(celda);
+          break;
+    
+        case 1:
+          setIdFicha2(celda);
+          break;
+    
+        case 2:
+          setIdFicha3(celda);
+          break;
+    
+        case 3:
+          setIdFicha4(celda);
+          break;
+    
+        case 4:
+          setIdFicha5(celda);
+          break;
+    
+        case 5:
+          setIdFicha6(celda);
+          break;
+      }
+    }); 
 
-      case 1:
-        setIdFicha2(data.posiciones.celda);
-        break;
-
-      case 2:
-        setIdFicha3(data.posiciones.celda);
-        break;
-
-      case 3:
-        setIdFicha4(data.posiciones.celda);
-        break;
-
-      case 4:
-        setIdFicha5(data.posiciones.celda);
-        break;
-
-      case 5:
-        setIdFicha6(data.posiciones.celda);
-        break;
-    }
+    
     
   });
   
