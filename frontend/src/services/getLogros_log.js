@@ -1,10 +1,9 @@
-async function GetAmigos(id_usuario) {
+async function GetLogros(id_usuario) {
     let headersList = {
         "Content-Type": "application/json"
     }
-    console.log(id_usuario);
 
-    let response = await fetch(`http://localhost:4000/social/friends/${id_usuario}`, { 
+    let response = await fetch(`http://localhost:4000/users/logros/${id_usuario}`, { 
         method: "GET",
         headers: headersList
     });
@@ -13,6 +12,8 @@ async function GetAmigos(id_usuario) {
         console.log(data);
 
     return data; //devuelve el .json con los datos del registro
-    }
+}
 
-    export default GetAmigos;
+export default GetLogros;
+
+   

@@ -8,6 +8,7 @@ async function SolicitudAmigo(id_usuario_envia, id_usuario_recibe){
          "id_usuario_envia": id_usuario_envia,
          "id_usuario_recibe": id_usuario_recibe
        });
+       console.log(bodyContent);
        
        let response = await fetch("http://localhost:4000/social/friends", { 
          method: "POST",

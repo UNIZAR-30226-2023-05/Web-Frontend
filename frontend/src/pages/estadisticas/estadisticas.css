@@ -1,0 +1,232 @@
+.Estadistica {
+  /*background-image: url('../../assets/img/fondo.jpg');
+    background-size: 100% 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #1C6473;*/
+
+}
+
+
+
+/* Scroller */
+/* Estilos personalizados para el scrollbar */
+::-webkit-scrollbar {
+  width: 0px; /* Ancho del scrollbar */
+}
+
+/* Track (pista) del scrollbar */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Color de fondo de la pista */
+}
+
+/* Thumb (pulgar) del scrollbar */
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color del pulgar */
+}
+
+/* Cambia el color del thumb al pasar el mouse por encima */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color del pulgar al pasar el mouse por encima */
+}
+
+
+
+/* Logros */
+.tituloLogros {
+  font-size: 130%;
+  font-family: "Trocchi", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  color: #1c6473;
+}
+
+.stats-interface {
+  background-image: url('../../assets/ocas/ocas_fondo.JPG');
+  padding: 1%;
+  border-radius: 10px;
+  text-align: center;
+  margin-left: 19%;
+  margin-right: 7%;
+  background-color: #f1f1f1;
+  margin-bottom: 2%;
+  border: 1px solid black;
+}
+
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat {
+  background-color: whitesmoke;
+  padding: 3px;
+  margin: 10px;
+  border-radius: 5px;
+  box-shadow: 0 40px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid black;
+}
+
+.stat h2 {
+  margin-bottom: 5%;
+  font-size: 99%;
+  font-family: "Chilanka", sans-serif;
+}
+
+
+.stat p {
+  font-family: "Chivo", sans-serif;
+}
+
+.opcionesDespegable {
+  position: absolute;
+  font-size: 100%;
+  left: 0;
+  top: 5%;
+  margin-top: 11%;
+  font-family: "Trocchi", sans-serif;
+  width: 17%;
+  color: #1c6473;
+  background-color: whitesmoke;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 0 15px 15px 0;
+}
+
+.opcionesDespegableLogros {
+  position: absolute;
+  font-size: 100%;
+  left: 0;
+  top: 5%;
+  margin-top: 23%;
+  font-family: "Trocchi", sans-serif;
+  width: 17%;
+  color: #1c6473;
+  background-color: whitesmoke;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 0 15px 15px 0;
+}
+
+/* Mis estadisticas */
+.tituloMisEstadisticas {
+  font-size: 130%;
+  font-family: "Trocchi", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  color: rgb(250, 92, 118);
+}
+
+.stats-interface-mis-estadisticas {
+  background-image: url('../../assets/ocas/ocas_fondo4.JPG');
+  padding: 1%;
+  border-radius: 10px;
+  text-align: center;
+  margin-left: 19%;
+  margin-right: 7%;
+  background-color: #f1f1f1;
+  border: 1px solid black;
+}
+
+/* Ranking de partidas ganadas */
+.ranking-container {
+  background-image: url('../../assets/ocas/ocas_fondo2.JPG');
+  padding: 1%;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 2%;
+  margin-left: 19%;
+  margin-right: 7%;
+  background-color: #f1f1f1;
+  margin-bottom: 1%;
+  border: 1px solid black;
+}
+
+.ranking-container h2 {
+  font-size: 130%;
+  font-family: "Trocchi", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  color: rgb(255, 115, 0);
+}
+
+.ranking-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 40px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid black;
+}
+
+.ranking-position {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.ranking-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.ranking-username {
+  font-weight: bold;
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.ranking-score {
+  font-size: 100%;
+  color: gray;
+}
+
+.top-ranking {
+  background-color: #fff28c;
+  /* Cambia el color de fondo para los primeros tres jugadores */
+}
+
+.resto {
+  background-color: whitesmoke;
+  /* Cambia el color de fondo para los demas jugadores */
+}
+
+/* Ranking ocas */
+.ranking-container-ocas {
+  background-image: url('../../assets/ocas/ocas_fondo3.JPG');
+  padding: 1%;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 2%;
+  margin-left: 19%;
+  margin-right: 7%;
+  background-color: #f1f1f1;
+  margin-bottom: 1%;
+  border: 1px solid black;
+}
+
+.ranking-container-ocas h2 {
+  font-size: 130%;
+  font-family: "Trocchi", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  color: rgb(2, 75, 2);
+}
+
+
+.top-ranking-ocas {
+  background-color: #c9ff8c;
+  /* Cambia el color de fondo para los primeros tres jugadores */
+}
+
+

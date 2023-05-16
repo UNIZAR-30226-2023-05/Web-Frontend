@@ -62,7 +62,8 @@ function Ajustes() {
     const images = [img1, img2, img3, img4, img5, img6];
 
     // Desplegable barra lateral
-    const [menuDesplegado, setMenuDesplegado] = useState(false);
+    const [menuDesplegadoLogros, setMenuDesplegadoLogros] = useState(false);
+    const [menuDesplegadoConf, setMenuDesplegadoConf] = useState(false);
 
 
     /***************************************************************************
@@ -140,7 +141,6 @@ function Ajustes() {
 
         if (dataId.ok === true) {
         
-            // Eliminar cuenta
             let data = await GetInfo(dataId.id_usuario);
         
             if(data.ok === true){
@@ -152,11 +152,11 @@ function Ajustes() {
                 
             }
             else{
-                setError(data.msg);
+                console.log(data.msg);
             }
         }
         else{
-            setError(dataId.msg);
+            console.log(dataId.msg);
         }
     }
 
@@ -269,8 +269,7 @@ function Ajustes() {
             setError('La contraseña es la misma que la anterior');
         }
 
-        console.log(`FotoPerfil: ${fotoPerfil}`)
-        console.log(`newFotoPerfil: ${newFotoPerfil}`);
+        
         if (newFotoPerfil !== fotoPerfil && newFotoPerfil !== "") {
             // Llama funcion moficicar contraseña en backend
             console.log("Se va a cambiar la foto de perfil");
@@ -315,8 +314,12 @@ function Ajustes() {
     /***************************************************************************
      * FUNCION DESPLEGABLE
      ***************************************************************************/
-    const toggleMenuDesplegado = () => {
-        setMenuDesplegado(!menuDesplegado);
+    const toggleMenuDesplegadoConf = () => {
+        setMenuDesplegadoConf(!menuDesplegadoConf);
+    };
+
+    const toggleMenuDesplegadoLogros = () => {
+        setMenuDesplegadoLogros(!menuDesplegadoLogros);
     };
 
 
@@ -401,19 +404,37 @@ function Ajustes() {
             </div>
             </Modal>
             
-            <div className='opcionesDespegable'>
-                <div onClick={toggleMenuDesplegado}>
-                    <h2> - Configuración</h2>
-                    <i className={menuDesplegado ? 'arrow up' : 'arrow down'}></i>
+            <div className='opcionesDespegableJunto'>
+                <div className='opcionesDespegable'>
+                    <div onClick={toggleMenuDesplegadoConf}>
+                        <h2> - Configuración</h2>
+                        <i className={menuDesplegadoConf ? 'arrow up' : 'arrow down'}></i>
+                    </div>
+                    {menuDesplegadoConf && (
+                        <ul>
+                        <li>Nombre de usuario</li>
+                        <li>Contraseña</li>
+                        <li>Foto de perfil</li>
+                        </ul>
+                    )}
                 </div>
-                {menuDesplegado && (
-                    <ul>
-                    <li>Nombre de usuario</li>
-                    <li>Contraseña</li>
-                    <li>Foto de perfil</li>
-                    </ul>
-                )}
+
+                <div className='opcionesDespegableLogros'>
+                    <div onClick={() => navigation("/estadisticas")}>
+                        <h2> - Estadísticas</h2>
+                        <i className={menuDesplegadoLogros ? 'arrow up' : 'arrow down'}></i>
+                    </div>
+                    {menuDesplegadoLogros && (
+                        <ul>
+                        <li>Mis estadísticas</li>
+                        <li>Logros</li>
+                        <li>Ranking partidas</li>
+                        <li>Ranking de ocas</li>
+                        </ul>
+                    )}
+                </div>
             </div>
+
         </div>
     
     );

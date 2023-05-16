@@ -1,20 +1,20 @@
-
 .header {
-    font-size: calc(350% + 2vmin);
-    color: white;
-    font-family: 'Trocchi', serif;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-  }
+  font-size: calc(350% + 2vmin);
+  color: white;
+  font-family: "Trocchi", serif;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background-color: #1C6473;
+}
 
-.barraTitulo{
-    align-items: center;
-    display: flex;
-    width: auto;
-    height: 20px;
-    background-color: #C3FAFE;
-    text-align: center;
-    border: 2px solid white;
-    margin-bottom: 1%;
+.barraTitulo {
+  align-items: center;
+  display: flex;
+  width: auto;
+  height: 20px;
+  background-color: #c3fafe;
+  text-align: center;
+  border: 2px solid white;
+  margin-bottom: 1%;
 }

@@ -1,186 +1,199 @@
 .Ajustes {
-    background-image: url('../../assets/img/fondo.jpg');
-    background-size: 100%;
-    background-color: #1C6473;
+ /*background-image: url('../../assets/img/fondo.jpg');
+    background-size: 100% 100%;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+    background-color: #1C6473;*/
 }
 
 .imagenes {
-    position: absolute;
-    right: 0;
-    margin-right: 2%;
+  position: absolute;
+  right: 0;
+  margin-right: 2%;
 }
 
 img .a {
-    margin-right: 4%;
+  margin-right: 4%;
 }
 
 .contenedorInfo {
-    position: absolute;
-    left: 25%;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
+  position: absolute;
+  left: 25%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
 }
 
-
 .contenedorInfo .info {
-    font-size: 130%;
-    margin-top: 20%;
-    color: white
+  font-size: 130%;
+  margin-top: 20%;
+  color: white;
+  background-color: #1c6473;
+  border: 1px solid white;
 }
 
 .contenedorInfo .barraEscribirAjustes {
-    font-size: 120%;
-    width: 120%;
-    border-radius: 5px;
-    border: 2.5px solid black;
+  font-size: 120%;
+  width: 120%;
+  border-radius: 5px;
+  border: 2.5px solid black;
 }
 
 .contenedorInfo .barraEscribirAjustesEmail {
-    font-size: 110%;
-    padding: 1%;
-    background-color: white;
-    width: 120%;
-    border-radius: 5px;
-    border: 2.5px solid black;
+  font-size: 110%;
+  padding: 1%;
+  background-color: white;
+  width: 120%;
+  border-radius: 5px;
+  border: 2.5px solid black;
 }
 
 .contenedorBotonesTodos {
-    position: flex;
-    justify-content: left;
-    width: 15%;
-    right: 0;
-    margin-left: 77%;
-    margin-top: 12%;
-    right: 8%;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  position: flex;
+  justify-content: left;
+  width: 15%;
+  right: 0;
+  margin-left: 77%;
+  margin-top: 12%;
+  right: 8%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .contenedorBotones {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    transform: translateY(-50%);
-    transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .contenedorBotonesPeligro {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .botonConfirmarCancelar {
-    display: block;
-    color: white;
-    font-family: 'Chivo', sans-serif;
-    border-radius: 35px;
-    font-size: 130%;
-    background-color: #24AECD;
-    border-style: solid;
-    height: 50px;
-    width: 120%;
-    border: 4px solid white;
+  display: block;
+  color: white;
+  font-family: "Chivo", sans-serif;
+  border-radius: 35px;
+  font-size: 130%;
+  background-color: #24aecd;
+  border-style: solid;
+  height: 50px;
+  width: 120%;
+  border: 4px solid white;
 }
 
 .botonConfirmarCancelar:hover {
-    background-color: #1d9bb8;
-    color: #81BFCD;
-    border-color: #81BFCD;
-    cursor: pointer;
+  background-color: #1d9bb8;
+  color: #81bfcd;
+  border-color: #81bfcd;
+  cursor: pointer;
 }
 
 .botonPeligro {
-    display: block;
-    color: white;
-    font-family: 'Chivo', sans-serif;
-    border-radius: 35px;
-    font-size: 130%;
-    background-color: #F64C4C;
-    border-style: solid;
-    height: 50px;
-    width: 120%;
-    border: 4px solid white;
+  display: block;
+  color: white;
+  font-family: "Chivo", sans-serif;
+  border-radius: 35px;
+  font-size: 130%;
+  background-color: #f64c4c;
+  border-style: solid;
+  height: 50px;
+  width: 120%;
+  border: 4px solid white;
 }
 
 .botonPeligro:hover {
-    background-color: #FF6262;
-    color: #FAABAB;
-    border-color: #FF8181;
-    cursor: pointer;
+  background-color: #ff6262;
+  color: #faabab;
+  border-color: #ff8181;
+  cursor: pointer;
 }
 
 .errorAjustes {
-    position: fixed;
-    bottom: 1%;
-    left: 0;
-    right: 0;
-    font-size: 130%;
-    text-align: center;
-    background-color: #FF6262;
-    padding: 0.5%;
-    color: white;
+  position: fixed;
+  bottom: 1%;
+  left: 0;
+  right: 0;
+  font-size: 130%;
+  text-align: center;
+  background-color: #ff6262;
+  padding: 0.5%;
+  color: white;
 }
-
 
 .contenedorImagen {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 15%;
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin-top:18%;
-    margin-right: 28%;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 15%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 18%;
+  margin-right: 28%;
+  gap: 15px;
 }
-  
+
 .contenedorImagen .imagenAjustes {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
+  border-radius: 40%;
 }
-  
+
 .contenedorImagen .botonAjustes {
-    width: 100%;
-    color: white;
-    font-family: 'Chivo', sans-serif;
-    border-radius: 15px;
-    font-size: 130%;
-    background-color: #2d92a8;
-    border-style: solid;
-    height: 50px;
-    width: 100%;
-    border: 4px solid white;
+  width: 100%;
+  color: white;
+  font-family: "Chivo", sans-serif;
+  border-radius: 15px;
+  font-size: 130%;
+  background-color: #2d92a8;
+  border-style: solid;
+  height: 50px;
+  width: 100%;
+  border: 4px solid white;
 }
-
-
 
 .botonAjustes:hover {
-    background-color: #1d9bb8;
-    color: #81BFCD;
-    border-color: #81BFCD;
-    cursor: pointer;
+  background-color: #1d9bb8;
+  color: #81bfcd;
+  border-color: #81bfcd;
+  cursor: pointer;
 }
-
 
 .opcionesDespegable {
-    position: absolute;
-    font-size: 100%;
-    left: 0;
-    top: 0;
-    margin-top: 12%;
-    font-family: "Trocchi", sans-serif;
-    width: 20%;
-    color: #1C6473;
-    background-color: whitesmoke;
-    letter-spacing: 1px;
-    cursor: pointer;
-    border-radius: 0 15px 15px 0 ;
+  position: absolute;
+  font-size: 100%;
+  left: 0;
+  top: 5%;
+  margin-top: 11%;
+  font-family: "Trocchi", sans-serif;
+  width: 17%;
+  color: #1c6473;
+  background-color: whitesmoke;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 0 15px 15px 0;
 }
 
+.opcionesDespegableLogros {
+  position: absolute;
+  font-size: 100%;
+  left: 0;
+  top: 5%;
+  margin-top: 23%;
+  font-family: "Trocchi", sans-serif;
+  width: 17%;
+  color: #1c6473;
+  background-color: whitesmoke;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 0 15px 15px 0;
+}

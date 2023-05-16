@@ -1,19 +1,19 @@
-.popup {
+.popupAyuda {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(24,83,96,0.2);
+    background-color: rgba(19, 62, 71, 0.2);
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
-  
-.popup-amigos{
+
+.popup-ayuda {
     position: absolute;
     top: 20%;
+    left: 25%;
     padding: 2%;
     width: 70%;
     max-width: 50%;
@@ -23,58 +23,48 @@
     border: 10px solid white;
 }
 
-.popup-amigos .tituloAmigos {
+.popup-ayuda .tituloAyuda {
     margin-top: 0%;
     margin-bottom: 0%;
-    font-family: 'Trocchi', serif;
+    font-family: "Trocchi", serif;
     font-size: 240%;
-    color: #1C6473;
+    color: #1c6473;
 }
 
-.popup-amigos .textoAmigos {
+.popup-ayuda .textoAyuda {
     font-size: 130%;
 }
 
-.popup-amigos .textoEspecificoAmigos {
-    font-size: 130%;
-    text-decoration: underline;
-    color: #337A8A; 
+.popup-ayuda .textoEspecifico {
+    font-size: 190%;
+    color: #337a8a;
     margin-bottom: 0%;
+    font-family: Cambria, serif;
 }
 
-.popup-amigos .textoEspecificoAmigos:hover {
-    color: #24AECD; 
-}
 
-.popup-amigos .barraEscribirAmigos {
-    font-size: 120%;
-    width: 80%;
-    border-radius: 5px;
-    border: 2.5px solid black;
-}
-
-.popup-amigos .closeButtonAmigos{
+.popup-ayuda .closeButton {
     position: absolute;
-    top: 15px;
-    right: 2.5%;
+    top: 6%;
+    right: 3%;
     cursor: pointer;
     border-radius: 10px;
     transform: scale(2);
-    background-color: #81BFCD;
+    background-color: #81bfcd;
     font-weight: bold;
     color: white;
     border: 2px solid white;
     text-align: center;
 }
 
-.closeButtonAmigos:hover {
+.closeButton:hover {
     background-color: #1d9bb8;
-    color: #81BFCD;
-    border-color: #81BFCD;
+    color: #81bfcd;
+    border-color: #81bfcd;
     cursor: pointer;
 }
-  
-.popup-amigos .error-messageAmigos {
+
+.popup-ayuda .error-message {
     color: red;
     font-size: 100%;
     font-weight: bold;
@@ -82,24 +72,26 @@
     margin-bottom: 1%;
 }
 
-.popup-amigos .elButtonAmigos{
+.popup-ayuda .elButton {
     color: white;
-    font-family: 'Chivo', sans-serif;
+    font-family: "Chivo", sans-serif;
     border-radius: 35px;
     font-size: 130%;
-    background-color: #24AECD;
+    background-color: #24aecd;
     border-style: solid;
-    margin-top: 3%;
     height: 50px;
-    width: 33%;
+    width: 30%;
     border: 4px solid white;
 }
 
-.popup-amigos .elButtonAmigos:hover {
+.popup-ayuda .elButton:hover {
     background-color: #1d9bb8;
-    color: #81BFCD;
-    border-color: #81BFCD;
+    color: #81bfcd;
+    border-color: #81bfcd;
     cursor: pointer;
 }
 
-
+.popup-ayuda .barraDespegable {
+    font-size: 100%;
+    color: #1c6473;
+}

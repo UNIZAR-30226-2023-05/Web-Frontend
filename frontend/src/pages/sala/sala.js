@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import socket from '../../utils/socket.js';
 import './sala.css';
 import '../../components/SalaJuego.css'
+import "../../components/PopupAyudaSala.css"
 import help from '../../assets/feather/help-circle.svg'
 import check from '../../assets/feather/check.svg'
 import copy from '../../assets/feather/copy.svg'
@@ -10,6 +11,7 @@ import { useLocation } from 'wouter';
 import Modal from 'react-modal';
 
 function Sala() {
+  const [contador, setContador] = useState(0);
 
   // Coger el nombre e id de la sala
   const nombreSala = localStorage.getItem('nombreSala');
@@ -17,17 +19,20 @@ function Sala() {
   const liderNickname = localStorage.getItem('liderNickname');
   const nickname = localStorage.getItem('nickname');
 
-  let interval;
 
   // Controlar si el usuario es el lider o no
   const lider = localStorage.getItem('lider'); // booleano
   const [players, setJugadores] = useState([]);
-  //console.log(`los jugadores en sala son ${players}`);
+  console.log(`los jugadores en sala son ${players}`);
   const numPlayers = players ? players.length : 0; // Numero de jugadores en la sala
 
   // Declaracion de variables
   const [isCopying, setIsCopying] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+
+  // Modal de ayuda
+  const [ayudaModalIsOpen, setAyudaModalIsOpen] = useState(false);
+  const [ayudaInvitadosModalIsOpen, setAyudaInvitadosModalIsOpen] = useState(false);
 
   const [error, setError] = useState(null);
   const [path, navigation] = useLocation();
@@ -46,39 +51,43 @@ function Sala() {
   /***************************************************************************
    * FUNCION ACTUALIZAR JUGADORES
    ***************************************************************************/
-  const nomInterval = setInterval(() => {
-    //console.log('Estamos en useEffect de sala');
-    const players = JSON.parse(localStorage.getItem('jugadores'));
-    if (players) {
-      //console.log(`Estamos en useEffect de sala dentro del if y jugadoresLocalStorage= ${players}`);
-      setJugadores(players);
-    }
-    clearInterval(interval);
-  }, 2000);
-
+  useEffect(() => {
+    console.log('Estamos en useEffect de sala');
+    const players = localStorage.getItem('jugadores');
+    console.log(`los jugadores en useEffect son ${players}`);
+    const lista = players.replace(/[\[\]\s"]/g, "").split(",");
+    setJugadores(lista);
+    console.log(`los jugadores en useEffect son ${lista}`);
+  }, [contador]);
 
   /***************************************************************************
    * FUNCION ELIMINAR SALA
    ***************************************************************************/
-  socket.on("destroyingRoom", (idRoom) => {
+  socket.on("destroyingRoom", (roomId) => {
     console.log('Estoy dentro de destroyingRoom sala');
-    // ELiminar la base de datos de react
-    localStorage.removeItem('idRoom');
-    localStorage.removeItem('lider');
-    localStorage.removeItem('players');
-    localStorage.removeItem('nombreSala');
-    clearInterval(nomInterval);
-    navigation("/principal");
+    if (idRoom === roomId) {
+
+      // ELiminar la base de datos de react
+      localStorage.removeItem('idRoom');
+      localStorage.removeItem('lider');
+      localStorage.removeItem('players');
+      localStorage.removeItem('nombreSala');
+
+      navigation("/principal");
+    }
+    socket.off("destroyingRoom");
   });
 
-  
+
   /***************************************************************************
    * FUNCION ACTUALIZAR JUGADORES
    ***************************************************************************/
   socket.on("updatePlayers", (nicknames) => {
-    //console.log('Estoy dentro de updatePlayers sala');
-    //console.log(nicknames);
+    console.log('Estoy dentro de updatePlayers sala');
+    console.log(nicknames);
     localStorage.setItem('jugadores', JSON.stringify(nicknames));
+    setJugadores(nicknames);
+    socket.off("updatePlayers");
   });
 
 
@@ -90,8 +99,9 @@ function Sala() {
       console.log("Mensaje del servidor:", message);
       navigation("/principal");
     }
+    socket.off("serverRoomMessage");
   });
-  
+
 
   /***************************************************************************
    * FUNCION ELIMINAR SALA
@@ -103,12 +113,12 @@ function Sala() {
         setError(data.message);
       } else {
         console.log(data.message);
-        // ELiminar la base de datos de react
+        /* ELiminar la base de datos de react
         localStorage.removeItem('idRoom');
         localStorage.removeItem('lider');
         localStorage.removeItem('players');
-        localStorage.removeItem('nombreSala');
-        clearInterval(nomInterval);
+        localStorage.removeItem('nombreSala');*/
+
         navigation("/principal");
       }
     });
@@ -127,7 +137,7 @@ function Sala() {
         localStorage.removeItem('idRoom');
         localStorage.removeItem('lider');
         localStorage.removeItem('nombreSala');
-        clearInterval(nomInterval);
+
         navigation("/principal");
       }
     });
@@ -142,12 +152,27 @@ function Sala() {
       if (data.status !== 'ok') {
         setError(data.message);
       } else {
-        clearInterval(nomInterval);
+
         // Resetear num jugadores
         localStorage.setItem('jugadores', players);
       }
     });
   }
+
+  /***************************************************************************
+   * FUNCION AYUDA MODALES
+   ***************************************************************************/
+  const AyudaModal = () => {
+    console.log(lider);
+    if (lider === "true") {
+      setAyudaModalIsOpen(true);
+    } 
+    else {
+      console.log('Estoy en el else');
+      setAyudaInvitadosModalIsOpen(true);
+    }
+  };
+
 
 
 
@@ -157,9 +182,7 @@ function Sala() {
   function ImagenesLink() {
     return (
       <div className="imagenes">
-        <a href="/">
-          <img src={help} alt="Ayuda" />
-        </a>
+        <img src={help} alt="Ayuda" onClick={AyudaModal} />
       </div>
     );
   }
@@ -177,7 +200,7 @@ function Sala() {
         setTimeout(() => {
           setIsCopied(false);
           setError('');
-        }, 2000);
+        }, 1000);
       })
       .catch((err) => {
         console.error('Error copiando el código', err);
@@ -185,9 +208,17 @@ function Sala() {
       });
   };
 
-  /***
+  /***************************************************************************
+   * RENDERIZADO
+   ***************************************************************************/
+  const handleClick = () => {
+    setContador(contador + 1);
+  };
+
+
+  /***************************************************************************
    * FUNCION INICIAR PARTIDA
-   **/
+   ***************************************************************************/
   const inicioPartida = () => {
     socket.emit("startGame", idRoom, 200, (data) => {
       console.log("Inicio de partida")
@@ -199,9 +230,10 @@ function Sala() {
     });
   };
 
-  /***
-   * ORDEN JUGADORES
-   ***/
+
+  /***************************************************************************
+   * FUNCION ORDEN JUGADORES
+   ***************************************************************************/
   socket.on('ordenTurnos', (jugadores) => {
     console.log('Estoy dentro de ordenTurnos sala');
     console.log(jugadores);
@@ -221,7 +253,6 @@ function Sala() {
       navigation("/juego");
     }
   });
-
 
 
   return (
@@ -248,6 +279,7 @@ function Sala() {
             <img className='copiadoIcono' src={check} alt='Copiar' />
           }
         </div>
+        <button className="botonAmigos" onClick={handleClick}>Refresca</button>
         {lider === 'true' && <button className='comenzarPartida' onClick={() => inicioPartida()} >Comenzar partida</button>}
         {lider === 'true' && <button className='eliminarSala' onClick={EliminarSala}>Eliminar sala</button>}
         <div className="players-container">
@@ -261,6 +293,32 @@ function Sala() {
           ))}
         </div>
         {lider !== 'true' && <button className='abandonarSala' onClick={SalirSala}>Abandonar sala</button>}
+
+
+        <Modal className="popupAyuda" isOpen={ayudaModalIsOpen} onRequestClose={() => setAyudaModalIsOpen(false)}>
+          <div className="popup-ayuda">
+            <p className="tituloAyuda">AYUDA</p>
+            <p className="textoAyuda">Una vez se hayan unido todos los participantes pulse el botón</p>
+            <p className="textoEspecifico">“COMENZAR PARTIDA”</p>
+            <p className="textoAyuda">Transcurridos 2 minutos si no se han unido todos los participantes</p>
+            <p className="textoAyuda"> los huecos se rellenarán con bots.</p>
+
+            <button className="closeButton" onClick={() => setAyudaModalIsOpen(false)}>X</button>
+          </div>
+        </Modal>
+
+        <Modal className="popupAyuda" isOpen={ayudaInvitadosModalIsOpen} onRequestClose={() => setAyudaInvitadosModalIsOpen(false)}>
+          <div className="popup-ayuda">
+            <p className="tituloAyuda">AYUDA</p>
+            <p className="textoAyuda">Una vez el líder de la sala presione</p>
+            <p className="textoEspecifico">“COMENZAR PARTIDA”</p>
+            <p className="textoAyuda">dará comienzo la partida.</p>
+
+            <button className="closeButton" onClick={() => setAyudaInvitadosModalIsOpen(false)}>X</button>
+          </div>
+        </Modal>
+
+
 
       </div>
     </>
