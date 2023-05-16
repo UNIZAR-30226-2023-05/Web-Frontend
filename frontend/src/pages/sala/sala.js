@@ -34,6 +34,9 @@ function Sala() {
   const [ayudaModalIsOpen, setAyudaModalIsOpen] = useState(false);
   const [ayudaInvitadosModalIsOpen, setAyudaInvitadosModalIsOpen] = useState(false);
 
+  // Modal de eliminar usuario
+  const [eliminarUsuarioModalIsOpen, setEliminarUsuarioModalIsOpen] = useState(false);
+
   const [error, setError] = useState(null);
   const [path, navigation] = useLocation();
 
@@ -97,10 +100,15 @@ function Sala() {
   socket.on("serverRoomMessage", (message) => {
     if (message === 'Has sido eliminado de la sala') {
       console.log("Mensaje del servidor:", message);
-      navigation("/principal");
+      setEliminarUsuarioModalIsOpen(true);
     }
     socket.off("serverRoomMessage");
   });
+
+  const cerrarModalEliminarUsuario = () => {
+    setEliminarUsuarioModalIsOpen(false);
+    navigation("/principal");
+  }
 
 
   /***************************************************************************
@@ -315,6 +323,16 @@ function Sala() {
             <p className="textoAyuda">dará comienzo la partida.</p>
 
             <button className="closeButton" onClick={() => setAyudaInvitadosModalIsOpen(false)}>X</button>
+          </div>
+        </Modal>
+
+        <Modal className="popupAyuda" isOpen={eliminarUsuarioModalIsOpen} onRequestClose={() => setEliminarUsuarioModalIsOpen(false)}>
+          <div className="popup-ayuda">
+            <p className="tituloAyuda">OHHH...</p>
+            <p className="textoAyuda">Te han echado de la sala...</p>
+            <p className="textoEspecifico">Dale a la X para continuar.</p>
+
+            <button className="closeButton" onClick={() => cerrarModalEliminarUsuario()}>X</button>
           </div>
         </Modal>
 

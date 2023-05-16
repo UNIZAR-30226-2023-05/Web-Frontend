@@ -42,9 +42,17 @@ function Chat() {
 
     
     const [messageList, setMessageList] = useState([]);
+    useEffect(() => {
+        console.log("messageList: " + messageList);
+    }, [messageList]);
+
+
     const [chatWith, setChatWith] = useState("");
 
     const [amigoChatActivo, setAmigoChatActivo] = useState('');
+
+    // Hacer que se muestre el chat cuando se clique en un amigo
+    const [isVisible, setIsVisible] = useState(false);
 
     /***************************************************************************
      * FUNCIONES SOCKET
@@ -55,6 +63,42 @@ function Chat() {
 
     socket.on('disconnect', (reason) => {
         console.log(`Se ha perdido la conexión con el servidor de websockets: ${reason}`);
+    });
+
+
+    // Cerramos sesión
+    socket.emit('closeSession', { nickname: nicknameUsuario }, (data) => {
+        if (data.ok == false) {
+            console.log(data.message);
+        }
+        else {
+            console.log("Sesión cerrada correctamente");
+        }
+    });
+
+    // Abrimos sesión
+    socket.emit('openSession', { nickname: nicknameUsuario }, (data) => {
+        if (data.ok == false) {
+            console.log(data.message);
+        }
+        else {
+            console.log("Sesión abierta correctamente");
+        }
+    });
+
+    socket.on('privMessage', (data) => {
+        console.log("Mensaje privado recibido");
+        console.log(data);
+        if (data.sender === chatWith) {
+            const message = {
+                message: data.message,
+                sentTime: "just now",
+                sender: data.sender,
+                direction: MessageDirection.Incoming,
+              };    
+    
+            setMessageList([...messageList, message]); // Agrega el mensaje a la lista
+        }
     });
 
     /***************************************************************************
@@ -117,6 +161,8 @@ function Chat() {
     }
 
     async function handleAmigoSeleccionado(amigoSeleccionado) {
+        // Hacemos visible el chat
+        setIsVisible(true);
         // Si ya está seleccionado, no lo volvemos a seleccionar
         if (amigoSeleccionado === amigoChatActivo) {
             return;
@@ -130,6 +176,7 @@ function Chat() {
 
         // Vaciamos messageList
         setMessageList([]);
+        console.log("messageList dentro de funcion = " + messageList);
         // Recuperamos chat con amigo
         console.log("Recuperamos chat con amigo");
         socket.emit('getPrivMessage', sender.id_usuario, receiver.id_usuario, (data) => {
@@ -138,6 +185,7 @@ function Chat() {
               console.log(data.status)
               setError(data.message);
             } else {
+              let messageList2 = [];
               console.log("Mensajes recibidos");
               console.log(data.messages);
               // Cargamos el chat
@@ -173,16 +221,6 @@ function Chat() {
 
     const handleSend = text => {
         console.log("Mensaje enviado:", text);
-        // Logger user (sender)
-        const currentUserId = "123";
-    
-       /* const message = new ChatMessage({
-          id: "",
-          content: text,
-          contentType: MessageContentType.TextHtml,
-          direction: MessageDirection.Outgoing,
-          status: MessageStatus.Sent
-        });*/
 
         const message = {
             message: text,
