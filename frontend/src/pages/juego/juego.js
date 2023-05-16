@@ -15,7 +15,6 @@ import dadoImg from '../../assets/img/dado.png'
 import calcularPosicion from '../../data/coordTablero';
 
 // Librería de chat
-import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
     MainContainer, Sidebar, ConversationList, Conversation, Avatar, MessageGroup, Message,
     ChatContainer, ConversationHeader, MessageList, MessageInput
@@ -35,18 +34,12 @@ function Juego() {
   const nombreSala = localStorage.getItem('nombreSala');
   const listaNombres = JSON.parse(localStorage.getItem('ordenTurnos'));
 
-  const listaFichas = ['ficha1', 'ficha2', 'ficha3', 'ficha4', 'ficha5', 'ficha6'];
-
   // Lista de mensajes para el chat de la sala
   const [messageList, setMessageList] = useState([]);
 
   const [path, navigation] = useLocation();
 
-  //  Emparejamiento de cada jugador con su ficha.
-  const parejas = listaNombres.map((nombre, index) => [nombre, listaFichas[index]]);
-
   useEffect(() => {
-    //const turnoAlmacenado = localStorage.getItem('turno');
     if (listaNombres[0] === nickname) {
       setTurno('true');
     } else {
@@ -102,8 +95,8 @@ function Juego() {
   const [myTop6, setMyTop6] = useState(inicialT6);
   const [myLeft6, setMyLeft6] = useState(inicialL6);
 
-
-  const [idFicha1, setIdFicha1] = useState(0); //lo que me llegue de backend ira a idFicha1
+  //  Inicialización de las fichas
+  const [idFicha1, setIdFicha1] = useState(0); 
   const [idFicha2, setIdFicha2] = useState(0);
   const [idFicha3, setIdFicha3] = useState(0);
   const [idFicha4, setIdFicha4] = useState(0);
@@ -114,8 +107,6 @@ function Juego() {
   const [dado, setDado] = useState(0);
 
   const [error, setError] = useState(null);
-
-  const [casilla, setCasilla] = useState(0);
   
   const [ganador, setGanador] = useState(null);
 
@@ -124,9 +115,6 @@ function Juego() {
    ***************************************************************************/
   //Modal dado
   const [modalDado, setModalDado] = useState(false);
-
-  //Modal no turno
-  //const [modalNoTurno, setModalNoTurno] = useState(false);
 
   // Modal oca
   const [ocaModal, setOcaModal] = useState(false);
@@ -236,7 +224,6 @@ function Juego() {
           
 
           //Se inicializa la ficha que corresponde con el valor de la casilla que llega del backend
-          //setIdFicha1(afterDice);
           inicializarFicha(afterDice);
 
 
@@ -297,38 +284,38 @@ function Juego() {
       casilla === 41 || casilla === 45 || casilla === 50 || casilla === 54 || 
       casilla === 59){
       setOcaModal(true);
-      console.log("OCA")
+     
       inicializarFicha(finalCell);
 
     } else if (casilla === 6 || casilla === 12){ //Si es una casilla de puente se abre el modal de puente
       setPuenteModal(true);
-      console.log("PUENTE")
+      
       inicializarFicha(finalCell);
 
     } else if (casilla === 19){ //Si es una casilla de posada se abre el modal de posada
       setPosadaModal(true);
-      console.log("POSADA")
+      
 
     } else if (casilla === 31){ //Si es una casilla de pozo se abre el modal de pozo
       setPozoModal(true);
-      console.log("POZO")
+      
       
     } else if (casilla === 42){ //Si es una casilla de laberinto se abre el modal de laberinto
       setLaberintoModal(true);
-      console.log("LABERINTO")
+      
 
     } else if (casilla === 56){ //Si es una casilla de carcel se abre el modal de carcel
       setCarcelModal(true);
-      console.log("CARCEL")
+      
 
     } else if (casilla === 26 || casilla === 53){ //Si es una casilla de dados se abre el modal de dados
       setDadosModal(true);
-      console.log("DADOS")
+      
       inicializarFicha(finalCell);
 
     } else if (casilla === 58){ //Si es una casilla de calavera se abre el modal de calaveras
       setCalaveraModal(true);
-      console.log("CALAVERA")
+      
       inicializarFicha(finalCell);
       
     } else if (casilla === 62){
@@ -343,7 +330,6 @@ function Juego() {
    ***************************************************************************/
   socket.on("estadoPartida", (data) => {
     console.log('Estas en la funcion estadoPartida');
-    console.log("posicion: " + data.posiciones);
     
     let posiciones = data.posiciones.map((item, index) => ({
       nickname: item.nickname,
@@ -399,7 +385,7 @@ function Juego() {
   useEffect(() => {
     //Si no es ninguna de las logicas
     const [nuevoTop1, nuevoLeft1] = calcularPosicion(1, idFicha1);
-    console.log(nuevoTop1, nuevoLeft1)
+    
     setMyTop1(nuevoTop1);
     setMyLeft1(nuevoLeft1);
     
@@ -409,8 +395,7 @@ function Juego() {
   useEffect(() => {
     
     const [nuevoTop2, nuevoLeft2] = calcularPosicion(2, idFicha2);
-    console.log(nuevoTop2, nuevoLeft2)
-    console.log(idFicha2)
+    
     setMyTop2(nuevoTop2);
     setMyLeft2(nuevoLeft2);
     
@@ -419,18 +404,17 @@ function Juego() {
   //  Ficha 3
   useEffect(() => {
     
-    //ficha 3
     const [nuevoTop3, nuevoLeft3] = calcularPosicion(3, idFicha3);
-    console.log(nuevoTop3, nuevoLeft3)
+    
     setMyTop3(nuevoTop3);
     setMyLeft3(nuevoLeft3);
   }, [idFicha3])
 
   //  Ficha 4
   useEffect(() => {
-    //ficha 4
+
     const [nuevoTop4, nuevoLeft4] = calcularPosicion(4, idFicha4);
-    console.log(nuevoTop4, nuevoLeft4)
+   
     setMyTop4(nuevoTop4);
     setMyLeft4(nuevoLeft4);
     
@@ -438,18 +422,18 @@ function Juego() {
 
   //  Ficha 5
   useEffect(() => {
-      //ficha 5
+      
     const [nuevoTop5, nuevoLeft5] = calcularPosicion(5, idFicha5);
-    console.log(nuevoTop5, nuevoLeft5)
+  
     setMyTop5(nuevoTop5);
     setMyLeft5(nuevoLeft5);
   }, [idFicha5])
 
   //  Ficha 6
   useEffect(() => {
-    //ficha 6
+    
     const [nuevoTop6, nuevoLeft6] = calcularPosicion(6, idFicha6);
-    console.log(nuevoTop6, nuevoLeft6)
+   
     setMyTop6(nuevoTop6);
     setMyLeft6(nuevoLeft6);
     
@@ -563,7 +547,7 @@ function Juego() {
       
       <div className='contenedor'>  
           <div className='tablero'>
-            {/* Dependiendo del numeor del tamaño de la listaNombres se inicaran tantas fichas como la longitud*/}
+            {/* Dependiendo del numero del tamaño de la listaNombres se inicaran tantas fichas como la longitud*/}
 
             {listaNombres.length >= 1 && (
             <div className='ficha1' style={ {top:`${myTop1}%`,left:`${myLeft1}%`}}>
@@ -802,7 +786,6 @@ function Juego() {
               </ChatContainer>
             </MainContainer>
           </div>
-
           
       </div> 
     </>
