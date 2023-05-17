@@ -312,7 +312,7 @@ function Estadisicas() {
                     <p>{caerEnDiezOcas}</p>
                     </div>
                     <div className="stat">
-                    <h2>Cae en 6 seises</h2>
+                    <h2>Lanza 6 seises</h2>
                     <p>{caerEnSeisSeises}</p>
                     </div>
                 </div>
